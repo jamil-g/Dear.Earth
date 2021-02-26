@@ -14,10 +14,9 @@ namespace ExtractOSMMapProd
         // osm extraction and filter configuration values
         private string m_strOutputFolder = "Data";
         private string m_strPath = @"C:\OSM\data\Converter";
-
+        // SET PGPASSWORD=mypassword
         // osm2pgsql.exe -s -G -U postgres -d BirdEye -E 4326 -W --prefix test1 -W SampleData\map2.osm
-        // private string m_OSM2PGSQLExec = "Osm2Pgsql.bat";
-        private string m_OSM2PGSQLExec = "osm2pgsql.exe";
+        private string m_OSM2PGSQLExec = "osm2pgsql.bat";
         private string m_OSM2OGSQLPath = "osm2pgsql-bin";
         // -s, --slim Store temporary tables in database.This allows incremental updates using diff files also available at OSM data servers,
         // and reduces memory usage at a cost in disk space and import time.This mode of operation is recommended.
@@ -135,7 +134,7 @@ namespace ExtractOSMMapProd
         {
             try
             {
-                // run exec file using System Process method
+                // run the batch file using System Process method
                 System.Diagnostics.Process process = new System.Diagnostics.Process();
                 System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
                 startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
