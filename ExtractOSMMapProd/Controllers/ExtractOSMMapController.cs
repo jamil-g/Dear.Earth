@@ -191,7 +191,7 @@ namespace ExtractOSMMapProd.Controllers
                     {
                         content += StringSeparator;
                     }
-                    content += ((Types)item.type).AsString(EnumFormat.Description) +  ":" + item.indexvalue.ToString();
+                    content += ((Types)item.type).AsString(EnumFormat.Description) +  ":" + Math.Round(item.indexvalue,3).ToString();
                     counter++;
                 }
             }
