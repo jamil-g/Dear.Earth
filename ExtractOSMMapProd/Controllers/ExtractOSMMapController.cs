@@ -4,6 +4,8 @@ using Nominatim.API.Geocoders;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel;
+using EnumsNET;
 //using WordFinadReplaceNet;
 
 namespace ExtractOSMMapProd.Controllers
@@ -23,7 +25,18 @@ namespace ExtractOSMMapProd.Controllers
 
         public enum Types
         {
-            All, Noise, Soil, Radiation, AirQuality, Ecology
+            [Description("All")] 
+            All, 
+            [Description("Noise")] 
+            Noise, 
+            [Description("Soil")] 
+            Soil, 
+            [Description("Radiation")]  
+            Radiation,
+            [Description("Air Quality")]
+            AirQuality, 
+            [Description("Ecology")] 
+            Ecology
         }
 
         public struct Results
@@ -178,7 +191,7 @@ namespace ExtractOSMMapProd.Controllers
                     {
                         content += StringSeparator;
                     }
-                    content += item.type.ToString() + ":" + item.indexvalue.ToString();
+                    content += ((Types)item.type).AsString(EnumFormat.Description) +  ":" + item.indexvalue.ToString();
                     counter++;
                 }
             }
