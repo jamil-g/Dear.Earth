@@ -66,9 +66,24 @@ namespace ExtractOSMMapProd
                 WebClient webClient = new WebClient();
                 // let's concatenate the osm file name full path
                 string OSMFilePath = m_strPath + Path.DirectorySeparatorChar + m_strOutputFolder +
-                    Path.DirectorySeparatorChar + content + m_strOSMExt; 
+                    Path.DirectorySeparatorChar + content + m_strOSMExt;
                 // let's download the file according to the coordinates bounding box
-                webClient.DownloadFile(m_strOSMURL + BuildBoundryBox(lon, lat, 0.01, scale), OSMFilePath);
+                double radius = 0.01;
+                int downloadDataTries = 0;
+                bool downloadSuccess = false;
+                while (!downloadSuccess && downloadDataTries<5)
+                {
+                    try
+                    {
+                        webClient.DownloadFile(m_strOSMURL + BuildBoundryBox(lon, lat, radius, scale), OSMFilePath);
+                        downloadSuccess = true;
+                    }
+                    catch
+                    {
+                        downloadDataTries += 1;
+                        radius -= 0.001;
+                    }
+                }
                 // let's insert the osm data from the OSM file to PGSQL tables using osm2pgsql 3rd party tool
                 bool DataInserted = InsertOSMtoPGSQL(OSMFilePath, content);
 
