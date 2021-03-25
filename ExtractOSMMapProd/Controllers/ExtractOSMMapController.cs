@@ -6,6 +6,10 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel;
 using EnumsNET;
+using OSM.ExportMapImage;
+using ShortReportGen;
+using ShortReportGen.Models;
+using System.Linq;
 //using WordFinadReplaceNet;
 
 namespace ExtractOSMMapProd.Controllers
@@ -61,6 +65,7 @@ namespace ExtractOSMMapProd.Controllers
         #region consts members definition
         private readonly string StringDot = ".";
         private readonly string StringSeparator = ";";
+        private readonly string EmailSender = "report@dera.earth";
         private readonly string Connectionstr = "Server=127.0.0.1;Port=5432;Database=BirdEye;User Id=postgres;Password=ko24k3;";
         #endregion
 
@@ -70,7 +75,7 @@ namespace ExtractOSMMapProd.Controllers
 
         #region Restful functions
         [HttpGet("byCoordinate")]
-        public JsonStringResult Get(double lon, double lat, double Scale, string CalcType, string Adminpwd, string ReportToken, string ProjectName, string CustomerName, bool DelCalcTables = true)
+        public JsonStringResult Get(double lon, double lat, double Scale, string CalcType, string Adminpwd, string ReportToken, string ProjectName, string CustomerName, string Recipients, bool DelCalcTables = true)
         {
             //this function received the WS parameters
             //and extract the osm data according to it
@@ -127,7 +132,8 @@ namespace ExtractOSMMapProd.Controllers
                 strContent += ParseData(lstResults);
                 
                 // let's get the address of teh location as a string and add it to the result JSON
-                strContent += StringSeparator + "Address:" + GetAddress(coor);
+                string Address = GetAddress(coor);
+                strContent += StringSeparator + "Address:" + Address;
 
                 // the report is disabled, later on will be added back to the results
                 string reportName = StringSeparator + "Report:N.A.";
@@ -138,15 +144,21 @@ namespace ExtractOSMMapProd.Controllers
                     dataClass.DeleteTables(tblprefix);
                 }
 
+                // let's calc the total index value and add it to the list
+                Results result = new Results { type = Types.All, category = 6, indexvalue = lstResults.Average(x => x.indexvalue) };
+                lstResults.Add(result);
+                // let's send the shorty report email and update the email send status
+                strContent += StringSeparator + "Email:" + GenerateShortReport(coor, Address, CustomerName, Recipients, lstResults);
+
                 // ** report code - disabled at this stage **
                 //if (!string.IsNullOrEmpty(ReportToken) && ReportToken == "Report56562")
                 //{
-                    //GenerateReport generateReport = new GenerateReport();
-                    //GenerateReport.Coordinates coordinates = new GenerateReport.Coordinates { lon = Convert.ToSingle(lon), lat = Convert.ToSingle(lat), zoomlevel = 17 };
-                    //GenerateReport.Marks marks = new GenerateReport.Marks { AirQuality = AirQualityVal, Ecology = EcologyVal, NoiseInterference = noiseVal, RadiationEG = radiationVal, SoilPollution = soilVal, FinalMark = ((noiseVal + soilVal + radiationVal + AirQualityVal + EcologyVal) / 5) };
-                    //GenerateReport.ReportExtraInfo ReportExtraInfo = new GenerateReport.ReportExtraInfo { CustomerName = CustomerName, ProjName = ProjectName };
-                    //string reportName = generateReport.GenerateReportPdf(marks, coordinates, ReportExtraInfo);";
-                    //strContent += reportName;
+                //GenerateReport generateReport = new GenerateReport();
+                //GenerateReport.Coordinates coordinates = new GenerateReport.Coordinates { lon = Convert.ToSingle(lon), lat = Convert.ToSingle(lat), zoomlevel = 17 };
+                //GenerateReport.Marks marks = new GenerateReport.Marks { AirQuality = AirQualityVal, Ecology = EcologyVal, NoiseInterference = noiseVal, RadiationEG = radiationVal, SoilPollution = soilVal, FinalMark = ((noiseVal + soilVal + radiationVal + AirQualityVal + EcologyVal) / 5) };
+                //GenerateReport.ReportExtraInfo ReportExtraInfo = new GenerateReport.ReportExtraInfo { CustomerName = CustomerName, ProjName = ProjectName };
+                //string reportName = generateReport.GenerateReportPdf(marks, coordinates, ReportExtraInfo);";
+                //strContent += reportName;
                 //}
                 //else
                 //{
@@ -176,6 +188,38 @@ namespace ExtractOSMMapProd.Controllers
                     .AddEventLog();
             });
             m_logger = loggerFactory.CreateLogger<ExtractOSMMapController>(); ;
+        }
+
+        private string GenerateShortReport(Coordinates coord, string address, string customer, string recipients, List<Results> lstResults)
+        {
+            string content = string.Empty;
+            try
+            {
+                // let's export the map to add it to the short report in zoom level const 17
+                ExportMapImage exportmap = new ExportMapImage();
+                string mapLayoutFile = exportmap.ExportImage(coord.lon, coord.lat, 17);
+
+                Html2Image html2Image = new Html2Image();
+                Html2Image.Coordinates coor = new Html2Image.Coordinates { lon = coord.lon, lat = coord.lat };
+                double[] arr = new double[6] { lstResults[0].indexvalue, lstResults[1].indexvalue, lstResults[2].indexvalue, lstResults[3].indexvalue, lstResults[4].indexvalue, lstResults[5].indexvalue };
+                string report = html2Image.CustomizeReport(coor, customer, address, arr, mapLayoutFile);
+                EmailInfo EmailInfo = new EmailInfo();
+                EmailInfo.Sender = EmailSender;
+                EmailInfo.Recipients = recipients;
+                EmailInfo.Subject = $"Dear.Earth Indcies report of location: {address} - " + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######");
+                EmailInfo.EmailMsg = $"Dear {customer}, <br><br> Thank you for choosing Dear.Earth to Calculate your environmental Indcies. <br>" +
+                    $"Please find attached the requested information of location: {address} - Coordinates:[" + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######") + "].<br><br>" +
+                    "Best Regards, <br> Dear.Earth Team";
+                EmailInfo.Attachment = report;
+                StmpEmail email = new StmpEmail();
+                email.SendEmail(EmailInfo);
+                content = "Email Sent";
+            }
+            catch (Exception ex)
+            {
+                content = ex.Message;
+            }
+            return content;
         }
 
         private string ParseData(List<Results> lstResults)
