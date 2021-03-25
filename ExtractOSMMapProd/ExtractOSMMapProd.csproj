@@ -47,7 +47,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Nominatim.API-master\src\Nominatim.API\Nominatim.API.csproj" />
-    <ProjectReference Include="..\ShortReportGen\ShortReportGen\ShortReportGen.csproj" />
+    <ProjectReference Include="..\ShortReportGenerate\ShortReportGen\ShortReportGenerate.csproj" />
     <ProjectReference Include="..\WordFinadReplaceNet\WordFinadReplaceNet\WordFinadReplaceNet.csproj" />
   </ItemGroup>
 
