@@ -21,7 +21,10 @@
 	]);
 
 	  // Optional; add a title and set the width and height of the chart
-	  var options = {'title':'Environmental parameters contribution for the chosen location', 'width':640, 'height':500};
+	  var options = {'title':'Environmental parameters contribution for the chosen location', 'width':640, 'height':500, 'backgroundColor': {
+        'fill': '#F5F5F5',
+        'fillOpacity': 0}
+      };
 
 	  // Display the chart inside the <div> element with id="piechart"
 	  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
@@ -57,7 +60,9 @@
         title: "Estimated effect on asset price",
         width: 600,
         height: 500,
-        legend: { position: "none" },
+        legend: { position: "none" }, 'backgroundColor': {
+        'fill': '#F5F5F5',
+        'fillOpacity': 0}
       };
 	  // Display the chart inside the <div> element with id="piechart"
 	  var chart = new google.visualization.BarChart(document.getElementById('barchart'));
@@ -68,6 +73,7 @@
         html, body {
             padding: 0;
             margin: 0;
+            background-color: rgba(245, 245, 245);
         }
 
         .DocTitleStyle {
@@ -98,7 +104,6 @@
             padding: 0 0 60px;
             //border-style: solid;
             //border-width: 1px;
-            background-color: rgba(255, 255, 255, 0.93);
         }
 
         .DateTitleStyle {
@@ -165,7 +170,7 @@
             text-align: center;
             color: #332c2c;
             border: none;
-            background-color:rgba(245, 245, 245, 0.8);
+            background-color: rgba(245, 245, 245, 0.8);
             resize: none;
             outline: none;
             overflow: hidden;
@@ -457,8 +462,9 @@
             <tr>
                 <td style="vertical-align:top">
                     <div>
+                        <img src="https://www.ager.earth/ExtractOSMMapProd/Markers/LogoForReport.png" width="30" height="30" style="position:absolute; margin:50px 0 0 55px;" />
                         <textarea readonly id="DocTitle" rows="3" class="DocTitleStyle" cols="13">DERA.EARTH Environmental Index
-				</textarea>
+				        </textarea>
                     </div>
                     <div>
                         <label id="DateTitle" class="DateTitleStyle">Date:</label>

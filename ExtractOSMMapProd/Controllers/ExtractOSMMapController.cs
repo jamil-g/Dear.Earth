@@ -209,7 +209,8 @@ namespace ExtractOSMMapProd.Controllers
                 EmailInfo.Subject = $"Dear.Earth Indcies report of location: {address} - " + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######");
                 EmailInfo.EmailMsg = $"Dear {customer}, <br><br> Thank you for choosing Dear.Earth to Calculate your environmental Indcies. <br>" +
                     $"Please find attached the requested information of location: {address} - Coordinates:[" + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######") + "].<br><br>" +
-                    "Best Regards, <br> Dear.Earth Team";
+                    "Best Regards, <br> Dear.Earth Team <br>" +
+                    "<img id=\"CompanyLogo\" title=\"The Company Logo\" src=\"https://www.ager.earth/ExtractOSMMapProd/Markers/DeraEarthSignatureLogo.png\" </img>";
                 EmailInfo.Attachment = report;
                 StmpEmail email = new StmpEmail();
                 email.SendEmail(EmailInfo);
