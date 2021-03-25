@@ -1,0 +1,533 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DERA.EARTH Short Report</title>
+    <link rel="icon" href="https://www.ager.earth/ExtractOSMMapProd/Markers/Dera.Earth.png">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+	// Load google charts
+	google.charts.load('current', {'packages':['corechart']});
+	google.charts.setOnLoadCallback(drawChart);
+
+	// Draw the chart and set the chart values
+	function drawChart() {
+	  var data = google.visualization.arrayToDataTable([
+	  ['Index', 'Index Value'],
+	  ['Noise', [NoisePieChartValue]],
+	  ['Soil', [SoilPieChartValue]],
+	  ['Electromagnetic radiadion', [ERPieChartValue]],
+	  ['Air polloution ', [AirChartValue]],
+	  ['Ecology ', [EcologyPieChartValue]]
+	]);
+
+	  // Optional; add a title and set the width and height of the chart
+	  var options = {'title':'Environmental parameters contribution for the chosen location', 'width':640, 'height':500, 'backgroundColor': {
+        'fill': '#F5F5F5',
+        'fillOpacity': 0}
+      };
+
+	  // Display the chart inside the <div> element with id="piechart"
+	  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+	  chart.draw(data, options);
+	}
+    </script>
+    <script type="text/javascript">
+	// Load google charts
+	google.charts.load('current', {'packages':['corechart']});
+	google.charts.setOnLoadCallback(drawChart);
+
+	// Draw the chart and set the chart values
+	function drawChart() {
+	  var data = google.visualization.arrayToDataTable([
+	  ['Index', 'Index Value', { role: "style" } ],
+	  ['Noise', [NoiseBarChartValue], "#1E5C94"],
+	  ['Soil', [SoilBarChartValue] ,"gold"],
+	  ['Electromagnetic radiadion', [ERBarChartValue], "#4F95D5"],
+	  ['Air polloution ', [AirBarChartValue], "#3F6624"],
+	  ['Ecology ', [EcologyBarChartValue], "7DB75A"]
+	]);
+
+	var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                       2]);
+
+	 // Optional; add a title and set the width and height of the chart
+      var options = {
+        title: "Estimated effect on asset price",
+        width: 600,
+        height: 500,
+        legend: { position: "none" }, 'backgroundColor': {
+        'fill': '#F5F5F5',
+        'fillOpacity': 0}
+      };
+	  // Display the chart inside the <div> element with id="piechart"
+	  var chart = new google.visualization.BarChart(document.getElementById('barchart'));
+	  chart.draw(data, options);
+	}
+    </script>
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+            background-color: rgba(245, 245, 245);
+        }
+
+        .DocTitleStyle {
+            width: 324px;
+            height: 121px;
+            margin: 32px 7px 6px 40px;
+            padding: 18px 116px 9px 52px;
+            font-family: Montserrat;
+            font-size: 36.5px;
+            font-weight: 800;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 0.9;
+            letter-spacing: normal;
+            text-align: left;
+            color: #3b79f2;
+            border: none;
+            background-color: transparent;
+            resize: none;
+            outline: none;
+            overflow: hidden;
+        }
+
+        #Rectangle {
+            width: 1443.3px;
+            height: 422px;
+            margin: 0 0 94.6px;
+            padding: 0 0 60px;
+            //border-style: solid;
+            //border-width: 1px;
+        }
+
+        .DateTitleStyle {
+            width: 213px;
+            height: 21px;
+            margin: 6px 0px 6px 40px;
+            padding: 18px 0 9px 52px;
+            font-family: Montserrat;
+            font-size: 16px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.19;
+            letter-spacing: 0.11px;
+            text-align: left;
+            color: #207a8b;
+        }
+
+        .DateContentStyle {
+            width: 213px;
+            height: 21px;
+            margin: 6px 0px 6px 0;
+            padding: 18px 0 9px 0;
+            font-family: Montserrat;
+            font-size: 16px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.19;
+            letter-spacing: 0.11px;
+            text-align: left;
+            color: #207a8b;
+        }
+
+        .DateTitleStyle-text-style-1 {
+            width: 20px;
+            margin: 6px 118px 6px 0;
+            font-weight: normal;
+        }
+
+        .DataBubble {
+            border-radius: 40px;
+            display: inline-block;
+            width: 350.2px;
+            height: 340px;
+            margin: 48px 0.3px 1.2px 0;
+            padding: 18px 19.2px 73.7px 9px;
+            box-shadow: -2px 9px 18px 0 rgba(0, 0, 0, 0.14);
+            background-image: url("[Map]");
+            //background-color: rgba(255, 255, 255, 0.94);
+        }
+
+        .AddressStyle {
+            height: 40px;
+            margin: 0 0 0 25.5%;
+            width: 50%;
+            font-family: Montserrat;
+            font-size: 16px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.25;
+            letter-spacing: normal;
+            text-align: center;
+            color: #332c2c;
+            border: none;
+            background-color: rgba(245, 245, 245, 0.8);
+            resize: none;
+            outline: none;
+            overflow: hidden;
+            display: block;
+        }
+
+        .CoordinatesLabelStyle {
+            position: absolute;
+            width: 95px;
+            height: 20px;
+            margin: 40px 0 0 130px;
+            font-family: Montserrat;
+            font-size: 14px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            font-weight: bold;
+            line-height: 1.29;
+            letter-spacing: normal;
+            text-align: center;
+            color: #9d9999;
+            border: none;
+            background-color:rgba(245, 245, 245, 0.8);
+            resize: none;
+            outline: none;
+            overflow: hidden;
+            display: block;
+        }
+
+        .Ellipse-10 {
+            position: absolute;
+            border-radius: 40px;
+            width: 4px;
+            height: 4px;
+            margin: 9px 24px 10px 0;
+            background-color: #696969;
+        }
+
+        .CoordinatesContentStyle {
+            width: 120px;
+            height: 15px;
+            margin: 70px 0 0 115px;
+            font-family: Montserrat;
+            font-size: 13px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.23;
+            letter-spacing: normal;
+            color: #0062ff;
+            border: none;
+            text-align:center;
+            background-color:rgba(245, 245, 245, 0.8);
+            resize: none;
+            outline: none;
+            overflow: hidden;
+            display: block;
+        }
+
+        .ButtonRepoert {
+            width: 235px;
+            height: 202px;
+            margin: 20px 57.5px 0 58px;
+            padding: 15.2px 11px 74.9px 14px;
+            border-radius: 40px 40px 0 0;
+            opacity: 0.8;
+            background-image: linear-gradient(to bottom, #8ee2db, #e3e3e3);
+        }
+
+        .Environmental-RAI-Label {
+            width: 189px;
+            height: 30px;
+            margin: 0 10px 0 15px;
+            font-family: Montserrat;
+            font-size: 14px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.14;
+            letter-spacing: normal;
+            text-align: center;
+            color: #585050;
+            border: none;
+            background-color: transparent;
+            resize: none;
+            outline: none;
+            overflow: hidden;
+            display: block;
+        }
+
+        .Environmental-Index-Val {
+            width: 210px;
+            height: 120px;
+            margin: 0 0 0 10px;
+            font-family: Montserrat;
+            font-size: 117px;
+            font-weight: 800;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.21;
+            letter-spacing: normal;
+            text-align: center;
+            color: #ffffff;
+            border: none;
+            background-color: transparent;
+            resize: none;
+            outline: none;
+            overflow: hidden;
+            display: block;
+        }
+
+        .RectangleFooter {
+            position: absolute;
+            width: 1443px; /*width of your image*/
+            height: 100px; /*height of your image*/
+            background-image: url('file:///C:/Users/Administrator/source/repos/Dear.Earth/ExtractOSMMapProd/Resources/Footer.png');
+            margin: 0px; /* If you want no margin */
+            padding: 0; /*if your want to padding */
+        }
+
+        @font-face {
+            font-family: GENISO;
+            src: url(GENISO.TTF);
+        }
+
+        .IndicesTitleStyle {
+            width: 310px;
+            height: 57px;
+            margin: 55px 95px 10px 77px;
+            font-family: GENISO;
+            font-size: 19px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.16;
+            letter-spacing: normal;
+            text-align: left;
+            color: #000000;
+            border: none;
+            background-color: transparent;
+            resize: none;
+            outline: none;
+            overflow: hidden;
+        }
+
+        .NoiseIndexStyle {
+            width: 219px;
+            height: 21px;
+            margin: 0px 75px 10px 77px;
+            font-family: GENISO;
+            font-size: 21px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.29;
+            letter-spacing: 0.15px;
+            text-align: left;
+            color: #000000;
+            border: none;
+            background-color: transparent;
+            resize: none;
+            outline: none;
+            overflow: hidden;
+        }
+
+        .SoilIndexStyle {
+            width: 219px;
+            height: 21px;
+            margin: 10px 75px 10px 77px;
+            font-family: GENISO;
+            font-size: 21px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.29;
+            letter-spacing: 0.15px;
+            text-align: left;
+            color: #000000;
+            border: none;
+            background-color: transparent;
+            resize: none;
+            outline: none;
+            overflow: hidden;
+        }
+
+        .AirIndexStyle {
+            width: 219px;
+            height: 21px;
+            margin: 10px 75px 10px 77px;
+            font-family: GENISO;
+            font-size: 21px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.29;
+            letter-spacing: 0.15px;
+            text-align: left;
+            color: #000000;
+            border: none;
+            background-color: transparent;
+            resize: none;
+            outline: none;
+            overflow: hidden;
+        }
+
+        .ERIndexStyle {
+            width: 219px;
+            height: 21px;
+            margin: 10px 75px 10px 77px;
+            font-family: GENISO;
+            font-size: 21px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.29;
+            letter-spacing: 0.15px;
+            text-align: left;
+            color: #000000;
+            border: none;
+            background-color: transparent;
+            resize: none;
+            outline: none;
+            overflow: hidden;
+        }
+
+        .EcologyIndexStyle {
+            width: 219px;
+            height: 21px;
+            margin: 10px 75px 10px 77px;
+            font-family: GENISO;
+            font-size: 21px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.29;
+            letter-spacing: 0.15px;
+            text-align: left;
+            color: #000000;
+            border: none;
+            background-color: transparent;
+            resize: none;
+            outline: none;
+            overflow: hidden;
+        }
+
+        .EllipseSevereHigh {
+            position: absolute;
+            border-radius: 40px;
+            width: 17px;
+            height: 17px;
+            margin: 0 10px 0 0;
+            border: solid 3px rgba(229, 216, 216, 0.75);
+            background-color: #e52626;
+        }
+
+        .EllipseSevereMid {
+            position: absolute;
+            border-radius: 40px;
+            width: 17px;
+            height: 17px;
+            margin: 0 0 0 10px;
+            border: solid 3px rgba(229, 216, 216, 0.75);
+            background-color: #74be10;
+        }
+
+        .EllipseSevereLow {
+            position: absolute;
+            border-radius: 40px;
+            width: 17px;
+            height: 17px;
+            margin: 0 10px;
+            border: solid 3px rgba(229, 216, 216, 0.75);
+            background-color: #efe825
+        }
+
+        .EllipseSevereEmpty {
+            position: absolute;
+            border-radius: 40px;
+            width: 17px;
+            height: 17px;
+            margin: 0 10px;
+            border: solid 3px rgba(217, 210, 210, 0.75);
+        }
+    </style>
+</head>
+<body>
+    <div id="Rectangle">
+        <table>
+            <tr>
+                <td style="vertical-align:top">
+                    <div>
+                        <img src="https://www.ager.earth/ExtractOSMMapProd/Markers/LogoForReport.png" width="30" height="30" style="position:absolute; margin:50px 0 0 55px;" />
+                        <textarea readonly id="DocTitle" rows="3" class="DocTitleStyle" cols="13">DERA.EARTH Environmental Index
+				        </textarea>
+                    </div>
+                    <div>
+                        <label id="DateTitle" class="DateTitleStyle">Date:</label>
+                        <label id="DateLabel" class="DateContentStyle DateTitleStyle-text-style-1">[CurrentDate]</label>
+                    </div>
+                    <div style="margin:6px 0px 0px 0px;">
+                        <label id="CustomerTitle" class="DateTitleStyle">Customer:</label>
+                        <label id="vLabel" class="DateContentStyle DateTitleStyle-text-style-1">[CustomerName]</label>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <div class="DataBubble">
+                            <textarea readonly id="Address" rows="2" class="AddressStyle" cols="50">[Address]
+					</textarea>
+                            <div>
+                                <div class="Ellipse-10" style="margin: 50px 0 0 110px"></div>
+                                <textarea readonly id="CoordinatesLabel" rows="1" class="CoordinatesLabelStyle">Coordinates</textarea>
+                                <div class="Ellipse-10" style="margin: 50px 0 0 243px"></div>
+                            </div>
+                            <textarea readonly id="CoordinatesContent" rows="1" class="CoordinatesContentStyle">[Coordinates]</textarea>
+                            <div class="ButtonRepoert">
+                                <textarea readonly id="Environmental-RAI" rows="2" class="Environmental-RAI-Label" cols="13">Environmental Risk Assessment Index
+						</textarea>
+                                <textarea readonly id="Environmental-Index" rows="1" class="Environmental-Index-Val" cols="13">[TotalIndex]
+						</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td style="vertical-align:top">
+                    <textarea readonly id="IndicesTitle" rows="2" class="IndicesTitleStyle" cols="13">The index for the site, is calculated using the following parameters:
+			</textarea>
+                    <div id="ElipseNoiseLow" class="EllipseSevereEmpty" style="margin: 5px 0 0 350px"></div>
+                    <div id="ElipseNoiseMid" class="EllipseSevereEmpty" style="margin: 5px 0 0 390px"></div>
+                    <div id="ElipseNoiseHeigh" class="EllipseSevereEmpty" style="margin: 5px 0 0 430px"></div>
+                    <textarea readonly id="NoiseIndex" rows="1" class="NoiseIndexStyle" cols="13">Noise pollution
+			</textarea>
+                    <div id="ElipseSoilLow" class="EllipseSevereEmpty" style="margin: 18px 0 0 350px"></div>
+                    <div id="ElipseSoilMid" class="EllipseSevereEmpty" style="margin: 18px 0 0 390px"></div>
+                    <div id="ElipseSoilHeigh" class="EllipseSevereEmpty" style="margin: 18px 0 0 430px"></div>
+                    <textarea readonly id="SoilIndex" rows="1" class="SoilIndexStyle" cols="13">Soil contamination
+			</textarea>
+                    <div id="ElipseERLow" class="EllipseSevereEmpty" style="margin: 18px 0 0 350px"></div>
+                    <div id="ElipseERMid" class="EllipseSevereEmpty" style="margin: 18px 0 0 390px"></div>
+                    <div id="ElipseERHeigh" class="EllipseSevereEmpty" style="margin: 18px 0 0 430px"></div>
+                    <textarea readonly id="ERIndex" rows="1" class="ERIndexStyle" cols="13">Electromagnetic radiation
+			</textarea>
+                    <div id="ElipseAirLow" class="EllipseSevereEmpty" style="margin: 18px 0 0 350px"></div>
+                    <div id="ElipseAirMid" class="EllipseSevereEmpty" style="margin: 18px 0 0 390px"></div>
+                    <div id="ElipseAirHeigh" class="EllipseSevereEmpty" style="margin: 18px 0 0 430px"></div>
+                    <textarea readonly id="AirIndex" rows="1" class="AirIndexStyle" cols="13">Air pollution
+			</textarea>
+                    <div id="ElipseEcologyLow" class="EllipseSevereEmpty" style="margin: 18px 0 0 350px"></div>
+                    <div id="ElipseEcologyMid" class="EllipseSevereEmpty" style="margin: 18px 0 0 390px"></div>
+                    <div id="ElipseEcologyHeigh" class="EllipseSevereEmpty" style="margin: 18px 0 0 430px"></div>
+                    <textarea readonly id="EcologyIndex" rows="1" class="EcologyIndexStyle" cols="13">Ecology
+			</textarea>
+                </td>
+            </tr>
+        </table>
+        <div class="RectangleFooter" style="position:absolute; margin: 0 0 0 0"></div>
+    </div>
+    <div id="piechart" style="position:absolute; margin: 20px 0 0 800px;"></div>
+    <div id="barchart" style="position:absolute; margin: 20px 0 0 100px;"></div>
+</html>
