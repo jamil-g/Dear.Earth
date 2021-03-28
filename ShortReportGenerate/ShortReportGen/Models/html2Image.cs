@@ -63,7 +63,7 @@ namespace ShortReportGen
                     string severityFullOldText = string.Empty;
                     string severitylevelSuffix = string.Empty;
                     string severitylevelCategory = string.Empty;
-                    if ((Indices[i] > 0) && (Indices[i] <= 3.5))
+                    if ((Indices[i] >= 0) && (Indices[i] <= 3.5))
                     {
                         severitylevelSuffix = "Low";
                         severitylevel = "EllipseSevereLow";

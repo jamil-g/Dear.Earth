@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
+using System.Threading.Tasks;
 using ShortReportGen.Models;
 
 namespace ShortReportGen
@@ -20,7 +21,7 @@ namespace ShortReportGen
         #endregion
 
         #region public methods
-        public void SendEmail(EmailInfo emailinfo)
+        public async Task SendEmailAsync(EmailInfo emailinfo)
         {
 
             // let's define the stmp parameters
@@ -46,6 +47,7 @@ namespace ShortReportGen
             var attachment = new Attachment(emailinfo.Attachment, MediaTypeNames.Image.Jpeg);
             mailMessage.Attachments.Add(attachment);
             smtpClient.Send(mailMessage);
+            await Task.Delay(3000);
         }
         #endregion
     }

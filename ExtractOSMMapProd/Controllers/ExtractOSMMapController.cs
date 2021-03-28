@@ -10,6 +10,7 @@ using OSM.ExportMapImage;
 using ShortReportGen;
 using ShortReportGen.Models;
 using System.Linq;
+using System.Threading.Tasks;
 //using WordFinadReplaceNet;
 
 namespace ExtractOSMMapProd.Controllers
@@ -148,7 +149,7 @@ namespace ExtractOSMMapProd.Controllers
                 Results result = new Results { type = Types.All, category = 6, indexvalue = lstResults.Average(x => x.indexvalue) };
                 lstResults.Add(result);
                 // let's send the shorty report email and update the email send status
-                strContent += StringSeparator + "Email:" + GenerateShortReport(coor, Address, CustomerName, Recipients, lstResults);
+                strContent += StringSeparator + "Email:" + GenerateShortReportAsync(coor, Address, CustomerName, Recipients, lstResults).Result;
 
                 // ** report code - disabled at this stage **
                 //if (!string.IsNullOrEmpty(ReportToken) && ReportToken == "Report56562")
@@ -190,7 +191,7 @@ namespace ExtractOSMMapProd.Controllers
             m_logger = loggerFactory.CreateLogger<ExtractOSMMapController>(); ;
         }
 
-        private string GenerateShortReport(Coordinates coord, string address, string customer, string recipients, List<Results> lstResults)
+        private async Task<string> GenerateShortReportAsync(Coordinates coord, string address, string customer, string recipients, List<Results> lstResults)
         {
             string content = string.Empty;
             try
@@ -213,7 +214,7 @@ namespace ExtractOSMMapProd.Controllers
                     "<img id=\"CompanyLogo\" title=\"The Company Logo\" src=\"https://www.ager.earth/ExtractOSMMapProd/Markers/DeraEarthSignatureLogo.png\" </img>";
                 EmailInfo.Attachment = report;
                 StmpEmail email = new StmpEmail();
-                email.SendEmail(EmailInfo);
+                await email.SendEmailAsync(EmailInfo);
                 content = "Email Sent";
             }
             catch (Exception ex)

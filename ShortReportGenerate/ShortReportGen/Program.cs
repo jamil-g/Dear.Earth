@@ -22,7 +22,7 @@ namespace ShortReportGen
                 "Best Regards, <br> Dear.Earth Team";
             EmailInfo.Attachment = $@"C:\Users\jamil-g\source\repos\ShortReportGen\ShortReportGen\bin\Debug\netcoreapp2.1\{report}";
             StmpEmail email = new StmpEmail();
-            email.SendEmail(EmailInfo);
+            email.SendEmailAsync(EmailInfo);
         }
 
     }
