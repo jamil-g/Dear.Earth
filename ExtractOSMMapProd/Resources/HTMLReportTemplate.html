@@ -21,9 +21,15 @@
 	]);
 
 	  // Optional; add a title and set the width and height of the chart
-	  var options = {'title':'Environmental parameters contribution for the chosen location', 'width':640, 'height':500, 'backgroundColor': {
+	  var options = {'title':'Environmental parameters contribution', 'width':640, 'height':500, 'backgroundColor': {
         'fill': '#F5F5F5',
-        'fillOpacity': 0}
+        'fillOpacity': 0},titleTextStyle: {
+        color: '#3b79f2',    // any HTML string color ('red', '#cc00cc')
+        fontName: 'Montserrat', // i.e. 'Times New Roman'
+        fontSize: 16, // 12, 18 whatever you want (don't specify px)
+        bold: true,    // true or false
+        italic: false   // true of false
+      },
       };
 
 	  // Display the chart inside the <div> element with id="piechart"
@@ -55,15 +61,23 @@
                          role: "annotation" },
                        2]);
 
-	 // Optional; add a title and set the width and height of the chart
+	// Optional; add a title and set the width and height of the chart
       var options = {
         title: "Estimated effect on asset price",
-        width: 600,
+        width: 500,
         height: 500,
         legend: { position: "none" }, 'backgroundColor': {
         'fill': '#F5F5F5',
-        'fillOpacity': 0}
+        'fillOpacity': 0},
+		titleTextStyle: {
+        color: '#3b79f2',    // any HTML string color ('red', '#cc00cc')
+        fontName: 'Montserrat', // i.e. 'Times New Roman'
+        fontSize: 16, // 12, 18 whatever you want (don't specify px)
+        bold: true,    // true or false
+        italic: false   // true of false
+      }
       };
+
 	  // Display the chart inside the <div> element with id="piechart"
 	  var chart = new google.visualization.BarChart(document.getElementById('barchart'));
 	  chart.draw(data, options);
@@ -282,14 +296,22 @@
             display: block;
         }
 
-        .RectangleFooter {
-            position: absolute;
-            width: 1443px; /*width of your image*/
-            height: 100px; /*height of your image*/
-            background-image: url('file:///C:/Users/Administrator/source/repos/Dear.Earth/ExtractOSMMapProd/Resources/Footer.png');
-            margin: 0px; /* If you want no margin */
-            padding: 0; /*if your want to padding */
-        }
+      .RectangleFooter {
+		   position: absolute;
+		   width:1443px; /*width of your image*/
+		   height:20px; /*height of your image*/
+		   background-image:url('file:///C:/Users/Administrator/source/repos/Dear.Earth/ExtractOSMMapProd/Resources/Footer.png');
+		   margin:0px; /* If you want no margin */
+		   padding:0; /*if your want to padding */
+		}
+		.RectangleFooter1 {
+		   position: absolute;
+		   width:1443px; /*width of your image*/
+		   height:79px; /*height of your image*/
+		   background-image:url('file:///C:/Users/Administrator/source/repos/Dear.Earth/ExtractOSMMapProd/Resources/Footer1.png');
+		   margin:0px; /* If you want no margin */
+		   padding:0; /*if your want to padding */
+		}
 
         @font-face {
             font-family: GENISO;
@@ -315,6 +337,26 @@
             outline: none;
             overflow: hidden;
         }
+
+        .SevereTitleStyle{
+		  width: 50px;
+		  height: 20px;
+		  margin: 0px 0px 0px 420px;
+		  font-family: GENISO;
+		  font-size: 16px;
+		  font-weight: bold;
+		  font-stretch: normal;
+		  font-style: normal;
+		  line-height: 0.5;
+		  letter-spacing: normal;
+		  text-align: left;
+		  color: #000000;
+		  border: none;
+		  background-color: transparent;
+		  resize: none;
+		  outline: none;
+		  overflow:hidden;
+		}
 
         .NoiseIndexStyle {
             width: 219px;
@@ -497,32 +539,34 @@
                 </td>
                 <td style="vertical-align:top">
                     <textarea readonly id="IndicesTitle" rows="2" class="IndicesTitleStyle" cols="13">The index for the site, is calculated using the following parameters:
-			</textarea>
+			        </textarea>
+                    <textarea readonly id="SevereTitle" rows="1" class="SevereTitleStyle" cols="13">Height
+			        </textarea>
                     <div id="ElipseNoiseLow" class="EllipseSevereEmpty" style="margin: 5px 0 0 350px"></div>
                     <div id="ElipseNoiseMid" class="EllipseSevereEmpty" style="margin: 5px 0 0 390px"></div>
                     <div id="ElipseNoiseHeigh" class="EllipseSevereEmpty" style="margin: 5px 0 0 430px"></div>
                     <textarea readonly id="NoiseIndex" rows="1" class="NoiseIndexStyle" cols="13">Noise pollution
-			</textarea>
+			        </textarea>
                     <div id="ElipseSoilLow" class="EllipseSevereEmpty" style="margin: 18px 0 0 350px"></div>
                     <div id="ElipseSoilMid" class="EllipseSevereEmpty" style="margin: 18px 0 0 390px"></div>
                     <div id="ElipseSoilHeigh" class="EllipseSevereEmpty" style="margin: 18px 0 0 430px"></div>
                     <textarea readonly id="SoilIndex" rows="1" class="SoilIndexStyle" cols="13">Soil contamination
-			</textarea>
+			        </textarea>
                     <div id="ElipseERLow" class="EllipseSevereEmpty" style="margin: 18px 0 0 350px"></div>
                     <div id="ElipseERMid" class="EllipseSevereEmpty" style="margin: 18px 0 0 390px"></div>
                     <div id="ElipseERHeigh" class="EllipseSevereEmpty" style="margin: 18px 0 0 430px"></div>
                     <textarea readonly id="ERIndex" rows="1" class="ERIndexStyle" cols="13">Electromagnetic radiation
-			</textarea>
+			        </textarea>
                     <div id="ElipseAirLow" class="EllipseSevereEmpty" style="margin: 18px 0 0 350px"></div>
                     <div id="ElipseAirMid" class="EllipseSevereEmpty" style="margin: 18px 0 0 390px"></div>
                     <div id="ElipseAirHeigh" class="EllipseSevereEmpty" style="margin: 18px 0 0 430px"></div>
                     <textarea readonly id="AirIndex" rows="1" class="AirIndexStyle" cols="13">Air pollution
-			</textarea>
+			        </textarea>
                     <div id="ElipseEcologyLow" class="EllipseSevereEmpty" style="margin: 18px 0 0 350px"></div>
                     <div id="ElipseEcologyMid" class="EllipseSevereEmpty" style="margin: 18px 0 0 390px"></div>
                     <div id="ElipseEcologyHeigh" class="EllipseSevereEmpty" style="margin: 18px 0 0 430px"></div>
                     <textarea readonly id="EcologyIndex" rows="1" class="EcologyIndexStyle" cols="13">Ecology
-			</textarea>
+			        </textarea>
                 </td>
             </tr>
         </table>
@@ -530,4 +574,5 @@
     </div>
     <div id="piechart" style="position:absolute; margin: 20px 0 0 800px;"></div>
     <div id="barchart" style="position:absolute; margin: 20px 0 0 100px;"></div>
+    <div class="RectangleFooter1" style="position:absolute; margin: 450px 0 0 0"></div>
 </html>
