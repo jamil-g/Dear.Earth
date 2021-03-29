@@ -5,83 +5,88 @@
     <link rel="icon" href="https://www.ager.earth/ExtractOSMMapProd/Markers/Dera.Earth.png">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-	// Load google charts
-	google.charts.load('current', {'packages':['corechart']});
-	google.charts.setOnLoadCallback(drawChart);
+        // Load google charts
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
 
-	// Draw the chart and set the chart values
-	function drawChart() {
-	  var data = google.visualization.arrayToDataTable([
-	  ['Index', 'Index Value'],
-	  ['Noise', [NoisePieChartValue]],
-	  ['Soil', [SoilPieChartValue]],
-	  ['Electromagnetic radiadion', [ERPieChartValue]],
-	  ['Air polloution ', [AirChartValue]],
-	  ['Ecology ', [EcologyPieChartValue]]
-	]);
+        // Draw the chart and set the chart values
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Index', 'Index Value'],
+                ['Noise', [NoisePieChartValue]],
+                ['Soil', [SoilPieChartValue]],
+                ['Electromagnetic radiadion', [ERPieChartValue]],
+                ['Air polloution ', [AirChartValue]],
+                ['Ecology ', [EcologyPieChartValue]]
+            ]);
 
-	  // Optional; add a title and set the width and height of the chart
-	  var options = {'title':'Environmental parameters contribution', 'width':640, 'height':500, 'backgroundColor': {
-        'fill': '#F5F5F5',
-        'fillOpacity': 0},titleTextStyle: {
-        color: '#3b79f2',    // any HTML string color ('red', '#cc00cc')
-        fontName: 'Montserrat', // i.e. 'Times New Roman'
-        fontSize: 16, // 12, 18 whatever you want (don't specify px)
-        bold: true,    // true or false
-        italic: false   // true of false
-      },
-      };
+            // Optional; add a title and set the width and height of the chart
+            var options = {
+                'title': 'Environmental parameters contribution', 'width': 640, 'height': 500, 'backgroundColor': {
+                    'fill': '#F5F5F5',
+                    'fillOpacity': 0
+                }, titleTextStyle: {
+                    color: '#3b79f2',    // any HTML string color ('red', '#cc00cc')
+                    fontName: 'Montserrat', // i.e. 'Times New Roman'
+                    fontSize: 16, // 12, 18 whatever you want (don't specify px)
+                    bold: true,    // true or false
+                    italic: false   // true of false
+                },
+            };
 
-	  // Display the chart inside the <div> element with id="piechart"
-	  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-	  chart.draw(data, options);
-	}
+            // Display the chart inside the <div> element with id="piechart"
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
+        }
     </script>
     <script type="text/javascript">
-	// Load google charts
-	google.charts.load('current', {'packages':['corechart']});
-	google.charts.setOnLoadCallback(drawChart);
+        // Load google charts
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
 
-	// Draw the chart and set the chart values
-	function drawChart() {
-	  var data = google.visualization.arrayToDataTable([
-	  ['Index', 'Index Value', { role: "style" } ],
-	  ['Noise', [NoiseBarChartValue], "#1E5C94"],
-	  ['Soil', [SoilBarChartValue] ,"gold"],
-	  ['Electromagnetic radiadion', [ERBarChartValue], "#4F95D5"],
-	  ['Air polloution ', [AirBarChartValue], "#3F6624"],
-	  ['Ecology ', [EcologyBarChartValue], "7DB75A"]
-	]);
+        // Draw the chart and set the chart values
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Index', 'Index Value', { role: "style" }],
+                ['Noise', [NoiseBarChartValue], "#1E5C94"],
+                ['Soil', [SoilBarChartValue], "gold"],
+                ['Electromagnetic radiadion', [ERBarChartValue], "#4F95D5"],
+                ['Air polloution ', [AirBarChartValue], "#3F6624"],
+                ['Ecology ', [EcologyBarChartValue], "7DB75A"]
+            ]);
 
-	var view = new google.visualization.DataView(data);
-      view.setColumns([0, 1,
-                       { calc: "stringify",
-                         sourceColumn: 1,
-                         type: "string",
-                         role: "annotation" },
-                       2]);
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
+                {
+                    calc: "stringify",
+                    sourceColumn: 1,
+                    type: "string",
+                    role: "annotation"
+                },
+                2]);
 
-	// Optional; add a title and set the width and height of the chart
-      var options = {
-        title: "Estimated effect on asset price",
-        width: 500,
-        height: 500,
-        legend: { position: "none" }, 'backgroundColor': {
-        'fill': '#F5F5F5',
-        'fillOpacity': 0},
-		titleTextStyle: {
-        color: '#3b79f2',    // any HTML string color ('red', '#cc00cc')
-        fontName: 'Montserrat', // i.e. 'Times New Roman'
-        fontSize: 16, // 12, 18 whatever you want (don't specify px)
-        bold: true,    // true or false
-        italic: false   // true of false
-      }
-      };
+            // Optional; add a title and set the width and height of the chart
+            var options = {
+                title: "Estimated effect on asset price",
+                width: 500,
+                height: 500,
+                legend: { position: "none" }, 'backgroundColor': {
+                    'fill': '#F5F5F5',
+                    'fillOpacity': 0
+                },
+                titleTextStyle: {
+                    color: '#3b79f2',    // any HTML string color ('red', '#cc00cc')
+                    fontName: 'Montserrat', // i.e. 'Times New Roman'
+                    fontSize: 16, // 12, 18 whatever you want (don't specify px)
+                    bold: true,    // true or false
+                    italic: false   // true of false
+                }
+            };
 
-	  // Display the chart inside the <div> element with id="piechart"
-	  var chart = new google.visualization.BarChart(document.getElementById('barchart'));
-	  chart.draw(data, options);
-	}
+            // Display the chart inside the <div> element with id="piechart"
+            var chart = new google.visualization.BarChart(document.getElementById('barchart'));
+            chart.draw(data, options);
+        }
     </script>
     <style>
         html, body {
@@ -207,7 +212,7 @@
             text-align: center;
             color: #9d9999;
             border: none;
-            background-color:rgba(245, 245, 245, 0.8);
+            background-color: rgba(245, 245, 245, 0.8);
             resize: none;
             outline: none;
             overflow: hidden;
@@ -236,8 +241,8 @@
             letter-spacing: normal;
             color: #0062ff;
             border: none;
-            text-align:center;
-            background-color:rgba(245, 245, 245, 0.8);
+            text-align: center;
+            background-color: rgba(245, 245, 245, 0.8);
             resize: none;
             outline: none;
             overflow: hidden;
@@ -275,43 +280,44 @@
             display: block;
         }
 
-        .Environmental-Index-Val {
-            width: 210px;
-            height: 120px;
-            margin: 0 0 0 10px;
-            font-family: Montserrat;
-            font-size: 117px;
-            font-weight: 800;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: 1.21;
-            letter-spacing: normal;
-            text-align: center;
-            color: #ffffff;
-            border: none;
-            background-color: transparent;
-            resize: none;
-            outline: none;
-            overflow: hidden;
-            display: block;
+       .Environmental-Index-Val {
+		    width: 210px;
+		    height: 140px;
+		    margin: 0 0 0 10px;
+		    font-family: Montserrat;
+		    font-size: 140px;
+		    font-weight: 800;
+		    font-stretch: normal;
+		    font-style: normal;
+		    line-height: 1.21;
+		    letter-spacing: normal;
+		    text-align: center;
+		    color: #ffffff;
+		    border: none;
+		    background-color: transparent;
+		    resize: none;
+		    outline: none;
+		    overflow:hidden;
+		    display: block;
+		}
+
+        .RectangleFooter {
+            position: absolute;
+            width: 1443px; /*width of your image*/
+            height: 20px; /*height of your image*/
+            background-image: url('file:///C:/Users/Administrator/source/repos/Dear.Earth/ExtractOSMMapProd/Resources/Footer.png');
+            margin: 0px; /* If you want no margin */
+            padding: 0; /*if your want to padding */
         }
 
-      .RectangleFooter {
-		   position: absolute;
-		   width:1443px; /*width of your image*/
-		   height:20px; /*height of your image*/
-		   background-image:url('file:///C:/Users/Administrator/source/repos/Dear.Earth/ExtractOSMMapProd/Resources/Footer.png');
-		   margin:0px; /* If you want no margin */
-		   padding:0; /*if your want to padding */
-		}
-		.RectangleFooter1 {
-		   position: absolute;
-		   width:1443px; /*width of your image*/
-		   height:79px; /*height of your image*/
-		   background-image:url('file:///C:/Users/Administrator/source/repos/Dear.Earth/ExtractOSMMapProd/Resources/Footer1.png');
-		   margin:0px; /* If you want no margin */
-		   padding:0; /*if your want to padding */
-		}
+        .RectangleFooter1 {
+            position: absolute;
+            width: 1443px; /*width of your image*/
+            height: 79px; /*height of your image*/
+            background-image: url('file:///C:/Users/Administrator/source/repos/Dear.Earth/ExtractOSMMapProd/Resources/Footer1.png');
+            margin: 0px; /* If you want no margin */
+            padding: 0; /*if your want to padding */
+        }
 
         @font-face {
             font-family: GENISO;
@@ -338,25 +344,25 @@
             overflow: hidden;
         }
 
-        .SevereTitleStyle{
-		  width: 50px;
-		  height: 20px;
-		  margin: 0px 0px 0px 420px;
-		  font-family: GENISO;
-		  font-size: 16px;
-		  font-weight: bold;
-		  font-stretch: normal;
-		  font-style: normal;
-		  line-height: 0.5;
-		  letter-spacing: normal;
-		  text-align: left;
-		  color: #000000;
-		  border: none;
-		  background-color: transparent;
-		  resize: none;
-		  outline: none;
-		  overflow:hidden;
-		}
+        .SevereTitleStyle {
+            width: 50px;
+            height: 20px;
+            margin: 0px 0px 0px 420px;
+            font-family: GENISO;
+            font-size: 16px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 0.5;
+            letter-spacing: normal;
+            text-align: left;
+            color: #000000;
+            border: none;
+            background-color: transparent;
+            resize: none;
+            outline: none;
+            overflow: hidden;
+        }
 
         .NoiseIndexStyle {
             width: 219px;
@@ -569,10 +575,12 @@
 			        </textarea>
                 </td>
             </tr>
+            <tr>
+                <div id="piechart" style="position:absolute; margin: 450px 0 0 800px;"></div>
+                <div id="barchart" style="position:absolute; margin: 450px 0 0 100px; text"></div>
+                <div class="RectangleFooter1" style="position:absolute; margin: 850px 0 0 0"></div>
+            </tr>
         </table>
         <div class="RectangleFooter" style="position:absolute; margin: 0 0 0 0"></div>
     </div>
-    <div id="piechart" style="position:absolute; margin: 20px 0 0 800px;"></div>
-    <div id="barchart" style="position:absolute; margin: 20px 0 0 100px;"></div>
-    <div class="RectangleFooter1" style="position:absolute; margin: 450px 0 0 0"></div>
 </html>
