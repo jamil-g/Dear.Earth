@@ -83,33 +83,33 @@ namespace ShortReportGen
                     {
                         case 0:
                             severitylevelCategory = "ElipseNoise";
-                            barvalue = (NoiseStrndPercent / 10) * Indices[i];
-                            source = source.Replace("[NoisePieChartValue]", pievalue.ToString());
-                            source = source.Replace("[NoiseBarChartValue]", barvalue.ToString());
+                            barvalue = (NoiseStrndPercent / 10) * Indices[i] * 100;
+                            source = source.Replace("[NoisePieChartValue]", pievalue.ToString("0.##"));
+                            source = source.Replace("[NoiseBarChartValue]", barvalue.ToString("0.##"));
                             break;
                         case 1:
                             severitylevelCategory = "ElipseSoil";
-                            barvalue = (SoilStrndPercent / 10) * Indices[i];
-                            source = source.Replace("[SoilPieChartValue]", pievalue.ToString());
-                            source = source.Replace("[SoilBarChartValue]", barvalue.ToString());
+                            barvalue = (SoilStrndPercent / 10) * Indices[i] * 100;
+                            source = source.Replace("[SoilPieChartValue]", pievalue.ToString("0.##"));
+                            source = source.Replace("[SoilBarChartValue]", barvalue.ToString("0.##"));
                             break;
                         case 2:
                             severitylevelCategory = "ElipseER";
-                            barvalue = (ERPercent / 10) * Indices[i];
-                            source = source.Replace("[ERPieChartValue]", pievalue.ToString());
-                            source = source.Replace("[ERBarChartValue]", barvalue.ToString());
+                            barvalue = (ERPercent / 10) * Indices[i] * 100;
+                            source = source.Replace("[ERPieChartValue]", pievalue.ToString("0.##"));
+                            source = source.Replace("[ERBarChartValue]", barvalue.ToString("0.##"));
                             break;
                         case 3:
                             severitylevelCategory = "ElipseAir";
-                            barvalue = (AirPercent / 10) * Indices[i];
-                            source = source.Replace("[AirChartValue]", pievalue.ToString());
-                            source = source.Replace("[AirBarChartValue]", barvalue.ToString());
+                            barvalue = (AirPercent / 10) * Indices[i] * 100;
+                            source = source.Replace("[AirChartValue]", pievalue.ToString("0.##"));
+                            source = source.Replace("[AirBarChartValue]", barvalue.ToString("0.##"));
                             break;
                         case 4:
                             severitylevelCategory = "ElipseEcology";
-                            barvalue = (Ecology / 10) * Indices[i];
-                            source = source.Replace("[EcologyPieChartValue]", pievalue.ToString());
-                            source = source.Replace("[EcologyBarChartValue]", barvalue.ToString());
+                            barvalue = (Ecology / 10) * Indices[i] * 100;
+                            source = source.Replace("[EcologyPieChartValue]", pievalue.ToString("0.##"));
+                            source = source.Replace("[EcologyBarChartValue]", barvalue.ToString("0.##"));
                             break;
                     }
                     severityFullOldText = c_idkey + "=\"" + severitylevelCategory + severitylevelSuffix + "\" " + c_classkey + "=\"" + c_SevertyEmpty + "\"";
