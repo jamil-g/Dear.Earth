@@ -74,17 +74,18 @@ namespace ExtractOSMMapProd
             return results;
         }
 
-        public List<Results> CalculateIndcies(string tblPrefix, Coordinates coor, double baseValue, string userid, bool allowHistoryTrack, Types type)
+        public List<Results> CalculateIndcies(string tblPrefix, Coordinates coor, double baseValue, string userid, bool allowHistoryTrack, Types type, string EmailRecipients)
         {
             // this function calculate all/part of the attributes indcies by running the PGSQL calculation function
             List<Results> lstResults = null;
-            using (var cmd = new NpgsqlCommand("select CalcIndices (@lon, @lat, @baseValue, @tblprefix, @userid, @trackallow, @attribute);", psqlconn))
+            using (var cmd = new NpgsqlCommand("select CalcIndices (@lon, @lat, @baseValue, @tblprefix, @userid, @EmailRecipients, @trackallow, @attribute);", psqlconn))
             {
                 cmd.Parameters.AddWithValue("lon", coor.lon);
                 cmd.Parameters.AddWithValue("lat", coor.lat);
                 cmd.Parameters.AddWithValue("baseValue", baseValue);
                 cmd.Parameters.AddWithValue("tblprefix", tblPrefix);
                 cmd.Parameters.AddWithValue("userid", userid);
+                cmd.Parameters.AddWithValue("EmailRecipients", EmailRecipients);
                 cmd.Parameters.AddWithValue("trackallow", allowHistoryTrack);
                 cmd.Parameters.AddWithValue("attribute", (int)type);
 

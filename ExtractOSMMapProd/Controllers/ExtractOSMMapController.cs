@@ -129,7 +129,7 @@ namespace ExtractOSMMapProd.Controllers
 
                 // let's calculate the attributes Indcies according to the coordinates location and other parameters
                 dataClass = new SQLDataClass(Connectionstr);
-                List<Results>  lstResults = dataClass.CalculateIndcies(tblprefix, coor, m_BackgroundInterference, ProjectName + StringDot + CustomerName, true, type);
+                List<Results>  lstResults = dataClass.CalculateIndcies(tblprefix, coor, m_BackgroundInterference, ProjectName + StringDot + CustomerName, true, type, Recipients);
                 strContent += ParseData(lstResults);
                 
                 // let's get the address of teh location as a string and add it to the result JSON
