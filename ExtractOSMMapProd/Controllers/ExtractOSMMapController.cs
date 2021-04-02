@@ -76,7 +76,7 @@ namespace ExtractOSMMapProd.Controllers
 
         #region Restful functions
         [HttpGet("byCoordinate")]
-        public JsonStringResult Get(double lon, double lat, double Scale, string CalcType, string Adminpwd, string ReportToken, string ProjectName, string CustomerName, string Recipients, bool DelCalcTables = true)
+        public JsonStringResult Get(double lon, double lat, double Scale, string CalcType, string Adminpwd, string ReportToken, string ProjectName, string CustomerName, string Recipients = "noemailaddr", bool DelCalcTables = true)
         {
             //this function received the WS parameters
             //and extract the osm data according to it
@@ -145,12 +145,15 @@ namespace ExtractOSMMapProd.Controllers
                     dataClass.DeleteTables(tblprefix);
                 }
 
-                // let's calc the total index value and add it to the list
-                Results result = new Results { type = Types.All, category = 6, indexvalue = lstResults.Average(x => x.indexvalue) };
-                lstResults.Add(result);
-                // let's send the shorty report email and update the email send status
-                strContent += StringSeparator + "Email:" + GenerateShortReportAsync(coor, Address, CustomerName, Recipients, lstResults).Result;
-
+                // let's calc the total index value and add it to the list for the short report and send it via email
+                // only if the email recipients address was provided by the WS client
+                if (Recipients != "noemailaddr")
+                {
+                    Results result = new Results { type = Types.All, category = 6, indexvalue = lstResults.Average(x => x.indexvalue) };
+                    lstResults.Add(result);
+                    // let's send the shorty report email and update the email send status
+                    strContent += StringSeparator + "Email:" + GenerateShortReportAsync(coor, Address, CustomerName, Recipients, lstResults).Result;
+                }
                 // ** report code - disabled at this stage **
                 //if (!string.IsNullOrEmpty(ReportToken) && ReportToken == "Report56562")
                 //{
