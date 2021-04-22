@@ -68,6 +68,7 @@ namespace ExtractOSMMapProd.Controllers
         private readonly string StringSeparator = ";";
         private readonly string EmailSender = "report@dera.earth";
         private readonly string Connectionstr = "Server=127.0.0.1;Port=5432;Database=BirdEye;User Id=postgres;Password=ko24k3;";
+        private readonly string googldocurl = "https://docs.google.com/forms/d/e/1FAIpQLSeF3QqtZ-W-3TG7L5HEhhYinCgg-mve7PkWjVkWaT-Ow-wUAA/viewform?usp=sf_link";
         #endregion
 
 
@@ -210,10 +211,11 @@ namespace ExtractOSMMapProd.Controllers
                 EmailInfo EmailInfo = new EmailInfo();
                 EmailInfo.Sender = EmailSender;
                 EmailInfo.Recipients = recipients;
-                EmailInfo.Subject = $"Dear.Earth Indcies report of location: {address} - " + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######");
-                EmailInfo.EmailMsg = $"Dear {customer}, <br><br> Thank you for choosing Dear.Earth to Calculate your environmental Indcies. <br>" +
-                    $"Please find attached the requested information of location: {address} - Coordinates:[" + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######") + "].<br><br>" +
-                    "Best Regards, <br> Dear.Earth Team <br>" +
+                EmailInfo.Subject = $"D.E.R.A report of location: " + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######");
+                EmailInfo.EmailMsg = $"Dear {customer}, <br><br> Thank you for choosing D.E.R.A: Digital Environmental Risk Assessment. Remote environmental risk management system for the real estate sector.. <br>" +
+                    $"Please find attached the requested information of location: {address} - Coordinates:[" + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######") + "].<br>" +
+                    $"We would be grateful if you would kindly answer a short questionnaire about your experience, click <a href = '{googldocurl}'>here</a> if you would like to be first in line to get our full product upon release.<br><br>" +
+                    "Best Regards, <br> D.E.R.A Team <br>" +
                     "<img id=\"CompanyLogo\" title=\"The Company Logo\" src=\"https://www.ager.earth/ExtractOSMMapProd/Markers/DeraEarthSignatureLogo.png\" </img>";
                 EmailInfo.Attachment = report;
                 StmpEmail email = new StmpEmail();
