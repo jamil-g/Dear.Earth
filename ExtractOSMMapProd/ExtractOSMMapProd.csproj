@@ -5,6 +5,7 @@
     <StartupObject></StartupObject>
     <ApplicationIcon />
     <OutputType>WinExe</OutputType>
+   <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
