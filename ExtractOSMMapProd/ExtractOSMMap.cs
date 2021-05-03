@@ -4,6 +4,7 @@ using System.Net;
 using System.Collections.Generic;
 using System.Threading;
 using static ExtractOSMMapProd.Controllers.ExtractOSMMapController;
+using System.Globalization;
 
 namespace ExtractOSMMapProd
 {
@@ -62,7 +63,7 @@ namespace ExtractOSMMapProd
             try
             {
                 // let's add the character "a" to the generated random file name to make it compatible with PGSQL table names rules
-                content = "a" + Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
+                content = "a" + DateTime.Now.ToString("yyyyMMdd_HHmmss", CultureInfo.InvariantCulture);
                 WebClient webClient = new WebClient();
                 // let's concatenate the osm file name full path
                 string OSMFilePath = m_strPath + Path.DirectorySeparatorChar + m_strOutputFolder +
