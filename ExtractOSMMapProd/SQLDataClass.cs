@@ -19,7 +19,8 @@ namespace ExtractOSMMapProd
         }
 
         #region consts members definition
-        private readonly string Connectionstr = "Server=127.0.0.1;Port=5432;Database=BirdEye;User Id=postgres;Password=postgres;";
+        //private readonly string Connectionstr = "Server=127.0.0.1;Port=5432;Database=BirdEye;User Id=postgres;Password=postgres;";
+        private readonly string Connectionstr = "Server=18.132.162.121;Port=5432;Database=Dera;User Id=postgres;Password=postgres;";
         #endregion
 
         #endregion
@@ -74,11 +75,11 @@ namespace ExtractOSMMapProd
             return results;
         }
 
-        public List<Results> CalculateIndcies(string tblPrefix, Coordinates coor, double baseValue, string userid, bool allowHistoryTrack, Types type, string EmailRecipients)
+        public List<Results> CalculateIndcies(string tblPrefix, Coordinates coor, double baseValue, string userid, bool allowHistoryTrack, Types type, string EmailRecipients, string refno)
         {
             // this function calculate all/part of the attributes indcies by running the PGSQL calculation function
             List<Results> lstResults = null;
-            using (var cmd = new NpgsqlCommand("select CalcIndices (@lon, @lat, @baseValue, @tblprefix, @userid, @EmailRecipients, @trackallow, @attribute);", psqlconn))
+            using (var cmd = new NpgsqlCommand("select CalcIndices (@lon, @lat, @baseValue, @tblprefix, @userid, @EmailRecipients, @trackallow, @attribute, @refno);", psqlconn))
             {
                 cmd.Parameters.AddWithValue("lon", coor.lon);
                 cmd.Parameters.AddWithValue("lat", coor.lat);
@@ -88,6 +89,7 @@ namespace ExtractOSMMapProd
                 cmd.Parameters.AddWithValue("EmailRecipients", EmailRecipients);
                 cmd.Parameters.AddWithValue("trackallow", allowHistoryTrack);
                 cmd.Parameters.AddWithValue("attribute", (int)type);
+                cmd.Parameters.AddWithValue("refno", refno);
 
                 // Execute the query and obtain a result set
                 NpgsqlDataReader dataReader = cmd.ExecuteReader();

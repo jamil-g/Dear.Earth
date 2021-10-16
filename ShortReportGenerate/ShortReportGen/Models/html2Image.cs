@@ -29,13 +29,15 @@ namespace ShortReportGen
         public readonly double NoiseStrndPercent = -0.15;
         public readonly string c_SevertyEmpty = "EllipseSevereEmpty";
         public readonly string c_ReportPath = @"C:\OSM\data\Report\Banner\";
+        public readonly string c_ReserevedText = "© 2021 Dera Digital. All rights reserved";
+        public readonly string c_UserConditions = "Please note that the using the current information is at the user own responsibility and subjected to the terms of use.";  
         #endregion
 
         #endregion
 
         #region public methods
 
-        public string CustomizeReport(Coordinates coor, string customername, string address, double[] Indices, string mapfile)
+        public string CustomizeReport(Coordinates coor, string customername, string address, double[] Indices, string mapfile, string refno)
         {
             string source = System.IO.File.ReadAllText("Resources\\HTMLReportTemplate.html");
             try
@@ -49,6 +51,10 @@ namespace ShortReportGen
                 source = source.Replace("[Address]", address);
                 source = source.Replace("[Coordinates]", coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######"));
                 source = source.Replace("[TotalIndex]", Indices[5].ToString("0.#"));
+                source = source.Replace("[RefNumber]", refno);
+                source = source.Replace("[UseConditions]", c_UserConditions);
+                source = source.Replace("[CurrentDateShort]", String.Format("{0:MM/dd//yyyy}", datetime));
+                source = source.Replace("[Reserved Data]", c_ReserevedText);
                 string severitylevel = string.Empty;
                 for (int i = 0; i < 5; i++)
                 {
@@ -84,6 +90,10 @@ namespace ShortReportGen
                         case 0:
                             severitylevelCategory = "ElipseNoise";
                             barvalue = (NoiseStrndPercent / 10) * Indices[i] * 100;
+                            if (barvalue >= 0)
+                                source = source.Replace("[ColorNoise]", pievalue.ToString("Green"));
+                            else
+                                source = source.Replace("[ColorNoise]", pievalue.ToString("Red"));
                             source = source.Replace("[NoisePieChartValue]", pievalue.ToString("0.##"));
                             source = source.Replace("[NoiseBarChartValue]", barvalue.ToString("0.##"));
                             break;
@@ -92,24 +102,41 @@ namespace ShortReportGen
                             barvalue = (SoilStrndPercent / 10) * Indices[i] * 100;
                             source = source.Replace("[SoilPieChartValue]", pievalue.ToString("0.##"));
                             source = source.Replace("[SoilBarChartValue]", barvalue.ToString("0.##"));
+                            if (barvalue >= 0)
+                                source = source.Replace("[ColorSoil]", pievalue.ToString("Green"));
+                            else
+                                source = source.Replace("[ColorSoil]", pievalue.ToString("Red"));
                             break;
                         case 2:
                             severitylevelCategory = "ElipseER";
                             barvalue = (ERPercent / 10) * Indices[i] * 100;
                             source = source.Replace("[ERPieChartValue]", pievalue.ToString("0.##"));
                             source = source.Replace("[ERBarChartValue]", barvalue.ToString("0.##"));
+                            if (barvalue >= 0)
+                                source = source.Replace("[ColorER]", pievalue.ToString("Green"));
+                            else
+                                source = source.Replace("[ColorER]", pievalue.ToString("Red"));
                             break;
                         case 3:
                             severitylevelCategory = "ElipseAir";
                             barvalue = (AirPercent / 10) * Indices[i] * 100;
                             source = source.Replace("[AirChartValue]", pievalue.ToString("0.##"));
                             source = source.Replace("[AirBarChartValue]", barvalue.ToString("0.##"));
+                            if (barvalue >= 0)
+                                source = source.Replace("[ColorAQ]", pievalue.ToString("Green"));
+                            else
+                                source = source.Replace("[ColorAQ]", pievalue.ToString("Red"));
                             break;
                         case 4:
                             severitylevelCategory = "ElipseEcology";
                             barvalue = (Ecology / 10) * Indices[i] * 100;
                             source = source.Replace("[EcologyPieChartValue]", pievalue.ToString("0.##"));
                             source = source.Replace("[EcologyBarChartValue]", barvalue.ToString("0.##"));
+                            if (barvalue >= 0)
+                                source = source.Replace("[ColorEG]", pievalue.ToString("Green"));
+                            else
+                                source = source.Replace("[ColorEG]", pievalue.ToString("Red"));
+                            break;
                             break;
                     }
                     severityFullOldText = c_idkey + "=\"" + severitylevelCategory + severitylevelSuffix + "\" " + c_classkey + "=\"" + c_SevertyEmpty + "\"";
@@ -122,6 +149,10 @@ namespace ShortReportGen
                 source = source.Replace("[Map]", "file:///" + mapfile.Replace(@"\", "/"));
                 string reportfile = c_ReportPath + Path.GetFileNameWithoutExtension (customername + "_" + ((DateTimeOffset)datetime).ToUnixTimeSeconds().ToString()) + c_PngExt;
                 SaveHtmlToImage(source, reportfile);
+                using (StreamWriter outputFile = new StreamWriter(Path.Combine(@"C:\OSM\data\Report\Template\Html", "template.html")))
+                {
+                    outputFile.WriteLine(source);
+                }
                 return (reportfile);
             }
             catch (Exception ex)
@@ -140,10 +171,10 @@ namespace ShortReportGen
                 var jpegSettings = new JpegSettings();
                 jpegSettings.WindowSize = new Size(1443, 1100);
                 jpegSettings.CompressionQuality = 100;
-
+  
                 // let's save HTML page to jpeg image 
                 using (var htmlRenderer = new GcHtmlRenderer(htmlsource))
-                {
+                { 
                     htmlRenderer.RenderToJpeg(exportedfile, jpegSettings);
                 }
                 return exportedfile;

@@ -11,6 +11,7 @@ using ShortReportGen;
 using ShortReportGen.Models;
 using System.Linq;
 using System.Threading.Tasks;
+using shortid;
 //using WordFinadReplaceNet;
 
 namespace ExtractOSMMapProd.Controllers
@@ -54,6 +55,7 @@ namespace ExtractOSMMapProd.Controllers
         #region propoerty members definition
 
         //osm extraction varibales
+        private string m_refno;
         private Coordinates coor;
         private double m_BackgroundInterference;
         private SQLDataClass dataClass;
@@ -67,7 +69,8 @@ namespace ExtractOSMMapProd.Controllers
         private readonly string StringDot = ".";
         private readonly string StringSeparator = ";";
         private readonly string EmailSender = "report@dera.earth";
-        private readonly string Connectionstr = "Server=127.0.0.1;Port=5432;Database=BirdEye;User Id=postgres;Password=ko24k3;";
+        //private readonly string Connectionstr = "Server=127.0.0.1;Port=5432;Database=BirdEye;User Id=postgres;Password=ko24k3;";
+        private readonly string Connectionstr = "Server=18.132.162.121;Port=5432;Database=Dera;User Id=postgres;Password=ko24k3;";
         private readonly string googldocurl = "https://docs.google.com/forms/d/e/1FAIpQLSeF3QqtZ-W-3TG7L5HEhhYinCgg-mve7PkWjVkWaT-Ow-wUAA/viewform?usp=sf_link";
         #endregion
 
@@ -121,16 +124,19 @@ namespace ExtractOSMMapProd.Controllers
                         m_BackgroundInterference = 4;
                         break;
                     default:
-                        m_BackgroundInterference = 0;
+                        m_BackgroundInterference = 18;
                         break;
                 }
 
                 // convert string to enum
                 Types type =((Types)Enum.Parse(typeof(Types), CalcType, true));
 
+                // let generate new GUID as reference number or UUID in postgres lang
+                m_refno = ShortId.Generate(true,false); //Guid.NewGuid();
+
                 // let's calculate the attributes Indcies according to the coordinates location and other parameters
                 dataClass = new SQLDataClass(Connectionstr);
-                List<Results>  lstResults = dataClass.CalculateIndcies(tblprefix, coor, m_BackgroundInterference, ProjectName + StringDot + CustomerName, true, type, Recipients);
+                List<Results>  lstResults = dataClass.CalculateIndcies(tblprefix, coor, m_BackgroundInterference, ProjectName + StringDot + CustomerName, true, type, Recipients, m_refno);
                 strContent += ParseData(lstResults);
                 
                 // let's get the address of teh location as a string and add it to the result JSON
@@ -207,7 +213,7 @@ namespace ExtractOSMMapProd.Controllers
                 Html2Image html2Image = new Html2Image();
                 Html2Image.Coordinates coor = new Html2Image.Coordinates { lon = coord.lon, lat = coord.lat };
                 double[] arr = new double[6] { lstResults[0].indexvalue, lstResults[1].indexvalue, lstResults[2].indexvalue, lstResults[3].indexvalue, lstResults[4].indexvalue, lstResults[5].indexvalue };
-                string report = html2Image.CustomizeReport(coor, customer, address, arr, mapLayoutFile);
+                string report = html2Image.CustomizeReport(coor, customer, address, arr, mapLayoutFile, m_refno);
                 EmailInfo EmailInfo = new EmailInfo();
                 EmailInfo.Sender = EmailSender;
                 EmailInfo.Recipients = recipients;
@@ -216,7 +222,7 @@ namespace ExtractOSMMapProd.Controllers
                     $"Please find attached the requested information of location: {address} - Coordinates:[" + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######") + "].<br>" +
                     $"We would be grateful if you would kindly answer a short questionnaire about your experience, click <a href = '{googldocurl}'>here</a> if you would like to be first in line to get our full product upon release.<br><br>" +
                     "Best Regards, <br> D.E.R.A Team <br>" +
-                    "<img id=\"CompanyLogo\" title=\"The Company Logo\" src=\"https://www.ager.earth/ExtractOSMMapProd/Markers/DeraEarthSignatureLogo.png\" </img>";
+                    "<img id=\"CompanyLogo\" title=\"The Company Logo\" src=\"https://www.dera.earth/ExtractOSMMapProd/Markers/DeraEarthSignatureLogo.png\" </img>";
                 EmailInfo.Attachment = report;
                 StmpEmail email = new StmpEmail();
                 await email.SendEmailAsync(EmailInfo);

@@ -29,7 +29,8 @@ namespace ExtractOSMMapProd
         private string m_OSM2PGSQL_import_Crs = "-E 4326";
         private string m_OSM2PGSQL_import_Table_Prefix_Flag = "--prefix";
         // Database parameters 
-        private string m_OSM2PGSQL_import_Database = "-d BirdEye";
+        private string m_OSM2PGSQL_import_Database = "-d Dera";
+        private string m_OSM2PGSQL_import_Hostname = "-H 18.132.162.121";
         private string m_OSM2PGSQL_import_Database_Username = "-U postgres";
         //private string m_OSM2PGSQL_import_Database_Password = "-W";
 
@@ -135,7 +136,7 @@ namespace ExtractOSMMapProd
 
                 // let's concatenate the osm2pgsql arguments as one string and run the shell proccess
                 string strProccessParam = " " +  m_OSM2PGSQL_import_Flags + " " + m_OSM2PGSQL_import_Crs + " " + m_OSM2PGSQL_import_Table_Prefix_Flag +
-                    " " + tblPrefix + " " + m_OSM2PGSQL_import_Database_Username + " " + m_OSM2PGSQL_import_Database + " " + OSMFilename;
+                    " " + tblPrefix + " " + m_OSM2PGSQL_import_Database_Username + " " + m_OSM2PGSQL_import_Database + " " + m_OSM2PGSQL_import_Hostname + " " + OSMFilename;
                 RunProcess(strProccessPath, m_OSM2PGSQLExec, strProccessParam);
 
                 return (true);

@@ -1,4 +1,5 @@
 ﻿using ShortReportGen.Models;
+using System;
 
 namespace ShortReportGen
 {
@@ -11,8 +12,9 @@ namespace ShortReportGen
             double[] arr = new double[6] { 5.5, 3, 8, 2, 6.5, 3.8 };
             string addrress = "Kabirim 28, Haiafa Israel";
             string customer = "Jamil";
+            string refno = "49399hh";
             string MapFile = "file:///C:/Users/jamil-g/Desktop/map.jpg";
-            string report = html2Image.CustomizeReport(coor, customer, addrress, arr, MapFile);
+            string report = html2Image.CustomizeReport(coor, customer, addrress, arr, MapFile, refno);
             EmailInfo EmailInfo = new EmailInfo();
             EmailInfo.Sender = "report@dera.earth";
             EmailInfo.Recipients = "jamil.garzuzi@gmail.com";

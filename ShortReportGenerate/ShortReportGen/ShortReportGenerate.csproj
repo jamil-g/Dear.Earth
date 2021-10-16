@@ -6,13 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Resources\**" />
-    <EmbeddedResource Remove="Resources\**" />
-    <None Remove="Resources\**" />
+    <None Remove="HTMLReportTemplate.html" />
+    <None Remove="Resources\GENISO.TTF" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="HTMLReportTemplate.html" />
+    <EmbeddedResource Include="Resources\GENISO.TTF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +21,10 @@
     <PackageReference Include="GrapeCity.Documents.Html.Windows.X64" Version="4.0.0.632" />
     <PackageReference Include="GrapeCity.Documents.Imaging" Version="4.0.0.632" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

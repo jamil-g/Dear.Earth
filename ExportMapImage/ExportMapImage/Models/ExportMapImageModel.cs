@@ -22,7 +22,7 @@ namespace OSM.ExportMapImage
             {
                 string exportpath = @"C:\OSM\data\MapExport\Data";
                 string filename = $@"{Guid.NewGuid()}" + ".png";
-                string exporturl = $"https://www.ager.earth/OSM/ExportMap/index.html?lat={lat}&lon={lon}&zoom={zoom}&filename=" + filename + "&format=png";
+                string exporturl = $"https://www.dera.earth/OSM/ExportMap/index.html?lat={lat}&lon={lon}&zoom={zoom}&filename=" + filename + "&format=png";
 
                 //FirefoxOptions fxProfile = new FirefoxOptions();
 

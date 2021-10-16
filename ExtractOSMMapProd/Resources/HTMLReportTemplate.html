@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <title>DERA.EARTH Short Report</title>
-    <link rel="icon" href="https://www.ager.earth/ExtractOSMMapProd/Markers/Dera.Earth.png">
+    <link rel="icon" href="https://www.dera.earth/ExtractOSMMapProd/Markers/Dera.Earth.png">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         // Load google charts
@@ -46,13 +46,13 @@
 
         // Draw the chart and set the chart values
         function drawChart() {
-            var data = google.visualization.arrayToDataTable([
+        var data = google.visualization.arrayToDataTable([
                 ['Index', 'Index Value', { role: "style" }, { role: 'annotation' }],
-                ['Noise', [NoiseBarChartValue], "#1E5C94", [NoiseBarChartValue] + '%'],
-                ['Soil', [SoilBarChartValue], "gold", [SoilBarChartValue]+ '%'],
-                ['Electromagnetic radiadion', [ERBarChartValue], "#4F95D5", [ERBarChartValue]+ '%'],
-                ['Air polloution ', [AirBarChartValue], "#3F6624", [AirBarChartValue]+ '%'],
-                ['Ecology ', [EcologyBarChartValue], "7DB75A", [EcologyBarChartValue]+ '%']
+                ['Noise', [NoiseBarChartValue], "[ColorNoise]", [NoiseBarChartValue] + '%'],
+                ['Soil', [SoilBarChartValue], "[ColorSoil]", [SoilBarChartValue]+ '%'],
+                ['Electromagnetic radiadion', [ERBarChartValue], "[ColorER]", [ERBarChartValue]+ '%'],
+                ['Air Quality ', [AirBarChartValue], "[ColorAQ]", [AirBarChartValue]+ '%'],
+                ['Ecology ', [EcologyBarChartValue], "[ColorEG]", [EcologyBarChartValue]+ '%']
             ]);
 
             // Optional; add a title and set the width and height of the chart
@@ -67,9 +67,46 @@
                 titleTextStyle: {
                     color: '#3b79f2',    // any HTML string color ('red', '#cc00cc')
                     fontName: 'Montserrat', // i.e. 'Times New Roman'
-                    fontSize: 16, // 12, 18 whatever you want (don't specify px)
+                    fontSize: 19, // 12, 18 whatever you want (don't specify px)
                     bold: true,    // true or false
                     italic: false   // true of false
+                },
+                hAxis: {
+                    title: 'Asset Price',
+                    titleTextStyle: {
+                        color: "#3b79f2",
+                        fontSize: 15,
+                        bold: true,
+                        italic: false
+                    },
+                    textStyle: {
+                        color: "Black",
+                        fontSize: 16,
+                        bold: false,
+                        italic: false
+                    }
+                },
+                vAxis: {
+                    title: 'Index',
+                    titleTextStyle: {
+                        color: "#3b79f2",
+                        fontSize: 15,
+                        bold: true,
+                        italic: false
+                    },
+                    textStyle: {
+                        color: "Black",
+                        fontSize: 16,
+                        bold: false,
+                        italic: false
+                    }
+                },
+                annotations: {
+                    alwaysOutside: true,
+                    textStyle: {
+                        fontSize: 16,
+                        auraColor: 'none'
+                    }
                 }
             };
 
@@ -85,13 +122,34 @@
             background-color: rgba(255, 255, 255, 0.93);
         }
 
-        .DocTitleStyle {
+       .DocTitleStyle {
             width: 324px;
-            height: 121px;
-            margin: 32px 7px 6px 40px;
-            padding: 18px 116px 9px 52px;
+            height: 30px;
+            margin: 32px 7px 5px 40px;
+            padding: 18px 116px 0px 52px;
             font-family: Montserrat;
             font-size: 36.5px;
+            font-weight: 800;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 0.9;
+            letter-spacing: normal;
+            text-align: left;
+            color: #3b79f2;
+            border: none;
+            background-color: transparent;
+            resize: none;
+            outline: none;
+            overflow: hidden;
+        }
+		
+		.DocSubTitleStyle {
+            width: 324px;
+            height: 50px;
+            margin: 0px 7px 6px 40px;
+            padding: 0px 116px 9px 52px;
+            font-family: Montserrat;
+            font-size: 30.5px;
             font-weight: 800;
             font-stretch: normal;
             font-style: normal;
@@ -113,6 +171,27 @@
             padding: 0 0 60px;
             //border-style: solid;
             //border-width: 1px;
+        }
+
+        .UseConditionsStyles {
+            width: 330px;
+            height: 21px;
+            margin: 6px 0px 6px 40px;
+            padding: 18px 0 9px 52px;
+            font-family: Montserrat;
+            font-size: 13px;
+			font-weight: bold;
+            font-stretch: normal;
+            font-style: italic;
+            line-height: 1.19;
+            letter-spacing: 0.11px;
+            text-align: left;
+            color: Black;
+			border: none;
+            background-color: transparent;
+            resize: none;
+            outline: none;
+            overflow: hidden;
         }
 
         .DateTitleStyle {
@@ -148,10 +227,19 @@
         }
 
         .DateTitleStyle-text-style-1 {
+			font-size: 14px;
             width: 20px;
-            margin: 6px 118px 6px 0;
+            margin: 6px 35px 6px 22px;
             font-weight: normal;
         }
+
+        .DateTitleStyle-text-style-2 {
+			font-size: 14px;
+            width: 20px;
+            margin: 16px 2px 6px 0;
+            font-weight: normal;
+        }
+
 
         .DataBubble {
             border-radius: 40px;
@@ -202,7 +290,8 @@
             text-align: center;
             color: #9d9999;
             border: none;
-            background-color: transparent; //rgba(245, 245, 245, 0.8);
+            background-color: transparent;
+            //rgba(245, 245, 245, 0.8);
             resize: none;
             outline: none;
             overflow: hidden;
@@ -233,7 +322,8 @@
             color: #0062ff;
             border: none;
             text-align: center;
-            background-color: transparent; //rgba(245, 245, 245, 0.8);
+            background-color: transparent;
+            //rgba(245, 245, 245, 0.8);
             resize: none;
             outline: none;
             overflow: hidden;
@@ -241,11 +331,11 @@
         }
 
         .CoordinatesContentStyle1 {
-            width: 300px;
-            height: 15px;
-            margin: 0 0 0 110px;
+            width: 370px;
+            height: 20px;
+            margin: 0 0 0 80px;
             font-family: Montserrat;
-            font-size: 14px;
+            font-size: 18px;
             font-weight: bold;
             font-stretch: normal;
             font-style: normal;
@@ -262,17 +352,17 @@
         }
 
         .ChartInfo {
-			position:absolute;
+            position: absolute;
             width: 350px;
             height: 200px;
-            margin: 920px 0 0 150px;
+            margin: 950px 0 0 150px;
             font-family: Montserrat;
             font-size: 14px;
             font-weight: bold;
             font-stretch: normal;
             font-style: normal;
             line-height: 1.23;
-			text-align: left;
+            text-align: left;
             letter-spacing: normal;
             color: #3b79f2;
             border: none;
@@ -281,6 +371,27 @@
             outline: none;
             overflow: hidden;
             display: block;
+        }
+
+        .DeraCreditsInfo {
+            width: 300px;
+            height: 20px;
+            font-family: Montserrat;
+            font-size: 14px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.23;
+			text-align: left;
+            letter-spacing: normal;
+            color: black;
+            border: none;
+            background-color: transparent;
+            resize: none;
+            outline: none;
+            overflow: hidden;
+            display: block;
+			z-index : 10;
         }
 
         .MapCreditsInfo {
@@ -293,7 +404,7 @@
             font-stretch: normal;
             font-style: normal;
             line-height: 1.23;
-			text-align: left;
+            text-align: left;
             letter-spacing: normal;
             color: #3b79f2;
             border: none;
@@ -314,12 +425,12 @@
             background-image: linear-gradient(to bottom, #8ee2db, #e3e3e3);
         }
 
-        .Environmental-RAI-Label {
+       .Environmental-RAI-Label {
             width: 189px;
             height: 30px;
-            margin: 0 10px 0 15px;
+            margin: 0 10px 0 25px;
             font-family: Montserrat;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: bold;
             font-stretch: normal;
             font-style: normal;
@@ -360,7 +471,7 @@
             position: absolute;
             width: 1443px; /*width of your image*/
             height: 20px; /*height of your image*/
-            background-image: url('file:///C:/Users/Administrator/source/repos/Dear.Earth/ExtractOSMMapProd/Resources/Footer.png');
+            background-image: url('file:///C:/OSM/Data/Resources/Footer.png');
             margin: 0px; /* If you want no margin */
             padding: 0; /*if your want to padding */
         }
@@ -369,14 +480,14 @@
             position: absolute;
             width: 1443px; /*width of your image*/
             height: 79px; /*height of your image*/
-            background-image: url('file:///C:/Users/Administrator/source/repos/Dear.Earth/ExtractOSMMapProd/Resources/Footer1.png');
+            background-image: url('file:///C:/OSM/Data/Resources//Footer1.png');
             margin: 0px; /* If you want no margin */
             padding: 0; /*if your want to padding */
         }
 
         @font-face {
-            font-family: GENISO;
-            src: url(GENISO.TTF);
+          font-family: GENISO;
+          src: url(GENISO.TTF);
         }
 
         .IndicesTitleStyle {
@@ -399,10 +510,10 @@
             overflow: hidden;
         }
 
-        .SevereTitleStyle {
-            width: 50px;
+        .SevereTitlePosStyle {
+            width: 60px;
             height: 20px;
-            margin: 0px 0px 0px 420px;
+            margin: 0px 0px 0px 310px;
             font-family: GENISO;
             font-size: 16px;
             font-weight: bold;
@@ -419,12 +530,32 @@
             overflow: hidden;
         }
 
-        .NoiseIndexStyle {
+        .SevereTitleNegStyle {
+            width: 60px;
+            height: 20px;
+            margin: 0px 0px 0px 60px;
+            font-family: GENISO;
+            font-size: 16px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 0.5;
+            letter-spacing: normal;
+            text-align: left;
+            color: #000000;
+            border: none;
+            background-color: transparent;
+            resize: none;
+            outline: none;
+            overflow: hidden;
+        }
+
+       .NoiseIndexStyle {
             width: 219px;
-            height: 21px;
+            height: 25px;
             margin: 0px 75px 10px 77px;
             font-family: GENISO;
-            font-size: 21px;
+            font-size: 23px;
             font-weight: bold;
             font-stretch: normal;
             font-style: normal;
@@ -441,10 +572,10 @@
 
         .SoilIndexStyle {
             width: 219px;
-            height: 21px;
-            margin: 10px 75px 10px 77px;
+            height: 55px;
+            margin: 10px 75px 0px 77px;
             font-family: GENISO;
-            font-size: 21px;
+            font-size: 22px;
             font-weight: bold;
             font-stretch: normal;
             font-style: normal;
@@ -461,8 +592,8 @@
 
         .AirIndexStyle {
             width: 219px;
-            height: 21px;
-            margin: 10px 75px 10px 77px;
+            height: 23px;
+            margin: 15px 75px 10px 77px;
             font-family: GENISO;
             font-size: 21px;
             font-weight: bold;
@@ -481,8 +612,8 @@
 
         .ERIndexStyle {
             width: 219px;
-            height: 21px;
-            margin: 10px 75px 10px 77px;
+            height: 23px;
+            margin: 15px 75px 10px 77px;
             font-family: GENISO;
             font-size: 21px;
             font-weight: bold;
@@ -501,8 +632,8 @@
 
         .EcologyIndexStyle {
             width: 219px;
-            height: 21px;
-            margin: 10px 75px 10px 77px;
+            height: 23px;
+            margin: 15px 75px 10px 77px;
             font-family: GENISO;
             font-size: 21px;
             font-weight: bold;
@@ -581,17 +712,27 @@
             <tr>
                 <td style="vertical-align:top">
                     <div>
-                        <img src="https://www.ager.earth/ExtractOSMMapProd/Markers/LogoForReport.png" width="30" height="30" style="position:absolute; margin:50px 0 0 55px;" />
-                        <textarea readonly id="DocTitle" rows="3" class="DocTitleStyle" cols="13">DERA.EARTH Environmental Index
+                        <img src="https://www.dera.earth/ExtractOSMMapProd/Markers/LogoForReport.png" width="30" height="30" style="position:absolute; margin:50px 0 0 55px;" />
+                        <textarea readonly id="DocTitle" rows="3" class="DocTitleStyle" cols="13">DERA.EARTH
+				        </textarea>
+                        <textarea readonly id="DocSubTitle" rows="3" class="DocSubTitleStyle" cols="13">Digital Environmental &#13;&#10;Risk Assessment
 				        </textarea>
                     </div>
-                    <div>
+                    <div style="margin:20px 0px 0px 0px;">
                         <label id="DateTitle" class="DateTitleStyle">Date:</label>
                         <label id="DateLabel" class="DateContentStyle DateTitleStyle-text-style-1">[CurrentDate]</label>
                     </div>
                     <div style="margin:6px 0px 0px 0px;">
                         <label id="CustomerTitle" class="DateTitleStyle">Customer:</label>
-                        <label id="vLabel" class="DateContentStyle DateTitleStyle-text-style-1">[CustomerName]</label>
+                        <label id="CustomerName" class="DateContentStyle DateTitleStyle-text-style-1">[CustomerName]</label>
+                    </div>
+                    <div style="margin:6px 0px 0px 0px;">
+                        <label id="ReferenceNo" class="DateTitleStyle">Reference No.</label>
+                        <label id="RefNumber" class="DateContentStyle DateTitleStyle-text-style-1">[RefNumber]</label>
+                    </div>
+                    <div style="margin:140px 0px 0px 0px;">
+                        <textarea readonly id="Useconditions" rows="3" class="UseConditionsStyles" cols="13">[UseConditions]
+				        </textarea>
                     </div>
                 </td>
                 <td>
@@ -606,59 +747,68 @@
                             </div>
                             <textarea readonly id="CoordinatesContent" rows="1" class="CoordinatesContentStyle">[Coordinates]</textarea>
                             <div class="ButtonRepoert">
+                                <img src="https://www.dera.earth/ExtractOSMMapProd/Markers/LogoForReport.png" width="20" height="20" style="position:absolute; margin:10px 0 0 30px;" />
                                 <textarea readonly id="Environmental-RAI" rows="2" class="Environmental-RAI-Label" cols="13">Environmental Risk Assessment Index
-						</textarea>
+                                </textarea>
                                 <textarea readonly id="Environmental-Index" rows="1" class="Environmental-Index-Val" cols="13">[TotalIndex]
-						</textarea>
+						        </textarea>
+                                <div style="margin:20px 0px 0px 5px;">
+                                    <label id="RefNumber1" class="DateContentStyle DateTitleStyle-text-style-1">[RefNumber]</label>
+                                    <label id="DateLabel1" class="DateContentStyle DateTitleStyle-text-style-2">[CurrentDateShort]</label>
+                                </div>
+                            </div>
                             </div>
                         </div>
                     </div>
                 </td>
-                <td style="vertical-align:top">
-                    <textarea readonly id="IndicesTitle" rows="2" class="IndicesTitleStyle" cols="13">The index for the site, is calculated using the following parameters:
+    <td style="vertical-align:top">
+        <textarea readonly id="IndicesTitle" rows="2" class="IndicesTitleStyle" cols="13">The index for the site, is calculated using the following parameters:
+		</textarea>
+        <textarea readonly id="SevereTitlePos" rows="1" class="SevereTitlePosStyle" cols="13">Positve
+		</textarea>
+        <textarea readonly id="SevereTitleNew" rows="1" class="SevereTitleNegStyle" cols="13">Negative
+		</textarea>
+        <div id="ElipseNoiseLow" class="EllipseSevereEmpty" style="margin: 5px 0 0 350px"></div>
+        <div id="ElipseNoiseMid" class="EllipseSevereEmpty" style="margin: 5px 0 0 390px"></div>
+        <div id="ElipseNoiseHeigh" class="EllipseSevereEmpty" style="margin: 5px 0 0 430px"></div>
+        <textarea readonly id="NoiseIndex" rows="1" class="NoiseIndexStyle" cols="13">Noise pollution
 			        </textarea>
-                    <textarea readonly id="SevereTitle" rows="1" class="SevereTitleStyle" cols="13">Height
+        <div id="ElipseSoilLow" class="EllipseSevereEmpty" style="margin: 18px 0 0 350px"></div>
+        <div id="ElipseSoilMid" class="EllipseSevereEmpty" style="margin: 18px 0 0 390px"></div>
+        <div id="ElipseSoilHeigh" class="EllipseSevereEmpty" style="margin: 18px 0 0 430px"></div>
+        <textarea readonly id="SoilIndex" rows="1" class="SoilIndexStyle" cols="13">Soil contamination potential
 			        </textarea>
-                    <div id="ElipseNoiseLow" class="EllipseSevereEmpty" style="margin: 5px 0 0 350px"></div>
-                    <div id="ElipseNoiseMid" class="EllipseSevereEmpty" style="margin: 5px 0 0 390px"></div>
-                    <div id="ElipseNoiseHeigh" class="EllipseSevereEmpty" style="margin: 5px 0 0 430px"></div>
-                    <textarea readonly id="NoiseIndex" rows="1" class="NoiseIndexStyle" cols="13">Noise pollution
+        <div id="ElipseERLow" class="EllipseSevereEmpty" style="margin: 18px 0 0 350px"></div>
+        <div id="ElipseERMid" class="EllipseSevereEmpty" style="margin: 18px 0 0 390px"></div>
+        <div id="ElipseERHeigh" class="EllipseSevereEmpty" style="margin: 18px 0 0 430px"></div>
+        <textarea readonly id="ERIndex" rows="1" class="ERIndexStyle" cols="13">Electromagnetic safety
 			        </textarea>
-                    <div id="ElipseSoilLow" class="EllipseSevereEmpty" style="margin: 18px 0 0 350px"></div>
-                    <div id="ElipseSoilMid" class="EllipseSevereEmpty" style="margin: 18px 0 0 390px"></div>
-                    <div id="ElipseSoilHeigh" class="EllipseSevereEmpty" style="margin: 18px 0 0 430px"></div>
-                    <textarea readonly id="SoilIndex" rows="1" class="SoilIndexStyle" cols="13">Soil contamination
-			        </textarea>
-                    <div id="ElipseERLow" class="EllipseSevereEmpty" style="margin: 18px 0 0 350px"></div>
-                    <div id="ElipseERMid" class="EllipseSevereEmpty" style="margin: 18px 0 0 390px"></div>
-                    <div id="ElipseERHeigh" class="EllipseSevereEmpty" style="margin: 18px 0 0 430px"></div>
-                    <textarea readonly id="ERIndex" rows="1" class="ERIndexStyle" cols="13">Electromagnetic radiation
-			        </textarea>
-                    <div id="ElipseAirLow" class="EllipseSevereEmpty" style="margin: 18px 0 0 350px"></div>
-                    <div id="ElipseAirMid" class="EllipseSevereEmpty" style="margin: 18px 0 0 390px"></div>
-                    <div id="ElipseAirHeigh" class="EllipseSevereEmpty" style="margin: 18px 0 0 430px"></div>
-                    <textarea readonly id="AirIndex" rows="1" class="AirIndexStyle" cols="13">Air pollution
-			        </textarea>
-                    <div id="ElipseEcologyLow" class="EllipseSevereEmpty" style="margin: 18px 0 0 350px"></div>
-                    <div id="ElipseEcologyMid" class="EllipseSevereEmpty" style="margin: 18px 0 0 390px"></div>
-                    <div id="ElipseEcologyHeigh" class="EllipseSevereEmpty" style="margin: 18px 0 0 430px"></div>
-                    <textarea readonly id="EcologyIndex" rows="1" class="EcologyIndexStyle" cols="13">Ecology
-			        </textarea>
-                </td>
+        <div id="ElipseAirLow" class="EllipseSevereEmpty" style="margin: 18px 0 0 350px"></div>
+        <div id="ElipseAirMid" class="EllipseSevereEmpty" style="margin: 18px 0 0 390px"></div>
+        <div id="ElipseAirHeigh" class="EllipseSevereEmpty" style="margin: 18px 0 0 430px"></div>
+        <textarea readonly id="AirIndex" rows="1" class="AirIndexStyle" cols="13">Air quality
+		</textarea>
+        <div id="ElipseEcologyLow" class="EllipseSevereEmpty" style="margin: 18px 0 0 350px"></div>
+        <div id="ElipseEcologyMid" class="EllipseSevereEmpty" style="margin: 18px 0 0 390px"></div>
+        <div id="ElipseEcologyHeigh" class="EllipseSevereEmpty" style="margin: 18px 0 0 430px"></div>
+        <textarea readonly id="EcologyIndex" rows="1" class="EcologyIndexStyle" cols="13">Ecological benefits
+		</textarea>
+    </td>
             </tr>
-            <tr>
-                <!--<div id="piechart" style="position:absolute; margin: 470px 0 0 800px;"></div>-->
-                <div>
-                    <div id="barchart" style="position:absolute; margin: 470px 0 0 100px;"></div>
-                    <textarea readonly id="ChartInfo" rows="3" class="ChartInfo">This chart is specific to this test, and calculates the percentage of each environmental impact, on the price of the property being tested</textarea>
-                </div>
-                <div style="width: 500px; height: 420px; position: absolute; margin: 520px 0 0 890px;">
-                    <textarea readonly id="CoordinatesContent" rows="1" class="CoordinatesContentStyle1">Map of the selected area [ [Coordinates] ]</textarea>
-                    <img src="[Map]" class="imageclass" />
-                    <textarea readonly id="MapCredits" rows="1" class="MapCreditsInfo">Source: © OpenStreetMap contributors.</textarea>
-                </div>
-                <div class="RectangleFooter1" style="position:absolute; margin: 980px 0 0 0"></div>
-            </tr>
+    <tr>
+        <!--<div id="piechart" style="position:absolute; margin: 470px 0 0 800px;"></div>-->
+        <div>
+            <div id="barchart" style="position:absolute; margin: 470px 0 0 100px;"></div>
+            <textarea readonly id="ChartInfo" rows="3" class="ChartInfo">This chart is specific to this test, and calculates the percentage of each environmental impact, on the price of the property being tested</textarea>
+        </div>
+        <div style="width: 500px; height: 420px; position: absolute; margin: 520px 0 0 890px;">
+            <textarea readonly id="CoordinatesContent" rows="1" class="CoordinatesContentStyle1">Map of the selected area [ [Coordinates] ]</textarea>
+            <img src="[Map]" class="imageclass" />
+            <textarea readonly id="MapCredits" rows="1" class="MapCreditsInfo">Source: © OpenStreetMap contributors.</textarea>
+        </div>
+        <textarea readonly id="DeraCredits" rows="1" class="DeraCreditsInfo" style="position: absolute; margin: 1065px 0 0 630px">[Reserved Data]</textarea>
+        <div class="RectangleFooter1" style="position:absolute; margin: 1015px 0 0 0"></div>
+    </tr>
         </table>
         <div class="RectangleFooter" style="position:absolute; margin: 0 0 0 0"></div>
     </div>

@@ -32,7 +32,9 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\Footer.png" />
-    <EmbeddedResource Include="Resources\GENISO.TTF" />
+    <EmbeddedResource Include="Resources\GENISO.TTF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\HTMLReportTemplate.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -44,12 +46,19 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
     <PackageReference Include="Npgsql" Version="4.1.5" />
+    <PackageReference Include="shortid" Version="3.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Nominatim.API-master\src\Nominatim.API\Nominatim.API.csproj" />
     <ProjectReference Include="..\ShortReportGenerate\ShortReportGen\ShortReportGenerate.csproj" />
     <ProjectReference Include="..\WordFinadReplaceNet\WordFinadReplaceNet\WordFinadReplaceNet.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="OSM.ExportMapImage">
+      <HintPath>..\..\WordFinadReplaceNet\WordFinadReplaceNet\bin\Debug\OSM.ExportMapImage.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
