@@ -92,7 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\scalebar.png" />
-    <Resource Include="Images\AGER.png" />
     <Resource Include="Images\map.png" />
   </ItemGroup>
   <ItemGroup>
@@ -109,7 +108,11 @@
     <EmbeddedResource Include="Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Navigator.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

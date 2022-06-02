@@ -22,7 +22,7 @@ namespace OSM.ExportMapImage
             {
                 string exportpath = @"C:\OSM\data\MapExport\Data";
                 string filename = $@"{Guid.NewGuid()}" + ".png";
-                string exporturl = $"https://www.ager.earth/OSM/ExportMap/index.html?lat={lat}&lon={lon}&zoom={zoom}&filename=" + filename + "&format=png";
+                string exporturl = $"https://www.dera.earth/OSM/ExportMap/index.html?lat={lat}&lon={lon}&zoom={zoom}&filename=" + filename + "&format=png";
 
                 //FirefoxOptions fxProfile = new FirefoxOptions();
 
@@ -49,18 +49,18 @@ namespace OSM.ExportMapImage
                 driver.Dispose();
 
                 string mapLayoutImage = exportpath + Path.DirectorySeparatorChar + filename;
-                //Image backImg = Image.FromFile(mapLayoutImage);
+                Image backImg = Image.FromFile(mapLayoutImage);
                 //Image NorthImg = Resource.NorthArrow_small; //Image.FromFile("../../images/NorthArrow_small.png");
-                //Image ScaleImg = Resource.scalebar; //Image.FromFile("../../images/scalebar.png");
-                //Image mrkImg = Resource.AGER; //Image.FromFile("../../images/AGER.png");
-                //Graphics g = Graphics.FromImage(backImg);
+                Image ScaleImg = Resource.scalebar; //Image.FromFile("../../images/scalebar.png");
+                Image mrkImg = Resource.Navigator; //Image.FromFile("../../images/AGER.png");
+                Graphics g = Graphics.FromImage(backImg);
                 //g.DrawImage(NorthImg, 0, 0);
-                //g.DrawImage(mrkImg, (backImg.Width / 2) - 23, (backImg.Height / 2) - 104);
-                //g.DrawImage(ScaleImg, backImg.Width - 330, backImg.Height - 40);
-                //string mapLayoutImageNew = Path.ChangeExtension(mapLayoutImage, null);
-                //mapLayoutImageNew += "_new.png";
-                //backImg.Save(mapLayoutImageNew);
-                return mapLayoutImage;
+                g.DrawImage(mrkImg, (backImg.Width / 2) - 23, (backImg.Height / 2) - 104);
+                g.DrawImage(ScaleImg, backImg.Width - 330, backImg.Height - 40);
+                string mapLayoutImageNew = Path.ChangeExtension(mapLayoutImage, null);
+                mapLayoutImageNew += "_new.png";
+                backImg.Save(mapLayoutImageNew);
+                return mapLayoutImageNew;
             }
             catch (Exception e)
             {
