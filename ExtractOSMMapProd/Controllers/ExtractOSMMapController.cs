@@ -12,6 +12,10 @@ using ShortReportGen.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using shortid;
+using ExtractOSMMapProd.Models;
+using System.Data;
+using System.Text;
+using System.Reflection;
 //using WordFinadReplaceNet;
 
 namespace ExtractOSMMapProd.Controllers
@@ -31,17 +35,17 @@ namespace ExtractOSMMapProd.Controllers
 
         public enum Types
         {
-            [Description("All")] 
-            All, 
-            [Description("Noise")] 
-            Noise, 
-            [Description("Soil")] 
-            Soil, 
-            [Description("Radiation")]  
+            [Description("All")]
+            All,
+            [Description("Noise")]
+            Noise,
+            [Description("Soil")]
+            Soil,
+            [Description("Radiation")]
             Radiation,
             [Description("Air Quality")]
-            AirQuality, 
-            [Description("Ecology")] 
+            AirQuality,
+            [Description("Ecology")]
             Ecology
         }
 
@@ -62,6 +66,7 @@ namespace ExtractOSMMapProd.Controllers
         private string tblprefix = string.Empty;
         private ILoggerFactory loggerFactory = null;
         private ILogger<ExtractOSMMapController> m_logger;
+        List<string> listString = new List<string> { "_point", "_line", "_polygon" };
         #endregion
 
 
@@ -79,15 +84,15 @@ namespace ExtractOSMMapProd.Controllers
 
 
         #region Restful functions
-        [HttpGet("byCoordinate")]
-        public JsonStringResult Get(double lon, double lat, double Scale, string CalcType, string Adminpwd, string ReportToken, string ProjectName, string CustomerName, string Recipients = "noemailaddr", bool DelCalcTables = true)
-        {
+        [HttpGet("GetRawData")]
+        public JsonStringResult Get(double lon, double lat, double Scale, string CalcType, bool DelCalcTables = true)
+        { 
             //this function received the WS parameters
             //and extract the osm data according to it
-
+            //and return the result per category as a raw data
 
             // let's avoid low scale calculation and quit the calculation with an alert message
-            if (Scale > 0.5)
+            if (Scale > 1000)
             {
                 return new JsonStringResult(ExtractOSMMapProdProd.Properties.Resources.BigScale);
             }
@@ -99,34 +104,70 @@ namespace ExtractOSMMapProd.Controllers
                 initLogger();
 
                 // let's extract the osm data and insert it to the PGSQL DB as tables
-                ExtractOSMMap OSMData = new ExtractOSMMap();
-                tblprefix = OSMData.OsmFileDownload(lon, lat, Scale);
-               
-                // let's get set background rank according to the coordinates geocoding (coordinates in a city, suburb, village and etc)
-                GeoCodingServices service = new GeoCodingServices();
-                int Rank = service.GetCityRank(coor.lon, coor.lat);
+                tblprefix = GetDataFromOSM(coor);
 
-                switch (Rank)
+                // let's get set background rank according to the coordinates geocoding (coordinates in a city, suburb, village and etc)
+                m_BackgroundInterference = GetBackgroundRank(coor);
+
+                dataClass = new SQLDataClass(Connectionstr);
+                List<Attributes> attribLst = new List<Attributes>();
+                attribLst = dataClass.LoadAttributes(dataClass.LoadCategory(Convert.ToString(CalcType)));
+
+                List<CalcResults> resultsLst = new List<CalcResults>();
+                foreach (Attributes item in attribLst)
                 {
-                    case 1:
-                        m_BackgroundInterference = 36;
-                        break;
-                    case 2:
-                        m_BackgroundInterference = 20;
-                        break;
-                    case 3:
-                        m_BackgroundInterference = 15;
-                        break;
-                    case 4:
-                        m_BackgroundInterference = 8;
-                        break;
-                    case 5:
-                        m_BackgroundInterference = 4;
-                        break;
-                    default:
-                        m_BackgroundInterference = 18;
-                        break;
+                    List<CalcResults> resultsLstTemp = dataClass.Getdata(tblprefix + listString[0], item, m_BackgroundInterference, coor);
+                    if (resultsLstTemp != null)
+                        resultsLst.AddRange(resultsLstTemp);
+                    resultsLstTemp = dataClass.Getdata(tblprefix + listString[1], item, m_BackgroundInterference, coor);
+                    if (resultsLstTemp != null)
+                        resultsLst.AddRange(resultsLstTemp);
+                    resultsLstTemp = dataClass.Getdata(tblprefix + listString[2], item, m_BackgroundInterference, coor);
+                    if (resultsLstTemp != null)
+                        resultsLst.AddRange(resultsLstTemp);
                 }
+
+                strContent = ConvertAttributesListtoTable(attribLst);
+                strContent += ConvertResultListtoTable(resultsLst);
+               
+
+                if (DelCalcTables)
+                {
+                    dataClass.DeleteTables(tblprefix);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                strContent = ex.Message;
+            }
+         return new JsonStringResult(strContent);
+        }
+
+        [HttpGet("byCoordinate")]
+        public JsonStringResult Get(double lon, double lat, double Scale, string CalcType, string Adminpwd, string ReportToken, string ProjectName, string CustomerName, string Recipients = "noemailaddr", bool DelCalcTables = true)
+        {
+            //this function received the WS parameters
+            //and extract the osm data according to it
+
+
+            // let's avoid low scale calculation and quit the calculation with an alert message
+            if (Scale > 1000)
+            {
+                return new JsonStringResult(ExtractOSMMapProdProd.Properties.Resources.BigScale);
+            }
+
+            coor = new Coordinates() { lon = lon, lat = lat, zoomLevel = Scale };
+            string strContent = string.Empty;
+            try
+            {
+                initLogger();
+
+                // let's extract the osm data and insert it to the PGSQL DB as tables
+                tblprefix = GetDataFromOSM(coor);
+
+                // let's get set background rank according to the coordinates geocoding (coordinates in a city, suburb, village and etc)
+                m_BackgroundInterference = GetBackgroundRank(coor);
 
                 // convert string to enum
                 Types type =((Types)Enum.Parse(typeof(Types), CalcType, true));
@@ -159,7 +200,7 @@ namespace ExtractOSMMapProd.Controllers
                     Results result = new Results { type = Types.All, category = 6, indexvalue = lstResults.Average(x => x.indexvalue) };
                     lstResults.Add(result);
                     // let's send the shorty report email and update the email send status
-                    strContent += StringSeparator + "Email:" + GenerateShortReportAsync(coor, Address, CustomerName, Recipients, lstResults).Result;
+                    strContent += StringSeparator + "Email:" + GenerateShortReportAsync(coor, Address, CustomerName, ProjectName, Recipients, lstResults).Result;
                 }
                 // ** report code - disabled at this stage **
                 //if (!string.IsNullOrEmpty(ReportToken) && ReportToken == "Report56562")
@@ -201,19 +242,21 @@ namespace ExtractOSMMapProd.Controllers
             m_logger = loggerFactory.CreateLogger<ExtractOSMMapController>(); ;
         }
 
-        private async Task<string> GenerateShortReportAsync(Coordinates coord, string address, string customer, string recipients, List<Results> lstResults)
+        private async Task<string> GenerateShortReportAsync(Coordinates coord, string address, string customer, string project, string recipients, List<Results> lstResults)
         {
             string content = string.Empty;
             try
             {
                 // let's export the map to add it to the short report in zoom level const 17
-                ExportMapImage exportmap = new ExportMapImage();
-                string mapLayoutFile = exportmap.ExportImage(coord.lon, coord.lat, 17);
+                
+                // will had change the use of map export with google maps api instead
+                //ExportMapImage exportmap = new ExportMapImage();
+                string mapLayoutFile = string.Empty;//exportmap.ExportImage(coord.lon, coord.lat, 17);
 
                 Html2Image html2Image = new Html2Image();
                 Html2Image.Coordinates coor = new Html2Image.Coordinates { lon = coord.lon, lat = coord.lat };
                 double[] arr = new double[6] { lstResults[0].indexvalue, lstResults[1].indexvalue, lstResults[2].indexvalue, lstResults[3].indexvalue, lstResults[4].indexvalue, lstResults[5].indexvalue };
-                string report = html2Image.CustomizeReport(coor, customer, address, arr, mapLayoutFile, m_refno);
+                string report = html2Image.CustomizeReport(coor, customer, project, address, arr, mapLayoutFile, m_refno);
                 EmailInfo EmailInfo = new EmailInfo();
                 EmailInfo.Sender = EmailSender;
                 EmailInfo.Recipients = recipients;
@@ -285,7 +328,165 @@ namespace ExtractOSMMapProd.Controllers
             }
             return content;
         }
+
+        private string GetDataFromOSM(Coordinates coor)
+        {
+            try
+            {
+                // let's extract the osm data and insert it to the PGSQL DB as tables
+                ExtractOSMMap OSMData = new ExtractOSMMap();
+                tblprefix = OSMData.OsmFileDownload(coor.lon, coor.lat, coor.zoomLevel);
+                return tblprefix;
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+        }
+
+        private int GetBackgroundRank(Coordinates coor)
+        {
+            // let's get set background rank according to the coordinates geocoding (coordinates in a city, suburb, village and etc)
+            try
+            {
+                GeoCodingServices service = new GeoCodingServices();
+                int Rank = service.GetCityRank(coor.lon, coor.lat);
+                int BackgroundRank = 0;
+                switch (Rank)
+                {
+                    case 1:
+                        BackgroundRank = 36;
+                        break;
+                    case 2:
+                        BackgroundRank = 20;
+                        break;
+                    case 3:
+                        BackgroundRank = 15;
+                        break;
+                    case 4:
+                        BackgroundRank = 8;
+                        break;
+                    case 5:
+                        BackgroundRank = 4;
+                        break;
+                    default:
+                        BackgroundRank = 18;
+                        break;
+                }
+                return BackgroundRank;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+
+
+        private string ConvertResultListtoTable (List<CalcResults> lst)
+        {
+            DataTable DT = new DataTable();
+
+            PropertyInfo[] properties = typeof(CalcResults).GetProperties();
+            foreach (PropertyInfo property in properties)
+            {
+                DT.Columns.Add(property.Name, property.PropertyType);
+            }
+
+            foreach (CalcResults item in lst)
+            {
+                DataRow row;
+                row = DT.NewRow();
+                foreach (PropertyInfo property in properties)
+                {
+                    row[property.Name] = property.GetValue(item);
+                }
+                DT.Rows.Add(row);
+            }
+
+            return ConvertDataTableToString(DT);
+        }
+
+        private string ConvertAttributesListtoTable(List<Attributes> lst)
+        {
+            DataTable DT = new DataTable();
+
+            PropertyInfo[] properties = typeof(Attributes).GetProperties();
+            foreach (PropertyInfo property in properties)
+            {
+                DT.Columns.Add(property.Name, property.PropertyType);
+            }
+
+            foreach (Attributes item in lst)
+            {
+                DataRow row;
+                row = DT.NewRow();
+                foreach (PropertyInfo property in properties)
+                {
+                    row[property.Name] = property.GetValue(item);
+                }
+                DT.Rows.Add(row);
+            }
+
+            return ConvertDataTableToString(DT);
+        }
+        private string ConvertDataTableToString(DataTable dataTable)
+        {
+            var output = new StringBuilder();
+
+            var columnsWidths = new int[dataTable.Columns.Count];
+
+            // Get column widths
+            foreach (DataRow row in dataTable.Rows)
+            {
+                for (int i = 0; i < dataTable.Columns.Count; i++)
+                {
+                    var length = row[i].ToString().Length;
+                    if (columnsWidths[i] < length)
+                        columnsWidths[i] = length;
+                }
+            }
+
+            // Get Column Titles
+            for (int i = 0; i < dataTable.Columns.Count; i++)
+            {
+                var length = dataTable.Columns[i].ColumnName.Length;
+                if (columnsWidths[i] < length)
+                    columnsWidths[i] = length;
+            }
+
+            // Write Column titles
+            for (int i = 0; i < dataTable.Columns.Count; i++)
+            {
+                var text = dataTable.Columns[i].ColumnName;
+                if (i>0)
+                    output.Append("," + PadCenter(text, columnsWidths[i] + 2));
+                else
+                    output.Append(PadCenter(text, columnsWidths[i] + 2));
+            }
+            output.Append("\n");
+
+            // Write Rows
+            foreach (DataRow row in dataTable.Rows)
+            {
+                for (int i = 0; i < dataTable.Columns.Count; i++)
+                {
+                    var text = row[i].ToString();
+                    if (i > 0)
+                        output.Append("," + PadCenter(text, columnsWidths[i] + 2));
+                    else
+                        output.Append(PadCenter(text, columnsWidths[i] + 2));
+                }
+                output.Append("\n");
+            }
+            return output.ToString();
+        }
+
+        private string PadCenter(string text, int maxLength)
+        {
+            int diff = maxLength - text.Length;
+            return new string(' ', diff / 2) + text + new string(' ', (int)(diff / 2.0 + 0.5));
+        }
         #endregion
     }
-}
+    }
 

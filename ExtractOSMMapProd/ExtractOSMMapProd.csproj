@@ -57,7 +57,7 @@
 
   <ItemGroup>
     <Reference Include="OSM.ExportMapImage">
-      <HintPath>..\..\WordFinadReplaceNet\WordFinadReplaceNet\bin\Debug\OSM.ExportMapImage.dll</HintPath>
+      <HintPath>..\ExportMapImage\ExportMapImage\bin\x64\Release\OSM.ExportMapImage.dll</HintPath>
     </Reference>
   </ItemGroup>
 

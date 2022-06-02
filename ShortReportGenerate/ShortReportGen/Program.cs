@@ -8,13 +8,14 @@ namespace ShortReportGen
         static void Main(string[] args)
         {
             Html2Image html2Image = new Html2Image();
-            Html2Image.Coordinates coor = new Html2Image.Coordinates { lat = 32.33344, lon = 34.324322};
+            Html2Image.Coordinates coor = new Html2Image.Coordinates {lat = 32.804771, lon = 34.973730};
             double[] arr = new double[6] { 5.5, 3, 8, 2, 6.5, 3.8 };
             string addrress = "Kabirim 28, Haiafa Israel";
             string customer = "Jamil";
+            string Project = "Test";
             string refno = "49399hh";
-            string MapFile = "file:///C:/Users/jamil-g/Desktop/map.jpg";
-            string report = html2Image.CustomizeReport(coor, customer, addrress, arr, MapFile, refno);
+            string MapFile = ""; //"file:///C:/Users/jamil-g/Desktop/map.jpg";
+            string report = html2Image.CustomizeReport(coor, customer, Project, addrress, arr, MapFile, refno);
             EmailInfo EmailInfo = new EmailInfo();
             EmailInfo.Sender = "report@dera.earth";
             EmailInfo.Recipients = "jamil.garzuzi@gmail.com";
