@@ -40,7 +40,7 @@ namespace ShortReportGen
         #region consts members definition
         public readonly string c_idkey = "id";
         public readonly string c_classkey = "class";
-        public readonly string c_PngExt = ".jpg";
+        public readonly string c_PngExt = ".png";
         public readonly double Ecology = 0.15;
         public readonly double ERPercent = -0.08;
         public readonly double AirPercent = -0.06;
@@ -256,14 +256,15 @@ namespace ShortReportGen
             try
             {
                 // let's configure image settings
-                var jpegSettings = new JpegSettings();
+                var jpegSettings = new PngSettings();
                 jpegSettings.WindowSize = new Size(1500, 1100);
-                jpegSettings.CompressionQuality = 100;
+               //jpegSettings.CompressionQuality = 500;
   
                 // let's save HTML page to jpeg image 
                 using (var htmlRenderer = new GcHtmlRenderer(htmlsource))
-                { 
-                    htmlRenderer.RenderToJpeg(exportedfile, jpegSettings);
+                {
+                    htmlRenderer.VirtualTimeBudget = 3000;
+                    htmlRenderer.RenderToPng(exportedfile, jpegSettings);
                 }
                 return exportedfile;
             }
