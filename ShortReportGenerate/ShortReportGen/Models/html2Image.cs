@@ -46,7 +46,7 @@ namespace ShortReportGen
         public readonly double AirPercent = -0.06;
         public readonly double SoilStrndPercent = -0.16;
         public readonly double NoiseStrndPercent = -0.15;
-        public readonly string c_CurrentStyle = "\" style=\"background-color:Grey;";
+        public readonly string c_CurrentStyle = "\" style=\"background-color:#F2F3F4;";
         public readonly string c_SevertyEmpty = "EllipseSevereEmpty";
         public readonly string c_ReportPath = @"C:\OSM\data\Report\Banner\";
         public readonly string c_ReserevedText = "© 2021 Dera Digital. All rights reserved";
@@ -67,8 +67,22 @@ namespace ShortReportGen
                 Image ScaleEstateImg = Resource.EstateScaleBar; 
                 Image mrkImg = Resource.EstateIndicator;
                 string strIndicator = Math.Round(index,0).ToString() + "%";
+                // if the index value is great than 0 let's add the + sign to the number string value
+                if (Math.Sign(index) > 0)
+                {
+                    strIndicator = "+" + strIndicator;
+                }
+
                 PointF indicatorTextLocation = new PointF(20f, 25f);
 
+                // if the index value includes 2 digits let's move the number location to the right so it in
+                //  fits better the circle.
+                if (Math.Abs(index)>=10)
+                {
+                    indicatorTextLocation = new PointF(15f, 25f);
+                }
+
+                // let's add the index to the curcle graphic
                 using (Graphics graphics = Graphics.FromImage(mrkImg))
                 {
                     using (Font txtFont = new Font("Britannic Bold", 14))
@@ -77,6 +91,8 @@ namespace ShortReportGen
                     }
                 }
 
+                // let's calculate and locate the graphic circle with the index in the correct location 
+                // along the Y axis according to the index value
                 using (Graphics graphics = Graphics.FromImage(ScaleEstateImg))
                 {
                     int factor = 11;
