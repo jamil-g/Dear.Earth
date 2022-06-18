@@ -19,6 +19,13 @@ namespace ShortReportGen
             public double lat;
         }
 
+        public struct Sites
+        {
+            public string siteName;
+            public float index;
+            public string style;
+        }
+
         public enum Types
         {
             [Description("Noise")]
@@ -117,6 +124,32 @@ namespace ShortReportGen
             string source = System.IO.File.ReadAllText("Resources\\HTMLReportTemplate.html");
             try
             {
+                // let's add the information of the compared sites indices in a List
+                // this table should be created and moved to DB to allow a flexible data modifying
+                List<Sites> lstSites = new List<Sites>
+                {
+                    new Sites {siteName = "'Taj Mahal'", index=9.0f, style="'color:#0096FF'"},
+                    new Sites {siteName = "'Empire state'", index=7.4f, style="'color:#0096FF'"},
+                    new Sites {siteName = "'Niagara Falls'", index=8.6f, style="'color:#0096FF'"},
+                    new Sites {siteName = "'Shanghai Center'", index=7.4f, style="'color:#0096FF'"},
+                    new Sites {siteName = "'Luanda Center'", index=6.6f, style="'color:#0096FF'"}
+                };
+                
+                // add the current location index
+                Sites site = new Sites { siteName = "'You'", index = (float)Math.Round(Indices[5],1), style = "'red'" };
+                lstSites.Add(site);
+
+                // sort the list by the index
+                List<Sites> listSitesOrd =  lstSites.OrderBy(s => s.index).ToList();
+
+                // lte's compose the string that match the google chart bar rows format
+                string siteComp = string.Empty;
+                foreach (var item in listSitesOrd)
+                {
+                    siteComp += "[" + item.siteName + "," + item.index + "," + item.style + "]\n,";
+                }
+                siteComp = siteComp.Substring(0, siteComp.Length - 1);
+
                 double indicesAvg = Indices.Take(5).Average();
                 double indicesSum = Indices.Take(5).Sum();
 
@@ -131,6 +164,7 @@ namespace ShortReportGen
                 source = source.Replace("[UseConditions]", c_UserConditions);
                 source = source.Replace("[CurrentDateShort]", String.Format("{0:MM/dd//yyyy}", datetime));
                 source = source.Replace("[Reserved Data]", c_ReserevedText);
+                source = source.Replace("[sitesComp]", siteComp);
                 source = source.Replace("[ApiKey]", c_GoogleMapsAPIKey);
                 string severitylevel = string.Empty;
                 string severityColor = string.Empty;
@@ -273,7 +307,7 @@ namespace ShortReportGen
             {
                 // let's configure image settings
                 var jpegSettings = new PngSettings();
-                jpegSettings.WindowSize = new Size(1500, 1100);
+                jpegSettings.WindowSize = new Size(1300, 1100);
                //jpegSettings.CompressionQuality = 500;
   
                 // let's save HTML page to jpeg image 

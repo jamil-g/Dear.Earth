@@ -8,10 +8,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/js/fontawesome.min.js"></script>
-
+    <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['corechart']}]}"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <style>
+
+    @font-face {
+        font-family: 'geniso';
+        src: url('file:///C:/OSM/data/Report/Template/Html/geniso.ttf') format('truetype');
+    }
+
     .green-color {
         background: #8fc53c;
     }
@@ -71,6 +77,54 @@
     }
 </style>
 <body>
+    <script type="text/javascript">
+        google.charts.load("current", { packages: ['corechart'] });
+        google.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Location', 'Index', { role: "style" }],
+                [sitesComp]
+            ]);
+
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
+                {
+                    calc: "stringify",
+                    sourceColumn: 1,
+                    type: "string",
+                    role: "annotation"
+                },
+                2]);
+            var options = {
+                title: 'Your Index - Global comparison',
+                legend: 'none',
+                /*chart: {
+                  title: 'Your Index',
+                  legend: 'none'
+                  subtitle: 'Index Value',
+                },*/
+                vAxis: {
+                    viewWindow: {
+                        max: 10,
+                        min: 0
+                    },
+                },
+                hAxis: {
+                    textStyle: {
+                        fontSize: 11, // or the number you want
+                        bold: true,
+                        color: '#63666A'
+                    }
+                },
+                bars: 'vertical', // Required for Material Bar Charts.
+                width: 400,
+                height: 300,
+                chartArea: { 'width': '100%', 'height': '80%' },
+            };
+            var chart = new google.visualization.ColumnChart(document.getElementById('barchart'));
+            chart.draw(view, options);
+        }
+    </script>
     <div class="container-fluid pt-4">
         <div class="row">
             <!-- LOgo and Address -->
@@ -88,7 +142,8 @@
                 </p>
                 <h4 class="col-lg-8 col-md-8 col-sm-12">[Company]</h4>
                 <div class="col-lg-8 col-md-8 col-sm-12">
-                    <textarea name="" id="input" class="form-control" rows="7"></textarea>
+                    <textarea name="" id="input" class="form-control" rows="8"></textarea>
+                    <div id="barchart"></div>
                 </div>
                 <p class="col-lg-8 col-md-8 col-sm-12 font-weight-bold small">[UseConditions]</p>
                 <p class="col-lg-8 col-md-8 col-sm-12 small">[Reserved Data]</p>
@@ -125,35 +180,35 @@
                     </div>
                 </div>
                 <div class="container row top2">
-                    <div class="col-lg-6 col-md-6 col-sm-12 font-weight-bold small">Noise Pollution</div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 font-weight-bold small" style="font-family: 'geniso'; font-size: 16">Noise Pollution</div>
                     <div class="col-lg-6 col-md-6 col-sm-12 row rbtn">
-                        <div class="col-lg-4 col-md-4 col-sm-12"><span class="dot" name="NoiseLow" style="background-color:Grey;"></div>
-                        <div class="col-lg-4 col-md-4 col-sm-12"><span class="dot" name="NoiseMedium" style="background-color:Grey;"></div>
-                        <div class="col-lg-4 col-md-4 col-sm-12"><span class="dot" name="NoiseHeigh" style="background-color:Grey;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12"><span class="dot" name="NoiseHeigh" style="background-color:#F2F3F4;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12"><span class="dot" name="NoiseMedium" style="background-color:#F2F3F4;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12"><span class="dot" name="NoiseLow" style="background-color:#F2F3F4;"></div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12 font-weight-bold small">Soil contamination potential</div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 font-weight-bold small" style="font-family: 'geniso'; font-size: 16">Soil contamination potential</div>
                     <div class="col-lg-6 col-md-6 col-sm-12 row rbtn">
-                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="SoilLow" style="background-color:Grey;"></div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="SoilMedium" style="background-color:Grey;"></div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="SoilHeigh" style="background-color:Grey;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="SoilHeigh" style="background-color:#F2F3F4;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="SoilMedium" style="background-color:#F2F3F4;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="SoilLow" style="background-color:#F2F3F4;"></div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12 font-weight-bold small">Electromagnetic Safety</div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 font-weight-bold small" style="font-family: 'geniso'; font-size: 16">Electromagnetic Safety</div>
                     <div class="col-lg-6 col-md-6 col-sm-12 row rbtn">
-                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="RadiationLow" style="background-color:Grey;"></div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="RadiationMedium" style="background-color:Grey;"></div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="RadiationHeigh" style="background-color:Grey;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="RadiationHeigh" style="background-color:#F2F3F4;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="RadiationMedium" style="background-color:#F2F3F4;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="RadiationLow" style="background-color:#F2F3F4;"></div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12 font-weight-bold small">Air Quality</div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 font-weight-bold small" style="font-family: 'geniso'; font-size: 16">Air Quality</div>
                     <div class="col-lg-6 col-md-6 col-sm-12 row rbtn">
-                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="AirQualityLow" style="background-color:Grey;"></div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="AirQualityMedium" style="background-color:Grey;"></div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="AirQualityHeigh" style="background-color:Grey;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="AirQualityHeigh" style="background-color:#F2F3F4;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="AirQualityMedium" style="background-color:#F2F3F4;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="AirQualityLow" style="background-color:#F2F3F4;"></div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12 font-weight-bold small">Ecological Benefits</div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 font-weight-bold small" style="font-family: 'geniso'; font-size: 16">Ecological Benefits</div>
                     <div class="col-lg-6 col-md-6 col-sm-12 row rbtn">
-                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="EcologyLow" style="background-color:Grey;"></div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="EcologyMedium" style="background-color:Grey;">></div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="EcelogyHeigh" style="background-color:Grey;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="EcelogyHeigh" style="background-color:#F2F3F4;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="EcologyMedium" style="background-color:#F2F3F4;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="EcologyLow" style="background-color:#F2F3F4;"></div>
                     </div>
                 </div>
                 <!-- map -->
