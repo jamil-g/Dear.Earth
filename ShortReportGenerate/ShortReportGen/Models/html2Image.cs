@@ -126,13 +126,14 @@ namespace ShortReportGen
             {
                 // let's add the information of the compared sites indices in a List
                 // this table should be created and moved to DB to allow a flexible data modifying
+                string barColor = "'stroke-color: #000000; stroke-width: 2; fill-color: #FFFFFF'";
                 List<Sites> lstSites = new List<Sites>
-                {
-                    new Sites {siteName = "'Taj Mahal'", index=9.0f, style="'color:#0096FF'"},
-                    new Sites {siteName = "'Empire state'", index=7.4f, style="'color:#0096FF'"},
-                    new Sites {siteName = "'Niagara Falls'", index=8.6f, style="'color:#0096FF'"},
-                    new Sites {siteName = "'Shanghai Center'", index=7.4f, style="'color:#0096FF'"},
-                    new Sites {siteName = "'Luanda Center'", index=6.6f, style="'color:#0096FF'"}
+                { 
+                    new Sites {siteName = "'Taj Mahal'", index=9.0f, style=barColor},
+                    new Sites {siteName = "'Empire state'", index=7.4f, style=barColor},
+                    new Sites {siteName = "'Niagara Falls'", index=8.6f, style=barColor},
+                    new Sites {siteName = "'Shanghai Center'", index=7.4f, style=barColor},
+                    new Sites {siteName = "'Luanda Center'", index=6.6f, style=barColor}
                 };
                 
                 // add the current location index
