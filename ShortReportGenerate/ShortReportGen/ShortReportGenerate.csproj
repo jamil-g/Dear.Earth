@@ -8,25 +8,27 @@
   <ItemGroup>
     <None Remove="HTMLReportTemplate.html" />
     <None Remove="Resources\GENISO.TTF" />
-    <None Remove="Resources\HTMLReportTemplate.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\ExtractOSMMapProd\Resources\HTMLReportTemplate.html" Link="Resources\HTMLReportTemplate.html" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\GENISO.TTF">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\HTMLReportTemplate.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="EO.Pdf" Version="22.1.42" />
     <PackageReference Include="GrapeCity.Documents.Html" Version="4.0.0.632" />
     <PackageReference Include="GrapeCity.Documents.Html.Windows.X64" Version="4.0.0.632" />
     <PackageReference Include="GrapeCity.Documents.Imaging" Version="4.0.0.632" />
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
     <PackageReference Include="System.Resources.Extensions" Version="6.0.0" />
+    <PackageReference Include="Wkhtmltopdf.NetCore" Version="3.0.2" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,6 +7,7 @@ using System.ComponentModel;
 using GrapeCity.Documents.Html;
 using System.Collections.Generic;
 using log4net;
+using GrapeCity.Documents.Pdf;
 
 namespace ShortReportGen
 {
@@ -24,6 +25,7 @@ namespace ShortReportGen
             public string siteName;
             public float index;
             public string style;
+            public string annotation;
         }
 
         public enum Types
@@ -47,7 +49,7 @@ namespace ShortReportGen
         #region consts members definition
         public readonly string c_idkey = "id";
         public readonly string c_classkey = "class";
-        public readonly string c_PngExt = ".png";
+        public readonly string c_PdfExt = ".pdf";
         public readonly double Ecology = 0.15;
         public readonly double ERPercent = -0.08;
         public readonly double AirPercent = -0.06;
@@ -57,7 +59,7 @@ namespace ShortReportGen
         public readonly string c_SevertyEmpty = "EllipseSevereEmpty";
         public readonly string c_ReportPath = @"C:\OSM\data\Report\Banner\";
         public readonly string c_ReserevedText = "© 2021 Dera Digital. All rights reserved";
-        public readonly string c_UserConditions = "Please note that the using the current information is at the user own responsibility and subjected to the &nbsp; <a href='https://www.dera.earth/Terms/TermsOfService.pdf'> terms of use</a>";
+        public readonly string c_UserConditions = "Please note that any use of DERA and its contents is the sole responsibility of the user and subjected to the &nbsp; <a href='https://www.dera.earth/Terms/TermsOfService.pdf'> terms of use</a>";
         public readonly string c_GoogleMapsAPIKey = "AIzaSyC6ztpHBdjfDi0sGmyT62btVTQ2ckAQVjs";
         #endregion
 
@@ -129,15 +131,15 @@ namespace ShortReportGen
                 string barColor = "'stroke-color: #000000; stroke-width: 2; fill-color: #FFFFFF'";
                 List<Sites> lstSites = new List<Sites>
                 { 
-                    new Sites {siteName = "'Taj Mahal'", index=9.0f, style=barColor},
-                    new Sites {siteName = "'Empire state'", index=7.4f, style=barColor},
-                    new Sites {siteName = "'Niagara Falls'", index=8.6f, style=barColor},
-                    new Sites {siteName = "'Shanghai Center'", index=7.4f, style=barColor},
-                    new Sites {siteName = "'Luanda Center'", index=6.6f, style=barColor}
+                    new Sites {siteName = "'Taj Mahal'", index=9.2f, style=barColor, annotation="'9.2'"},
+                    new Sites {siteName = "'Empire State Building'", index=6.6f, style=barColor, annotation="'6.6'"},
+                    new Sites {siteName = "'Niagara Falls'", index=9.1f, style=barColor, annotation="'9.1'"},
+                    new Sites {siteName = "'Shanghai Center'", index=7.4f, style=barColor, annotation="'7.4'"},
+                    new Sites {siteName = "'Pyramids of Giza'", index=8.5f, style=barColor, annotation="'8.5'"}
                 };
                 
                 // add the current location index
-                Sites site = new Sites { siteName = "'You'", index = (float)Math.Round(Indices[5],1), style = "'red'" };
+                Sites site = new Sites { siteName = "''", index = (float)Math.Round(Indices[5],1), style = "'color: #d3d3d3'", annotation="'You'" };
                 lstSites.Add(site);
 
                 // sort the list by the index
@@ -147,12 +149,12 @@ namespace ShortReportGen
                 string siteComp = string.Empty;
                 foreach (var item in listSitesOrd)
                 {
-                    siteComp += "[" + item.siteName + "," + item.index + "," + item.style + "]\n,";
+                    siteComp += "[" + item.siteName + "," + item.index + "," + item.style + "," + item.annotation +  "]\n,";
                 }
                 siteComp = siteComp.Substring(0, siteComp.Length - 1);
 
-                double indicesAvg = Indices.Take(5).Average();
-                double indicesSum = Indices.Take(5).Sum();
+                //double indicesAvg = Indices.Take(5).Average();
+                //double indicesSum = Indices.Take(5).Sum();
 
                 source = source.Replace("[CustomerName]", customername);
                 source = source.Replace("[Company]", project);
@@ -286,7 +288,7 @@ namespace ShortReportGen
                 
                 //  "file:///C:/Users/jamil-g/Desktop/map.jpg"
                 source = source.Replace("[EstateGraph]", "'file:///" + mapfile.Replace(@"\", "/") +"'");
-                string reportfile = c_ReportPath + Path.GetFileNameWithoutExtension (customername + "_" + ((DateTimeOffset)datetime).ToUnixTimeSeconds().ToString()) + c_PngExt;
+                string reportfile = c_ReportPath + Path.GetFileNameWithoutExtension (customername + "_" + ((DateTimeOffset)datetime).ToUnixTimeSeconds().ToString()) + c_PdfExt;
                 SaveHtmlToImage(source, reportfile);
                 using (StreamWriter outputFile = new StreamWriter(Path.Combine(@"C:\OSM\data\Report\Template\Html", "template.html")))
                 {
@@ -306,17 +308,60 @@ namespace ShortReportGen
         {
             try
             {
+
+                //html to pdf
+                /*using (var re = new GcHtmlRenderer(htmlsource))
+                {
+                    //Define parameters for the PDF generator
+                    var pdfSettings = new PdfSettings()
+                    {
+                        // Skip the first page which is basically empty
+                        //PageRanges = "2-100",
+                        // Sets the page width in inches
+                        //PageWidth = 12f,
+                        // Sets the page height in inches
+                        //PageHeight = 11f,
+                        // Sets page margins all around (default is no margins)
+                        //Margins = new Margins(0f),
+                        // Ignores the page size defined by CSS
+                        //IgnoreCSSPageSize = false,
+                        // Use landscape orientation to make sure long code lines are not truncated
+                        Landscape = false,
+                        //Sets the background color of the HTML page
+                        //DefaultBackgroundColor = Color.Azure,
+                        FullPage=true,
+                        //WindowSize = new Size(1300, 800)
+                };
+
+                    //Create a PDF file from the source HTML
+                    re.VirtualTimeBudget = 3000;
+                    re.RenderToPdf(exportedfile, pdfSettings);
+                }*/
+
+
+                //Using A4+ in landscape, note that the width/height values are swapped  
+                EO.Pdf.HtmlToPdf.Options.MinLoadWaitTime = 1000;
+                EO.Pdf.HtmlToPdf.Options.PageSize = new SizeF(17f, 10f);
+                EO.Pdf.HtmlToPdf.ConvertHtml(htmlsource, exportedfile);
+
+
                 // let's configure image settings
-                var jpegSettings = new PngSettings();
-                jpegSettings.WindowSize = new Size(1300, 1100);
-               //jpegSettings.CompressionQuality = 500;
-  
+                //var jpegSettings = new PngSettings();
+                //jpegSettings.WindowSize = new Size(1300, 800);
+                //jpegSettings.CompressionQuality = 500;
+
                 // let's save HTML page to jpeg image 
-                using (var htmlRenderer = new GcHtmlRenderer(htmlsource))
+                /*using (var htmlRenderer = new GcHtmlRenderer(htmlsource))
                 {
                     htmlRenderer.VirtualTimeBudget = 3000;
-                    htmlRenderer.RenderToPng(exportedfile, jpegSettings);
-                }
+                    //htmlRenderer.RenderToPng(exportedfile, jpegSettings);
+                    string filePath = exportedfile;
+                    using (FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                    {
+                        htmlRenderer.RenderToPdf(fs, pdfSettings);
+                    }
+
+                }*/
                 return exportedfile;
             }
             catch (Exception ex)

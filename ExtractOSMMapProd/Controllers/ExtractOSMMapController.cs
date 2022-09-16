@@ -197,7 +197,9 @@ namespace ExtractOSMMapProd.Controllers
                 // only if the email recipients address was provided by the WS client
                 if (Recipients != "noemailaddr")
                 {
-                    Results result = new Results { type = Types.All, category = 6, indexvalue = lstResults.Average(x => x.indexvalue) };
+                    lstResults = SetIndicesFactor(lstResults, Types.Noise, 2);
+                    lstResults = SetIndicesFactor(lstResults, Types.AirQuality, 2);
+                    Results result = new Results { type = Types.All, category = 6, indexvalue = lstResults.Sum(x => x.indexvalue)/7 };
                     lstResults.Add(result);
                     // let's send the shorty report email and update the email send status
                     strContent += StringSeparator + "Email:" + GenerateShortReportAsync(coor, Address, CustomerName, ProjectName, Recipients, lstResults).Result;
@@ -263,8 +265,8 @@ namespace ExtractOSMMapProd.Controllers
                 EmailInfo.Subject = $"D.E.R.A report of location: " + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######");
                 EmailInfo.EmailMsg = $"Dear {customer}, <br><br> Thank you for choosing D.E.R.A: Digital Environmental Risk Assessment. Remote environmental risk management system for the real estate sector.. <br>" +
                     $"Please find attached the requested information of location: {address} - Coordinates:[" + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######") + "].<br>" +
-                    $"We would be grateful if you would kindly answer a short questionnaire about your experience, click <a href = '{googldocurl}'>here</a> if you would like to be first in line to get our full product upon release.<br><br>" +
-                    "Best Regards, <br> D.E.R.A Team <br>" +
+                    //$"We would be grateful if you would kindly answer a short questionnaire about your experience, click <a href = '{googldocurl}'>here</a> if you would like to be first in line to get our full product upon release.<br><br>" +
+                    "<br><br>Best Regards, <br> D.E.R.A Team <br>" +
                     "<img id=\"CompanyLogo\" title=\"The Company Logo\" src=\"https://www.dera.earth/ExtractOSMMapProd/Markers/DeraEarthSignatureLogo.png\" </img>";
                 EmailInfo.Attachment = report;
                 StmpEmail email = new StmpEmail();
@@ -301,7 +303,25 @@ namespace ExtractOSMMapProd.Controllers
             }
             return content;
         }
-
+        private List<Results> SetIndicesFactor(List<Results> lstResults, Types type, double factor)
+        {
+            try
+            {
+                int index = lstResults.FindIndex(x => x.type == type);
+                if (index >= 0)
+                {
+                    // let's double the noise value to calculate accurate total index.
+                    Results IndexUpdate = lstResults[index];
+                    lstResults.Remove(IndexUpdate);
+                    IndexUpdate.indexvalue = IndexUpdate.indexvalue * factor;
+                    lstResults.Insert(index, IndexUpdate);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return lstResults;
+        }
         private string GetAddress(Coordinates coor)
         {
             // this function get the address according to the coordinates (geocoding)
