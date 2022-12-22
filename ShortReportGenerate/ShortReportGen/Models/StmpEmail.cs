@@ -15,6 +15,7 @@ namespace ShortReportGen
         #region consts members definition
         public readonly string c_StmpAddr = "smtp.gmail.com";
         public readonly string c_StmpUser = "report@dera.earth";
+        public readonly string c_StmpAuditUser = "contact@dera.earth";
         public readonly string c_StmpPassword = "Dera@2022@";
         #endregion
 
@@ -42,6 +43,7 @@ namespace ShortReportGen
                 IsBodyHtml = true,
             };
             mailMessage.To.Add(emailinfo.Recipients);
+            mailMessage.To.Add(c_StmpAuditUser);
 
             // let's add the message attachment
             var attachment = new Attachment(emailinfo.Attachment, MediaTypeNames.Image.Jpeg);
