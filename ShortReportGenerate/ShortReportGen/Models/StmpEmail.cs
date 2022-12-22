@@ -15,7 +15,7 @@ namespace ShortReportGen
         #region consts members definition
         public readonly string c_StmpAddr = "smtp.gmail.com";
         public readonly string c_StmpUser = "report@dera.earth";
-        public readonly string c_StmpPassword = "Report@2021";
+        public readonly string c_StmpPassword = "Dera@2022@";
         #endregion
 
         #endregion
