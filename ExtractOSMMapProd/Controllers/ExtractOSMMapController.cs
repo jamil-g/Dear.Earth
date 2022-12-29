@@ -145,7 +145,7 @@ namespace ExtractOSMMapProd.Controllers
         }
 
         [HttpGet("byCoordinate")]
-        public JsonStringResult Get(double lon, double lat, double Scale, string CalcType, string Adminpwd, string ReportToken, string ProjectName, string CustomerName, string Recipients = "noemailaddr", bool DelCalcTables = true)
+        public JsonStringResult Get(double lon, double lat, double Scale, string CalcType, string Adminpwd, string ReportToken, string ProjectName, string CustomerName, string Recipients = "noemailaddr", bool DelCalcTables = true, bool RegHistory = true)
         {
             //this function received the WS parameters
             //and extract the osm data according to it
@@ -177,7 +177,7 @@ namespace ExtractOSMMapProd.Controllers
 
                 // let's calculate the attributes Indcies according to the coordinates location and other parameters
                 dataClass = new SQLDataClass(Connectionstr);
-                List<Results>  lstResults = dataClass.CalculateIndcies(tblprefix, coor, m_BackgroundInterference, ProjectName + StringDot + CustomerName, true, type, Recipients, m_refno);
+                List<Results>  lstResults = dataClass.CalculateIndcies(tblprefix, coor, m_BackgroundInterference, ProjectName + StringDot + CustomerName, RegHistory, type, Recipients, m_refno);
                 strContent += ParseData(lstResults);
                 
                 // let's get the address of teh location as a string and add it to the result JSON
