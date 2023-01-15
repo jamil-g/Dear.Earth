@@ -194,24 +194,49 @@ namespace ShortReportGen
                     //string severityFullOldText = string.Empty;
                     string severitylevelSuffix = string.Empty;
                     //string severitylevelCategory = string.Empty;
-                    if ((Indices[i] >= 0) && (Indices[i] <= 2.5))
+                    if (i < 4)
                     {
-                        severitylevelSuffix = "Low";
-                        severityColor = " style=\"background-color: Red; \"";
-                        //severitylevel = "EllipseSevereLow";
+                        if ((Indices[i] >= 0) && (Indices[i] <= 2.5))
+                        {
+                            severitylevelSuffix = "Low";
+                            severityColor = " style=\"background-color: Red; \"";
+                            //severitylevel = "EllipseSevereLow";
+                        }
+                        else if ((Indices[i] > 2.5) && (Indices[i] <= 7.5))
+                        {
+                            severitylevelSuffix = "Medium";
+                            severityColor = " style=\"background-color: Orange; \"";
+                            //severitylevel = "EllipseSevereMid";
+                        }
+                        else if (Indices[i] > 7.5)
+                        {
+                            severitylevelSuffix = "Heigh";
+                            severityColor = " style=\"background-color: Green; \"";
+                            //severitylevel = "EllipseSevereHigh";
+                        }
                     }
-                    else if ((Indices[i] > 2.5) && (Indices[i] <= 7.5))
+                    else if (i>3)
                     {
-                        severitylevelSuffix = "Medium";
-                        severityColor = " style=\"background-color: Orange; \"";
-                        //severitylevel = "EllipseSevereMid";
+                        if ((Indices[i] >= 0) && (Indices[i] < 1.5))
+                        {
+                            severitylevelSuffix = "Low";
+                            severityColor = " style=\"background-color: Red; \"";
+                            //severitylevel = "EllipseSevereLow";
+                        }
+                        else if ((Indices[i] >= 1.5) && (Indices[i] <= 5.0))
+                        {
+                            severitylevelSuffix = "Medium";
+                            severityColor = " style=\"background-color: Orange; \"";
+                            //severitylevel = "EllipseSevereMid";
+                        }
+                        else if (Indices[i] > 5.0)
+                        {
+                            severitylevelSuffix = "Heigh";
+                            severityColor = " style=\"background-color: Green; \"";
+                            //severitylevel = "EllipseSevereHigh";
+                        }
                     }
-                    else if (Indices[i] > 7.5)
-                    {
-                        severitylevelSuffix = "Heigh";
-                        severityColor = " style=\"background-color: Green; \"";
-                        //severitylevel = "EllipseSevereHigh";
-                    }
+
 
                     switch (i)
                     {
