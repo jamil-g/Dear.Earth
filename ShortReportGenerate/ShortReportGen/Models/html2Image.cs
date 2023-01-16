@@ -223,13 +223,13 @@ namespace ShortReportGen
                             severityColor = " style=\"background-color: Red; \"";
                             //severitylevel = "EllipseSevereLow";
                         }
-                        else if ((Indices[i] >= 1.5) && (Indices[i] <= 5.0))
+                        else if ((Indices[i] >= 1.5) && (Indices[i] <= 4.0))
                         {
                             severitylevelSuffix = "Medium";
                             severityColor = " style=\"background-color: Orange; \"";
                             //severitylevel = "EllipseSevereMid";
                         }
-                        else if (Indices[i] > 5.0)
+                        else if (Indices[i] > 4.0)
                         {
                             severitylevelSuffix = "Heigh";
                             severityColor = " style=\"background-color: Green; \"";
