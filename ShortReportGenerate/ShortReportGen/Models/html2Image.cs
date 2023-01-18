@@ -131,11 +131,12 @@ namespace ShortReportGen
                 string barColor = "'stroke-color: #000000; stroke-width: 2; fill-color: #FFFFFF'";
                 List<Sites> lstSites = new List<Sites>
                 { 
-                    new Sites {siteName = "'Taj Mahal'", index=9.2f, style=barColor, annotation="'9.2'"},
-                    new Sites {siteName = "'Empire State Building'", index=6.6f, style=barColor, annotation="'6.6'"},
-                    new Sites {siteName = "'Niagara Falls'", index=9.1f, style=barColor, annotation="'9.1'"},
-                    new Sites {siteName = "'Shanghai Center'", index=7.4f, style=barColor, annotation="'7.4'"},
-                    new Sites {siteName = "'Pyramids of Giza'", index=8.5f, style=barColor, annotation="'8.5'"}
+                    new Sites {siteName = "'King Cross'", index=3.3f, style=barColor, annotation="'3.3'"},
+                    new Sites {siteName = "'Arc de Triomphe'", index=5.2f, style=barColor, annotation="'5.2'"},
+                    new Sites {siteName = "'Big Ben'", index=6.0f, style=barColor, annotation="'6.0'"},
+                    new Sites {siteName = "'Sistine Chapel'", index=7.4f, style=barColor, annotation="'7.4'"},
+                    new Sites {siteName = "'Burj Khalifa'", index=8.5f, style=barColor, annotation="'8.5'"},
+                    new Sites {siteName = "'Pyramids of Giza'", index=8.5f, style=barColor, annotation="'9.5'"}
                 };
                 
                 // add the current location index
