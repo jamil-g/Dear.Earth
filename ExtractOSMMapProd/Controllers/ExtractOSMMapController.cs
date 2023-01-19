@@ -197,12 +197,13 @@ namespace ExtractOSMMapProd.Controllers
                 // only if the email recipients address was provided by the WS client
                 if (Recipients != "noemailaddr")
                 {
+                    List<Results> orgResultsLst = lstResults;
                     lstResults = SetIndicesFactor(lstResults, Types.Noise, 2);
                     lstResults = SetIndicesFactor(lstResults, Types.AirQuality, 2);
                     Results result = new Results { type = Types.All, category = 6, indexvalue = lstResults.Sum(x => x.indexvalue)/7 };
-                    lstResults.Add(result);
+                    orgResultsLst.Add(result);
                     // let's send the shorty report email and update the email send status
-                    strContent += StringSeparator + "Email:" + GenerateShortReportAsync(coor, Address, CustomerName, ProjectName, Recipients, lstResults).Result;
+                    strContent += StringSeparator + "Email:" + GenerateShortReportAsync(coor, Address, CustomerName, ProjectName, Recipients, orgResultsLst).Result;
                 }
                 // ** report code - disabled at this stage **
                 //if (!string.IsNullOrEmpty(ReportToken) && ReportToken == "Report56562")
