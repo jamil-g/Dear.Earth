@@ -55,7 +55,7 @@ namespace ShortReportGen
         public readonly double AirPercent = -0.06;
         public readonly double SoilStrndPercent = -0.16;
         public readonly double NoiseStrndPercent = -0.15;
-        public readonly string c_CurrentStyle = "\" style=\"background-color:#F2F3F4;";
+        public readonly string c_CurrentStyle = "\" style=\"background-color:#F2F3F4;\"";
         public readonly string c_SevertyEmpty = "EllipseSevereEmpty";
         public readonly string c_ReportPath = @"C:\OSM\data\Report\Banner\";
         public readonly string c_ReserevedText = "© 2021 Dera Digital. All rights reserved";
