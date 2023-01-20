@@ -75,7 +75,7 @@ namespace ExtractOSMMapProd.Controllers
         private readonly string StringSeparator = ";";
         private readonly string EmailSender = "report@dera.earth";
         //private readonly string Connectionstr = "Server=127.0.0.1;Port=5432;Database=BirdEye;User Id=postgres;Password=ko24k3;";
-        private readonly string Connectionstr = "Server=18.132.162.121;Port=5432;Database=Dera;User Id=postgres;Password=ko24k3;";
+        private readonly string Connectionstr = "Server=18.132.162.121;Port=5432;Database=Dera;User Id=postgres;Password=koki_7yate32;";
         private readonly string googldocurl = "https://docs.google.com/forms/d/e/1FAIpQLSeF3QqtZ-W-3TG7L5HEhhYinCgg-mve7PkWjVkWaT-Ow-wUAA/viewform?usp=sf_link";
         #endregion
 
@@ -197,7 +197,12 @@ namespace ExtractOSMMapProd.Controllers
                 // only if the email recipients address was provided by the WS client
                 if (Recipients != "noemailaddr")
                 {
-                    List<Results> orgResultsLst = lstResults;
+                    // let's create a new list to store the original values in the results list before adding factors to
+                    // Noise & Air Quality index
+                    List<Results> orgResultsLst = new List<Results>();
+                    foreach (Results item in lstResults)
+                        orgResultsLst.Add(item);
+
                     lstResults = SetIndicesFactor(lstResults, Types.Noise, 2);
                     lstResults = SetIndicesFactor(lstResults, Types.AirQuality, 2);
                     Results result = new Results { type = Types.All, category = 6, indexvalue = lstResults.Sum(x => x.indexvalue)/7 };
