@@ -58,7 +58,7 @@ namespace ShortReportGen
         public readonly string c_CurrentStyle = "\" style=\"background-color:#F2F3F4;\"";
         public readonly string c_SevertyEmpty = "EllipseSevereEmpty";
         public readonly string c_ReportPath = @"C:\OSM\data\Report\Banner\";
-        public readonly string c_ReserevedText = "© 2021 Dera Digital. All rights reserved";
+        public readonly string c_ReserevedText = "© 2021 Dera Digital LTD. All rights reserved";
         public readonly string c_UserConditions = "Please note that any use of DERA and its contents is the sole responsibility of the user and subjected to the &nbsp; <a href='https://www.dera.earth/Terms/TermsOfService.pdf'> terms of use</a>";
         public readonly string c_GoogleMapsAPIKey = "AIzaSyC6ztpHBdjfDi0sGmyT62btVTQ2ckAQVjs";
         #endregion
