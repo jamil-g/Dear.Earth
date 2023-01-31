@@ -156,12 +156,13 @@ namespace ShortReportGen
 
                 //double indicesAvg = Indices.Take(5).Average();
                 //double indicesSum = Indices.Take(5).Sum();
-
+                string wrongAddr = "Palestinian Territory";
+                string correctAddr = "Judea and Samaria";
                 source = source.Replace("[CustomerName]", customername);
                 source = source.Replace("[Company]", project);
                 DateTime datetime = DateTime.Now;
                 source = source.Replace("[CurrentDate]", String.Format("{0:ddd, MMM d, yyyy}", datetime));
-                source = source.Replace("[Address]", address);
+                source = source.Replace("[Address]", address.Replace(wrongAddr, correctAddr));
                 source = source.Replace("[Coordinates]", coor.lat.ToString("0.########") + "," + coor.lon.ToString("0.########"));
                 source = source.Replace("[TotalIndex]", Indices[5].ToString("0.#"));
                 source = source.Replace("[RefNumber]", refno);
