@@ -1,0 +1,258 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Indices environnementaux</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/js/fontawesome.min.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['corechart']}]}"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<style>
+
+    @font-face {
+        font-family: 'geniso';
+        src: url('file:///C:/OSM/data/Report/Template/Html/geniso.ttf') format('truetype');
+    }
+
+    .green-color {
+        background: #8fc53c;
+    }
+
+    .kami {
+        border-radius: 10%;
+        text-align: center;
+    }
+
+    .green-color.green-color.pb-4.pt-4 {
+        border-radius: 10%;
+        text-align: center;
+    }
+
+    h3.title {
+        font-size: 1.3rem;
+        font-weight: 700;
+    }
+
+    h1.title {
+        font-size: 6rem;
+    }
+
+    h2.font-weight-bold.text-left {
+        font-size: 1rem;
+    }
+
+    iframe {
+        border-radius: 10%;
+    }
+
+    .rbtn input[type="radio"] {
+        width: 35px;
+        height: 20px;
+    }
+    /* media query */
+    /* Desktops and laptops ----------- */
+    @media only screen and (min-width : 1224px) {
+        /* Styles */
+        .container.row.top {
+            position: relative;
+            top: -80px;
+        }
+
+        .container.row.top2 {
+            position: relative;
+            top: -140px;
+        }
+    }
+
+    .dot {
+        height: 22px;
+        width: 22px;
+        margin: 0px 0px 0px 5px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .containerDiv {
+        width: 200px;
+        height: 150px;
+        //background: #eee;
+        border-style: solid;
+        display: flex;
+        border-color: #D0D0D0;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .textDiv {
+        text-align: center;
+        word-break: break-all;
+        color: #D0D0D0
+    }
+</style>
+<body>
+    <script type="text/javascript">
+        google.charts.load("current", { packages: ['corechart'] });
+        google.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Location', 'Index', { role: "style" }, { role: 'annotation' }],
+                [sitesComp]
+            ]);
+
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1, 2, 3]);
+            var options = {
+                title: 'Votre Index - Comparaison globale',
+                legend: 'none',
+                /*chart: {
+                  title: 'Your Index',
+                  legend: 'none'
+                  subtitle: 'Index Value',
+                },*/
+                vAxis: {
+                    viewWindow: {
+                        max: 10,
+                        min: 0
+                    },
+                },
+                hAxis: {
+                    textStyle: {
+                        fontSize: 8, // or the number you want
+                        bold: true,
+                        color: '#63666A'
+                    },
+                    slantedText: true,
+                    slantedTextAngle: 45
+                },
+                bars: 'vertical', // Required for Material Bar Charts.
+                width: 250,
+                height: 250,
+                chartArea: { 'width': '80%', 'height': '55%' },
+            };
+            var chart = new google.visualization.ColumnChart(document.getElementById('barchart'));
+            chart.draw(view, options);
+        }
+    </script>
+    <div class="container-fluid pt-4">
+        <div class="row">
+            <!-- LOgo and Address -->
+            <div class="col-lg-4 col-md-4 col-sm-12 row">
+                <div class="col-lg-6 col-md-6 col-sm-12 ">
+                    <img src="https://www.dera.earth/ExtractOSMMapProd/Markers/Dera_Logo.png" class="img-fluid">
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 d-block small">
+                    <span class="col-lg-12 col-md-12 col-sm-12 d-block small font-weight-bold"> Date: [CurrentDate]</span>
+                    <span class="col-lg-12 col-md-12 col-sm-12 d-block small font-weight-bold"> Cliente: [CustomerName] </span>
+                    <span class="col-lg-12 col-md-12 col-sm-12 d-block small font-weight-bold"> Code de référence. [RefNumber] </span>
+                </div>
+                <h4 class="col-lg-8 col-md-8 col-sm-12">[Company]</h4>
+                <div class="col-lg-8 col-md-8 col-sm-12">
+                    <div class="containerDiv">
+                        <div class="textDiv" contenteditable=true>Votre logo</div>
+                    </div>
+                    <div id="barchart" style="margin: 20px 0 0 0"></div>
+                </div>
+                <p class="col-lg-8 col-md-8 col-sm-12 font-weight-bold small">[UseConditions]</p>
+                <p class="col-lg-8 col-md-8 col-sm-12 small">[Reserved Data]</p>
+            </div>
+            <!-- Index point -->
+            <div class="col-lg-4 col-md-4 col-sm-12" style="margin: 100px 0 0 0">
+                <div class="col-lg-12 col-md-12 col-sm-12 p-5 kami" style="background: #e7f1d7;">
+                    <h3 class="title">[Address]</h3>
+                    <span class="col-lg-12 col-md-12 col-sm-12 d-block">Coordonnées</span>
+                    <span class="col-lg-12 col-md-12 col-sm-12 d-block">[Coordinates]</span>
+                    <div class="green-color pb-4 pt-4">
+                        <div class="row">
+                            <span class="col-lg-12 col-md-12 col-sm-12">Risque environnemental</span>
+                            <span class="col-lg-12 col-md-12 col-sm-12">Indice d'évaluation</span>
+                        </div>
+                        <h1 class="title">[TotalIndex]</h1>
+                        <div class="row">
+                            <span class="col-lg-6 col-md-6 col-sm-12 d-block">[CustomerName]</span>
+                            <span class="col-lg-6 col-md-6 col-sm-12 d-block">[CurrentDate]</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="col-lg-12 col-md-12 col-sm-12 font-weight-bold" style="margin: 20px 0 0 0; font-size: 130%">
+                    Avez-vous trouvé ces informations utiles, s'il vous plaîte <a href='https://docs.google.com/forms/d/e/1FAIpQLSeF3QqtZ-W-3TG7L5HEhhYinCgg-mve7PkWjVkWaT-Ow-wUAA/viewform'> aidez-nous </a> à améliorer vos informations
+                </p>
+                <!--<p class="text-center font-weight-bold" style="margin: 20px 0px 0px 0px;">Estimated effect on asset price in %</p>-->
+                <!--<img src=[EstateGraph] style="margin: 20px 0px 0px 160px;" class="img-fluid">-->
+            </div>
+            <!-- Dots... -->
+            <div class="col-lg-4 col-md-4 col-sm-12 pl-5 row">
+                <h2 class="font-weight-bold text-left">L'indice du site est calculé à l'aide des paramètres suivants:</h2>
+                <div class="container row top" style="margin: 100px 0 0 0">
+                    <div class=" col-lg-6 col-md-6 col-sm-12"></div>
+                    <div class="col-md-6 col-lg-6 col-sm-12 row">
+                        <div class="col-lg-6 col-md-6 col-sm-12">Positive</div>
+                        <div class="col-lg-6 col-md-6 col-sm-12">Négative </div>
+                    </div>
+                </div>
+                <div class="container row top2" style="margin: 100px 0 0 0">
+                    <div class="col-lg-6 col-md-6 col-sm-12 font-weight-bold" style="font-family: 'geniso'; font-size: 80%">Pollution sonore</div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 row rbtn">
+                        <div class="col-lg-4 col-md-4 col-sm-12"><span class="dot" name="NoiseHeigh" style="background-color:#F2F3F4;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12"><span class="dot" name="NoiseMedium" style="background-color:#F2F3F4;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12"><span class="dot" name="NoiseLow" style="background-color:#F2F3F4;"></div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 font-weight-bold" style="font-family: 'geniso'; font-size: 70%">Contamination suspectée du sol</div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 row rbtn">
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="SoilHeigh" style="background-color:#F2F3F4;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="SoilMedium" style="background-color:#F2F3F4;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="SoilLow" style="background-color:#F2F3F4;"></div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 font-weight-bold" style="font-family: 'geniso'; font-size: 70%">Sécurité électromagnétique</div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 row rbtn">
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="RadiationHeigh" style="background-color:#F2F3F4;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="RadiationMedium" style="background-color:#F2F3F4;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="RadiationLow" style="background-color:#F2F3F4;"></div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 font-weight-bold" style="font-family: 'geniso'; font-size: 80%">Qualité de l'air</div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 row rbtn">
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="AirQualityHeigh" style="background-color:#F2F3F4;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="AirQualityMedium" style="background-color:#F2F3F4;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="AirQualityLow" style="background-color:#F2F3F4;"></div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 font-weight-bold" style="font-family: 'geniso'; font-size: 80%">Avantages écologiques</div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 row rbtn">
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="EcologyHeigh" style="background-color:#F2F3F4;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="EcologyMedium" style="background-color:#F2F3F4;"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 "><span class="dot" name="EcologyLow" style="background-color:#F2F3F4;"></div>
+                    </div>
+                </div>
+                <!-- map -->
+                <div style="
+				-webkit-filter: grayscale(70%);
+				filter: grayscale(70%);">
+                    <iframe width="380" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.google.com/maps/embed/v1/place?q=[Coordinates]&key=[ApiKey]"></iframe>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div>
+            <div style="font-size:16px; width:48%; text-align: justify; color: gray;  display: inline-block;">
+                <b><h4 style="color:black;">Qu'est-ce que l'indice D.E.R.A ? Et comment est-il calculé ?</h4></b>
+                <br><br>
+                Indice DERA : Il s'agit de l'indice final de l'évaluation environnementale à l'emplacement choisi. L'indice est compris entre 0 et 10, prenant en compte tous les paramètres environnementaux pertinents pour le site. L'indice est fourni au niveau d'une maison individuelle, tandis qu'un immeuble en face, s'il est affecté par d'autres usages, peut recevoir un indice différent. La précision de l'indice est constamment améliorée en optimisant les données, en augmentant la résolution des informations et en améliorant les technologies de collecte de données. Notre produit analyse des centaines d'utilisations autour du site et les définit dans cinq catégories principales, chacune recevant une note. Une moyenne pondérée de cette analyse constitue l'indice. Les cinq grandes catégories sont :
+                <br><br><h5 style="color:green;">●	Qualité de l'air: </h5>
+                Examen par usages à proximité, selon la nature et l'intensité des émissions. Toutes les utilisations industrielles, de transport (et bien d'autres) sont pondérées dans le score de qualité de l'air. Cet indice est un paramètre important dans la définition générale de la qualité de l'environnement et de nombreuses études lient la santé et l'espérance de vie à la qualité de l'air.
+                <br><br><h5 style="color:green;">●	Sécurité électromagnétique: </h5>
+                Également connu sous le nom de rayonnement non ionisant, il provient des champs magnétiques. Les rayonnements non ionisants ne transmettent pas suffisamment d'énergie pour causer des dommages à la santé s'ils y sont momentanément exposés, bien qu'une exposition prolongée puisse transmettre suffisamment d'énergie pour modifier les tissus biologiques et nuire à la santé. De nombreuses études indiquent un lien entre l'exposition quotidienne aux rayonnements électromagnétiques tels que les sources de tension électrique et divers types de cancer. Les informations que nous fournissons peuvent être une indication d'une zone affectée par des sources de tension visibles, telles que des lignes à haute tension et des transformateurs adjacents au site de test.
+            </div>
+            <div style="font-size:16px; width:48%; text-align: justify; color: gray;  margin: 0 0 0 50px; display: inline-block;">
+                <br><br><h5 style="color:green;">●	Zones affectées par le bruit: </h5>
+                De nombreuses études établissent un lien entre les problèmes de santé et une exposition prolongée au bruit, même à des niveaux apparemment faibles. De nombreuses études relient également l'existence de nuisances sonores et leur impact négatif sur les prix de l'immobilier. Dans cette catégorie, des dizaines et parfois des centaines d'utilisations des terres autour de la propriété sont prises en compte, notamment l'industrie, les transports, les sites publics et bien d'autres.
+                <br><br><h5 style="color:green;">●	Contamination du sol: </h5>
+                Lorsqu'il y a des utilisations industrielles des sols, on soupçonne qu'au cours de leur activité, ils ont émis des substances polluantes au sol. Certains de ces matériaux peuvent être absorbés par le sol ou les eaux souterraines. En cas de suspicion de la présence d'une telle contamination, il est conseillé d'effectuer des tests par forage et échantillonnage du sol dans des laboratoires appropriés. Le score fourni est créé en analysant les utilisations visibles des terres trouvées. Nous examinons des dizaines d'usages autour du site choisi et évaluons leur pertinence à créer un potentiel de contamination des sols. Le score peut être utilisé comme indicateur de la possibilité d'autres tests requis par un expert local.
+                <br><br><h5 style="color:green;">●	Ecology and sustainability: </h5>
+                Ce paramètre est calculé en examinant l'environnement proche et lointain tout en pesant de nombreux paramètres écologiques tels que les sources d'eau, la végétation, la diversité des espèces ainsi que l'internalisation d'autres facteurs liés à l'accessibilité des réserves naturelles et d'autres valeurs naturelles. Le score tient également compte des valeurs qui contribuent à la durabilité, telles que les parcs urbains, les terrains de jeux, les pistes cyclables et d'autres données. Des études ont montré une corrélation positive entre un environnement favorable et durable pour la santé humaine et l'espérance de vie. Des études supplémentaires indiquent un lien entre l'augmentation des prix de l'immobilier et la proximité des arbres et d'autres valeurs naturelles.
+            </div>
+        </div>
+        <br>
+</body>
+</html>

@@ -26,7 +26,8 @@
     <None Remove="geckodriver.exe" />
     <None Remove="Resources\Footer.png" />
     <None Remove="Resources\GENISO.TTF" />
-    <None Remove="Resources\HTMLReportTemplate.html" />
+    <None Remove="Resources\HTMLReportTemplate_EN_us.html" />
+    <None Remove="Resources\HTMLReportTemplate_FR_fr.html" />
     <None Remove="Resources\ReportTemplate.docx" />
   </ItemGroup>
 
@@ -35,7 +36,10 @@
     <EmbeddedResource Include="Resources\GENISO.TTF">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\HTMLReportTemplate.html">
+    <EmbeddedResource Include="Resources\HTMLReportTemplate_FR_fr.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\HTMLReportTemplate_EN_us.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

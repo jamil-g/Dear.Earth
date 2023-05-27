@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ExtractOSMMapProdProd.Properties {
+namespace ExtractOSMMapProd.Properties {
     using System;
     
     
@@ -66,6 +66,42 @@ namespace ExtractOSMMapProdProd.Properties {
         internal static string BigScale {
             get {
                 return ResourceManager.GetString("BigScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;br&gt;&lt;br&gt;Best Regards, &lt;br&gt; D.E.R.A Team &lt;br&gt;.
+        /// </summary>
+        internal static string EmailGreetingsEn {
+            get {
+                return ResourceManager.GetString("EmailGreetingsEn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;br&gt;&lt;br&gt;Cordialement, &lt;br&gt; L&apos;équipe D.E.R.A &lt;br&gt;.
+        /// </summary>
+        internal static string EmailGreetingsFr {
+            get {
+                return ResourceManager.GetString("EmailGreetingsFr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D.E.R.A report of location: .
+        /// </summary>
+        internal static string EmailSubjectEn {
+            get {
+                return ResourceManager.GetString("EmailSubjectEn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rapport D.E.R.A de localisation: .
+        /// </summary>
+        internal static string EmailSubjectFr {
+            get {
+                return ResourceManager.GetString("EmailSubjectFr", resourceCulture);
             }
         }
         

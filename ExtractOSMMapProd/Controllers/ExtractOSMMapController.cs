@@ -94,7 +94,7 @@ namespace ExtractOSMMapProd.Controllers
             // let's avoid low scale calculation and quit the calculation with an alert message
             if (Scale > 1000)
             {
-                return new JsonStringResult(ExtractOSMMapProdProd.Properties.Resources.BigScale);
+                return new JsonStringResult(Properties.Resources.BigScale);
             }
 
             coor = new Coordinates() { lon = lon, lat = lat, zoomLevel = Scale };
@@ -145,7 +145,7 @@ namespace ExtractOSMMapProd.Controllers
         }
 
         [HttpGet("byCoordinate")]
-        public JsonStringResult Get(double lon, double lat, double Scale, string CalcType, string Adminpwd, string ReportToken, string ProjectName, string CustomerName, string Recipients = "noemailaddr", bool DelCalcTables = true, bool RegHistory = true)
+        public JsonStringResult Get(double lon, double lat, double Scale, string CalcType, string Adminpwd, string ReportToken, string ProjectName, string CustomerName, string Recipients = "noemailaddr", bool DelCalcTables = true, bool RegHistory = true, string Lang = "EN_us")
         {
             //this function received the WS parameters
             //and extract the osm data according to it
@@ -154,7 +154,7 @@ namespace ExtractOSMMapProd.Controllers
             // let's avoid low scale calculation and quit the calculation with an alert message
             if (Scale > 1000)
             {
-                return new JsonStringResult(ExtractOSMMapProdProd.Properties.Resources.BigScale);
+                return new JsonStringResult(Properties.Resources.BigScale);
             }
 
             coor = new Coordinates() { lon = lon, lat = lat, zoomLevel = Scale };
@@ -208,7 +208,7 @@ namespace ExtractOSMMapProd.Controllers
                     Results result = new Results { type = Types.All, category = 6, indexvalue = lstResults.Sum(x => x.indexvalue)/7 };
                     orgResultsLst.Add(result);
                     // let's send the shorty report email and update the email send status
-                    strContent += StringSeparator + "Email:" + GenerateShortReportAsync(coor, Address, CustomerName, ProjectName, Recipients, orgResultsLst).Result;
+                    strContent += StringSeparator + "Email:" + GenerateShortReportAsync(coor, Address, CustomerName, ProjectName, Recipients, orgResultsLst, Lang).Result;
                 }
                 // ** report code - disabled at this stage **
                 //if (!string.IsNullOrEmpty(ReportToken) && ReportToken == "Report56562")
@@ -250,7 +250,7 @@ namespace ExtractOSMMapProd.Controllers
             m_logger = loggerFactory.CreateLogger<ExtractOSMMapController>(); ;
         }
 
-        private async Task<string> GenerateShortReportAsync(Coordinates coord, string address, string customer, string project, string recipients, List<Results> lstResults)
+        private async Task<string> GenerateShortReportAsync(Coordinates coord, string address, string customer, string project, string recipients, List<Results> lstResults, string Lang)
         {
             string content = string.Empty;
             try
@@ -264,16 +264,37 @@ namespace ExtractOSMMapProd.Controllers
                 Html2Image html2Image = new Html2Image();
                 Html2Image.Coordinates coor = new Html2Image.Coordinates { lon = coord.lon, lat = coord.lat };
                 double[] arr = new double[6] { lstResults[0].indexvalue, lstResults[1].indexvalue, lstResults[2].indexvalue, lstResults[3].indexvalue, lstResults[4].indexvalue, lstResults[5].indexvalue };
-                string report = html2Image.CustomizeReport(coor, customer, project, address, arr, mapLayoutFile, m_refno);
+                string report = html2Image.CustomizeReport(coor, customer, project, address, arr, mapLayoutFile, m_refno, Lang);
                 EmailInfo EmailInfo = new EmailInfo();
                 EmailInfo.Sender = EmailSender;
                 EmailInfo.Recipients = recipients;
-                EmailInfo.Subject = $"D.E.R.A report of location: " + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######");
-                EmailInfo.EmailMsg = $"Dear {customer}, <br><br> Thank you for choosing D.E.R.A: Digital Environmental Risk Assessment. Remote environmental risk management system for the real estate sector.. <br>" +
-                    $"Please find attached the requested information of location: {address} - Coordinates:[" + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######") + "].<br>" +
-                    //$"We would be grateful if you would kindly answer a short questionnaire about your experience, click <a href = '{googldocurl}'>here</a> if you would like to be first in line to get our full product upon release.<br><br>" +
-                    "<br><br>Best Regards, <br> D.E.R.A Team <br>" +
-                    "<img id=\"CompanyLogo\" title=\"The Company Logo\" src=\"https://www.dera.earth/ExtractOSMMapProd/Markers/DeraEarthSignatureLogo.png\" </img>";
+                switch (Lang)
+                {
+                    case "EN_us":
+                        EmailInfo.Subject = Properties.Resources.EmailSubjectEn + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######");
+                        EmailInfo.EmailMsg = $"Dear {customer}, <br><br> Thank you for choosing D.E.R.A: Digital Environmental Risk Assessment. Remote environmental risk management system for the real estate sector.. <br>" +
+                            $"Please find attached the requested information on the location: {address} - Coordinates:[" + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######") + "].<br>" +
+                            //$"We would be grateful if you would kindly answer a short questionnaire about your experience, click <a href = '{googldocurl}'>here</a> if you would like to be first in line to get our full product upon release.<br><br>" +
+                            Properties.Resources.EmailGreetingsEn +
+                            "<img id=\"CompanyLogo\" title=\"The Company Logo\" src=\"https://www.dera.earth/ExtractOSMMapProd/Markers/DeraEarthSignatureLogo.png\" </img>";
+                        break;
+                    case "FR_fr":
+                        EmailInfo.Subject = Properties.Resources.EmailSubjectFr + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######");
+                        EmailInfo.EmailMsg = $"Cher {customer}, <br><br> Merci d'avoir choisi D.E.R.A : Évaluation numérique des risques environnementaux. Système de gestion à distance des risques environnementaux pour le secteur immobilier.. <br>" +
+                            $"Veuillez trouver ci-joint les informations demandées sur le lieu : {address} - Coordonnées:[" + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######") + "].<br>" +
+                            //$"We would be grateful if you would kindly answer a short questionnaire about your experience, click <a href = '{googldocurl}'>here</a> if you would like to be first in line to get our full product upon release.<br><br>" +
+                            Properties.Resources.EmailGreetingsFr +
+                            "<img id=\"CompanyLogo\" title=\"Le logo de l'entreprise\" src=\"https://www.dera.earth/ExtractOSMMapProd/Markers/DeraEarthSignatureLogo.png\" </img>";
+                        break;
+                    default:
+                        EmailInfo.Subject = Properties.Resources.EmailSubjectEn + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######");
+                        EmailInfo.EmailMsg = $"Dear {customer}, <br><br> Thank you for choosing D.E.R.A: Digital Environmental Risk Assessment. Remote environmental risk management system for the real estate sector.. <br>" +
+                            $"Please find attached the requested information on the location: {address} - Coordinates:[" + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######") + "].<br>" +
+                            //$"We would be grateful if you would kindly answer a short questionnaire about your experience, click <a href = '{googldocurl}'>here</a> if you would like to be first in line to get our full product upon release.<br><br>" +
+                            Properties.Resources.EmailGreetingsEn +
+                            "<img id=\"CompanyLogo\" title=\"The Company Logo\" src=\"https://www.dera.earth/ExtractOSMMapProd/Markers/DeraEarthSignatureLogo.png\" </img>";
+                        break;
+                }
                 EmailInfo.Attachment = report;
                 StmpEmail email = new StmpEmail();
                 await email.SendEmailAsync(EmailInfo);

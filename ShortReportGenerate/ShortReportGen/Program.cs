@@ -15,7 +15,7 @@ namespace ShortReportGen
             string Project = "Test";
             string refno = "49399hh";
             string MapFile = ""; //"file:///C:/Users/jamil-g/Desktop/map.jpg";
-            string report = html2Image.CustomizeReport(coor, customer, Project, addrress, arr, MapFile, refno);
+            string report = html2Image.CustomizeReport(coor, customer, Project, addrress, arr, MapFile, refno, "EN_us");
             EmailInfo EmailInfo = new EmailInfo();
             EmailInfo.Sender = "report@dera.earth";
             EmailInfo.Recipients = "jamil.garzuzi@gmail.com";

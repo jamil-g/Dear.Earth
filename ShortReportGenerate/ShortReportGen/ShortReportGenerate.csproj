@@ -8,10 +8,12 @@
   <ItemGroup>
     <None Remove="HTMLReportTemplate.html" />
     <None Remove="Resources\GENISO.TTF" />
+    <None Remove="Resources\HTMLReportTemplate_EN_us.html" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\..\ExtractOSMMapProd\Resources\HTMLReportTemplate.html" Link="Resources\HTMLReportTemplate.html" />
+    <Content Include="..\..\ExtractOSMMapProd\Resources\HTMLReportTemplate_FR_fr.html" Link="Resources\HTMLReportTemplate_FR_fr.html" />
+    <Content Include="Resources\HTMLReportTemplate_EN_us.html" />
   </ItemGroup>
 
   <ItemGroup>

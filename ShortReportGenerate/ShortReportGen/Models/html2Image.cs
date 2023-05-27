@@ -58,8 +58,8 @@ namespace ShortReportGen
         public readonly string c_CurrentStyle = "\" style=\"background-color:#F2F3F4;\"";
         public readonly string c_SevertyEmpty = "EllipseSevereEmpty";
         public readonly string c_ReportPath = @"C:\OSM\data\Report\Banner\";
-        public readonly string c_ReserevedText = "© 2021 Dera Digital LTD. All rights reserved";
-        public readonly string c_UserConditions = "Please note that any use of DERA and its contents is the sole responsibility of the user and subjected to the &nbsp; <a href='https://www.dera.earth/Terms/TermsOfService.pdf'> terms of use</a>";
+        public string m_ReserevedText;// = "© 2021 Dera Digital LTD. All rights reserved";
+        public string m_UserConditions;// = "Please note that any use of DERA and its contents is the sole responsibility of the user and subjected to the &nbsp; <a href='https://www.dera.earth/Terms/TermsOfService.pdf'> terms of use</a>";
         public readonly string c_GoogleMapsAPIKey = "AIzaSyC6ztpHBdjfDi0sGmyT62btVTQ2ckAQVjs";
         #endregion
 
@@ -121,9 +121,19 @@ namespace ShortReportGen
             }
         }
 
-        public string CustomizeReport(Coordinates coor, string customername, string project, string address, double[] Indices, string mapfile, string refno)
+        public string CustomizeReport(Coordinates coor, string customername, string project, string address, double[] Indices, string mapfile, string refno, string Lang)
         {
-            string source = System.IO.File.ReadAllText("Resources\\HTMLReportTemplate.html");
+            string source = File.ReadAllText("Resources\\HTMLReportTemplate_EN_us.html");
+            switch (Lang)
+            {
+                case ("EN_us"):
+                    source = File.ReadAllText("Resources\\HTMLReportTemplate_EN_us.html");
+                    break;
+                case ("FR_fr"):
+                    source = File.ReadAllText("Resources\\HTMLReportTemplate_FR_fr.html");
+                    break;
+            }
+             
             try
             {
                 // let's add the information of the compared sites indices in a List
@@ -138,9 +148,22 @@ namespace ShortReportGen
                     new Sites {siteName = "'Burj Khalifa'", index=8.5f, style=barColor, annotation="'8.5'"},
                     new Sites {siteName = "'Pyramids of Giza'", index=8.5f, style=barColor, annotation="'9.5'"}
                 };
-                
+
                 // add the current location index
-                Sites site = new Sites { siteName = "''", index = (float)Math.Round(Indices[5],1), style = "'color: #d3d3d3'", annotation="'You'" };
+                string indexannotation = "'You'";
+                switch (Lang)
+                {
+                    case ("EN_us"):
+                        indexannotation = "'You'";
+                        break;
+                    case ("FR_fr"):
+                        indexannotation = "'Toi'";
+                        break;
+                    default:
+                        indexannotation = "'You'";
+                        break;
+                }
+                Sites site = new Sites { siteName = "''", index = (float)Math.Round(Indices[5],1), style = "'color: #d3d3d3'", annotation= indexannotation };
                 lstSites.Add(site);
 
                 // sort the list by the index
@@ -166,9 +189,24 @@ namespace ShortReportGen
                 source = source.Replace("[Coordinates]", coor.lat.ToString("0.########") + "," + coor.lon.ToString("0.########"));
                 source = source.Replace("[TotalIndex]", Indices[5].ToString("0.#"));
                 source = source.Replace("[RefNumber]", refno);
-                source = source.Replace("[UseConditions]", c_UserConditions);
                 source = source.Replace("[CurrentDateShort]", String.Format("{0:MM/dd//yyyy}", datetime));
-                source = source.Replace("[Reserved Data]", c_ReserevedText);
+                switch (Lang)
+                {
+                    case ("EN_us"):
+                        m_UserConditions = "Please note that any use of DERA and its contents is the sole responsibility of the user and subjected to the &nbsp; <a href = 'https://www.dera.earth/Terms/TermsOfService.pdf' > terms of use</a> ";
+                        m_ReserevedText = "© 2021 Dera Digital LTD. All rights reserved";
+                        break;
+                    case ("FR_fr"):
+                        m_UserConditions = "Veuillez noter que toute utilisation de DERA et de son contenu relève de la seule responsabilité de l'utilisateur et est soumise à la &nbsp; <a href = 'https://www.dera.earth/Terms/TermsOfService.pdf' > conditions d'utilisation</a> ";
+                        m_ReserevedText = "© 2021 Dera Digital LTD. tous droits réservés";
+                        break;
+                    default:
+                        m_UserConditions = "Please note that any use of DERA and its contents is the sole responsibility of the user and subjected to the &nbsp; <a href = 'https://www.dera.earth/Terms/TermsOfService.pdf' > terms of use</a> ";
+                        m_ReserevedText = "© 2021 Dera Digital LTD. All rights reserved";
+                        break;
+                }
+                source = source.Replace("[UseConditions]", m_UserConditions);
+                source = source.Replace("[Reserved Data]", m_ReserevedText);
                 source = source.Replace("[sitesComp]", siteComp);
                 source = source.Replace("[ApiKey]", c_GoogleMapsAPIKey);
                 string severitylevel = string.Empty;
