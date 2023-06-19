@@ -79,7 +79,7 @@ namespace ExtractOSMMapProd.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;br&gt;&lt;br&gt;Cordialement, &lt;br&gt; L&apos;équipe D.E.R.A &lt;br&gt;.
+        ///   Looks up a localized string similar to &lt;br&gt;&lt;br&gt;Cordialement, &lt;br&gt; IDZ CONSULTING &lt;br&gt;.
         /// </summary>
         internal static string EmailGreetingsFr {
             get {
@@ -97,7 +97,7 @@ namespace ExtractOSMMapProd.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rapport D.E.R.A de localisation: .
+        ///   Looks up a localized string similar to Rapport IDZ CONSULTING de localisation: .
         /// </summary>
         internal static string EmailSubjectFr {
             get {

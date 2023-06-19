@@ -280,11 +280,11 @@ namespace ExtractOSMMapProd.Controllers
                         break;
                     case "FR_fr":
                         EmailInfo.Subject = Properties.Resources.EmailSubjectFr + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######");
-                        EmailInfo.EmailMsg = $"Cher {customer}, <br><br> Merci d'avoir choisi D.E.R.A : Évaluation numérique des risques environnementaux. Système de gestion à distance des risques environnementaux pour le secteur immobilier.. <br>" +
+                        EmailInfo.EmailMsg = $"Cher {customer}, <br><br> Merci d'avoir choisi IDZ CONSULTING: Évaluation numérique des risques environnementaux. Système de gestion à distance des risques environnementaux pour le secteur immobilier.. <br>" +
                             $"Veuillez trouver ci-joint les informations demandées sur le lieu : {address} - Coordonnées:[" + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######") + "].<br>" +
                             //$"We would be grateful if you would kindly answer a short questionnaire about your experience, click <a href = '{googldocurl}'>here</a> if you would like to be first in line to get our full product upon release.<br><br>" +
                             Properties.Resources.EmailGreetingsFr +
-                            "<img id=\"CompanyLogo\" title=\"Le logo de l'entreprise\" src=\"https://www.dera.earth/ExtractOSMMapProd/Markers/DeraEarthSignatureLogo.png\" </img>";
+                            "<img id=\"CompanyLogo\" title=\"Le logo de l'entreprise\" src=\"https://www.dera.earth/wp-content/uploads/2021/01/IDZLogo.png\" </img>";
                         break;
                     default:
                         EmailInfo.Subject = Properties.Resources.EmailSubjectEn + coor.lon.ToString("0.######") + "," + coor.lat.ToString("0.######");

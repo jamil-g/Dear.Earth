@@ -124,13 +124,13 @@
     <value>&lt;br&gt;&lt;br&gt;Best Regards, &lt;br&gt; D.E.R.A Team &lt;br&gt;</value>
   </data>
   <data name="EmailGreetingsFr" xml:space="preserve">
-    <value>&lt;br&gt;&lt;br&gt;Cordialement, &lt;br&gt; L'équipe D.E.R.A &lt;br&gt;</value>
+    <value>&lt;br&gt;&lt;br&gt;Cordialement, &lt;br&gt; IDZ CONSULTING &lt;br&gt;</value>
   </data>
   <data name="EmailSubjectEn" xml:space="preserve">
     <value>D.E.R.A report of location: </value>
   </data>
   <data name="EmailSubjectFr" xml:space="preserve">
-    <value>Rapport D.E.R.A de localisation: </value>
+    <value>Rapport IDZ CONSULTING de localisation: </value>
   </data>
   <data name="InvalidData" xml:space="preserve">
     <value>Faild to retrive data</value>
