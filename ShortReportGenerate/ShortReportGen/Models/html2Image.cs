@@ -406,7 +406,7 @@ namespace ShortReportGen
 
                 //Using A4+ in landscape, note that the width/height values are swapped  
                 EO.Pdf.HtmlToPdf.Options.MinLoadWaitTime = 1000;
-                EO.Pdf.HtmlToPdf.Options.PageSize = new SizeF(17f, 10f);
+                EO.Pdf.HtmlToPdf.Options.PageSize = new SizeF(21f, 10f);
                 EO.Pdf.HtmlToPdf.ConvertHtml(htmlsource, exportedfile);
 
 
