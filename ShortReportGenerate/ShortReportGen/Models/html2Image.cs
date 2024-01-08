@@ -8,6 +8,7 @@ using GrapeCity.Documents.Html;
 using System.Collections.Generic;
 using log4net;
 using GrapeCity.Documents.Pdf;
+using RetriveURLSource.Models;
 
 namespace ShortReportGen
 {
@@ -121,7 +122,7 @@ namespace ShortReportGen
             }
         }
 
-        public string CustomizeReport(Coordinates coor, string customername, string project, string address, double[] Indices, string mapfile, string refno, string Lang)
+        public string CustomizeReport(Coordinates coor, string customername, string project, string address, double[] Indices, string mapfile, string refno, string Lang, string LandUseURL)
         {
             string source = File.ReadAllText("Resources\\HTMLReportTemplate_EN_us.html");
             switch (Lang)
@@ -349,10 +350,20 @@ namespace ShortReportGen
                 double SumEstateInd = lstEstateIndices.Sum();
                 if (SumEstateInd > 20 || SumEstateInd  < -20)
                     SumEstateInd = 20 * Math.Sign(SumEstateInd);
-                mapfile = generateEstateImg(SumEstateInd);
-                
+                //mapfile = generateEstateImg(SumEstateInd);
+
                 //  "file:///C:/Users/jamil-g/Desktop/map.jpg"
-                source = source.Replace("[EstateGraph]", "'file:///" + mapfile.Replace(@"\", "/") +"'");
+                //source = source.Replace("[EstateGraph]", "'file:///" + mapfile.Replace(@"\", "/") +"'");
+                //let's get the SVG Lanuse Chart of the selected area using the OSM Landuse site
+                ExtractSVG extractsvg = new ExtractSVG();
+                string svgChart = extractsvg.ExtractSVGAsStr(LandUseURL);
+                //source = source.Replace("[LanduseTitle]", svgChart);
+                if (!string.IsNullOrEmpty(svgChart))
+                {
+                       source = source.Replace("[LanduseTitle]", "Your LandUse ID");
+                       source = source.Replace("[LandUseSVG]", svgChart);
+                       source = source.Replace("[LandUseLegend]", "https://www.dera.earth/ExtractOSMMapProd/Markers/LULCLegend.png");
+                }
                 string reportfile = c_ReportPath + Path.GetFileNameWithoutExtension (customername + "_" + ((DateTimeOffset)datetime).ToUnixTimeSeconds().ToString()) + c_PdfExt;
                 SaveHtmlToImage(source, reportfile);
                 using (StreamWriter outputFile = new StreamWriter(Path.Combine(@"C:\OSM\data\Report\Template\Html", "template.html")))
@@ -406,7 +417,7 @@ namespace ShortReportGen
 
                 //Using A4+ in landscape, note that the width/height values are swapped  
                 EO.Pdf.HtmlToPdf.Options.MinLoadWaitTime = 1000;
-                EO.Pdf.HtmlToPdf.Options.PageSize = new SizeF(21f, 10f);
+                EO.Pdf.HtmlToPdf.Options.PageSize = new SizeF(21f, 16.5f);
                 EO.Pdf.HtmlToPdf.ConvertHtml(htmlsource, exportedfile);
 
 

@@ -77,6 +77,7 @@ namespace ExtractOSMMapProd.Controllers
         //private readonly string Connectionstr = "Server=127.0.0.1;Port=5432;Database=BirdEye;User Id=postgres;Password=ko24k3;";
         private readonly string Connectionstr = "Server=18.132.162.121;Port=5432;Database=Dera;User Id=postgres;Password=koki_7yate32;";
         private readonly string googldocurl = "https://docs.google.com/forms/d/e/1FAIpQLSeF3QqtZ-W-3TG7L5HEhhYinCgg-mve7PkWjVkWaT-Ow-wUAA/viewform?usp=sf_link";
+        private readonly string OSMLandUseBaseURL = "https://www.dera.earth/osm/LULC/#";
         #endregion
 
 
@@ -264,7 +265,10 @@ namespace ExtractOSMMapProd.Controllers
                 Html2Image html2Image = new Html2Image();
                 Html2Image.Coordinates coor = new Html2Image.Coordinates { lon = coord.lon, lat = coord.lat };
                 double[] arr = new double[6] { lstResults[0].indexvalue, lstResults[1].indexvalue, lstResults[2].indexvalue, lstResults[3].indexvalue, lstResults[4].indexvalue, lstResults[5].indexvalue };
-                string report = html2Image.CustomizeReport(coor, customer, project, address, arr, mapLayoutFile, m_refno, Lang);
+                // let's create OSM Landuse URL to get the landuse pie in the ROI
+                // 15 is a static zoom level and /0 is a static Z Value
+                string LULCURL = OSMLandUseBaseURL + $"15/{coor.lon}/{coor.lat}/0/";
+                string report = html2Image.CustomizeReport(coor, customer, project, address, arr, mapLayoutFile, m_refno, Lang, LULCURL);
                 EmailInfo EmailInfo = new EmailInfo();
                 EmailInfo.Sender = EmailSender;
                 EmailInfo.Recipients = recipients;

@@ -28,6 +28,7 @@
     <None Remove="Resources\GENISO.TTF" />
     <None Remove="Resources\HTMLReportTemplate_EN_us.html" />
     <None Remove="Resources\HTMLReportTemplate_FR_fr.html" />
+    <None Remove="Resources\LULCLegend.png" />
     <None Remove="Resources\ReportTemplate.docx" />
   </ItemGroup>
 
@@ -42,6 +43,7 @@
     <EmbeddedResource Include="Resources\HTMLReportTemplate_EN_us.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <Resource Include="Resources\LULCLegend.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,11 +52,14 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
     <PackageReference Include="Npgsql" Version="4.1.5" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.16.2" />
     <PackageReference Include="shortid" Version="3.0.1" />
+    <PackageReference Include="WebDriverManager" Version="2.17.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Nominatim.API-master\src\Nominatim.API\Nominatim.API.csproj" />
+    <ProjectReference Include="..\RetriveURLSource\RetriveURLSource\RetriveURLSource.csproj" />
     <ProjectReference Include="..\ShortReportGenerate\ShortReportGen\ShortReportGenerate.csproj" />
     <ProjectReference Include="..\WordFinadReplaceNet\WordFinadReplaceNet\WordFinadReplaceNet.csproj" />
   </ItemGroup>

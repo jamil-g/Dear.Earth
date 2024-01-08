@@ -6,7 +6,7 @@ using WebDriverManager.DriverConfigs.Impl;
 
 namespace RetriveURLSource.Models
 {
-    internal class ExtractSVG
+    public class ExtractSVG
     {
         public string ExtractSVGAsStr(string url) {
             try
@@ -23,7 +23,7 @@ namespace RetriveURLSource.Models
                 // Console.WriteLine("Waiting for page to load");
                 //}
                 string pageSource = driver.PageSource;
-                int start = pageSource.IndexOf("<svg width=\"400\"");
+                int start = pageSource.IndexOf("<svg width=\"350\"");
                 int end = pageSource.IndexOf("/svg>") + 5;
                 string svg = pageSource.Substring(start, end - start);
                 //Console.WriteLine(svg);
@@ -33,7 +33,7 @@ namespace RetriveURLSource.Models
             }
             catch (Exception e)
             {
-                return null;
+                return e.Message;
             }
         }
     }

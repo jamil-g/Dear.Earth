@@ -15,7 +15,8 @@ namespace ShortReportGen
             string Project = "Test";
             string refno = "49399hh";
             string MapFile = ""; //"file:///C:/Users/jamil-g/Desktop/map.jpg";
-            string report = html2Image.CustomizeReport(coor, customer, Project, addrress, arr, MapFile, refno, "EN_us");
+            string LULCURL = "https://www.dera.earth/osm/LULC/#15/8.69894/49.39944/0/";
+            string report = html2Image.CustomizeReport(coor, customer, Project, addrress, arr, MapFile, refno, "EN_us", LULCURL);
             EmailInfo EmailInfo = new EmailInfo();
             EmailInfo.Sender = "report@dera.earth";
             EmailInfo.Recipients = "jamil.garzuzi@gmail.com";
