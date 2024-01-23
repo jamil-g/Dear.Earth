@@ -51,6 +51,7 @@ namespace ShortReportGen
         public readonly string c_idkey = "id";
         public readonly string c_classkey = "class";
         public readonly string c_PdfExt = ".pdf";
+        public readonly string c_MapFileExt = "*.png";
         public readonly double Ecology = 0.15;
         public readonly double ERPercent = -0.08;
         public readonly double AirPercent = -0.06;
@@ -59,6 +60,7 @@ namespace ShortReportGen
         public readonly string c_CurrentStyle = "\" style=\"background-color:#F2F3F4;\"";
         public readonly string c_SevertyEmpty = "EllipseSevereEmpty";
         public readonly string c_ReportPath = @"C:\OSM\data\Report\Banner\";
+        public readonly string c_mapdownloadfolder =  @"C:\inetpub\wwwroot\DeraEarth\OSM\LULC\downloads";
         public string m_ReserevedText;// = "© 2021 Dera Digital LTD. All rights reserved";
         public string m_UserConditions;// = "Please note that any use of DERA and its contents is the sole responsibility of the user and subjected to the &nbsp; <a href='https://www.dera.earth/Terms/TermsOfService.pdf'> terms of use</a>";
         public readonly string c_GoogleMapsAPIKey = "AIzaSyC6ztpHBdjfDi0sGmyT62btVTQ2ckAQVjs";
@@ -356,13 +358,15 @@ namespace ShortReportGen
                 //source = source.Replace("[EstateGraph]", "'file:///" + mapfile.Replace(@"\", "/") +"'");
                 //let's get the SVG Lanuse Chart of the selected area using the OSM Landuse site
                 ExtractSVG extractsvg = new ExtractSVG();
-                string svgChart = extractsvg.ExtractSVGAsStr(LandUseURL);
+                string downloadfolder = c_mapdownloadfolder + Path.PathSeparator + refno;
+                string svgChart = extractsvg.ExtractSVGAsStr(LandUseURL, downloadfolder);
                 //source = source.Replace("[LanduseTitle]", svgChart);
                 if (!string.IsNullOrEmpty(svgChart))
                 {
                        source = source.Replace("[LanduseTitle]", "Your LandUse ID");
                        source = source.Replace("[LandUseSVG]", svgChart);
                        source = source.Replace("[LandUseLegend]", "https://www.dera.earth/ExtractOSMMapProd/Markers/LULCLegend.png");
+                       source = source.Replace("[LandUseMap]", getLanUseMapUrl(downloadfolder, c_MapFileExt));
                 }
                 string reportfile = c_ReportPath + Path.GetFileNameWithoutExtension (customername + "_" + ((DateTimeOffset)datetime).ToUnixTimeSeconds().ToString()) + c_PdfExt;
                 SaveHtmlToImage(source, reportfile);
@@ -380,6 +384,18 @@ namespace ShortReportGen
         #endregion
 
         #region private methods
+        private string getLanUseMapUrl (string downloadedPNGMap, string ext)
+        {
+            string[] files = Directory.GetFiles(downloadedPNGMap, ext, SearchOption.AllDirectories);
+            if (files.Length > -1)
+            {
+                return files[0];
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
         private string SaveHtmlToImage(string htmlsource, string exportedfile)
         {
             try
@@ -417,7 +433,7 @@ namespace ShortReportGen
 
                 //Using A4+ in landscape, note that the width/height values are swapped  
                 EO.Pdf.HtmlToPdf.Options.MinLoadWaitTime = 1000;
-                EO.Pdf.HtmlToPdf.Options.PageSize = new SizeF(21f, 16.5f);
+                EO.Pdf.HtmlToPdf.Options.PageSize = new SizeF(21f, 10f);
                 EO.Pdf.HtmlToPdf.ConvertHtml(htmlsource, exportedfile);
 
 

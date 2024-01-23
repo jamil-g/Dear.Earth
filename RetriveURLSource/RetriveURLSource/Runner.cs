@@ -15,7 +15,8 @@ namespace RetriveURL
         {
             ExtractSVG svg = new ExtractSVG();
             string Url = "https://www.dera.earth/osm/LULC/#15/8.69894/49.39944/0/";
-            string svgStr = svg.ExtractSVGAsStr(Url);
+            string mapdownloadfolder = @"C:\inetpub\wwwroot\DeraEarth\OSM\LULC\downloads\test";
+            string svgStr = svg.ExtractSVGAsStr(Url, mapdownloadfolder);
             Console.WriteLine(svgStr); 
         }
 

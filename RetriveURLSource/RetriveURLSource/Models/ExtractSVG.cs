@@ -8,11 +8,15 @@ namespace RetriveURLSource.Models
 {
     public class ExtractSVG
     {
-        public string ExtractSVGAsStr(string url) {
+        public string ExtractSVGAsStr(string url, string downloadFolder) {
             try
             {
                 new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
-                IWebDriver driver = new ChromeDriver();
+                var chromeOptions = new ChromeOptions();
+                if (!System.IO.Directory.Exists(downloadFolder))
+                    System.IO.Directory.CreateDirectory(downloadFolder);
+                chromeOptions.AddUserProfilePreference("download.default_directory", downloadFolder);
+                IWebDriver driver = new ChromeDriver(chromeOptions);
                 driver.Manage().Window.Maximize();
                 driver.Navigate().GoToUrl(url);
                 //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
@@ -23,7 +27,7 @@ namespace RetriveURLSource.Models
                 // Console.WriteLine("Waiting for page to load");
                 //}
                 string pageSource = driver.PageSource;
-                int start = pageSource.IndexOf("<svg width=\"350\"");
+                int start = pageSource.IndexOf("<svg width=\"400\"");
                 int end = pageSource.IndexOf("/svg>") + 5;
                 string svg = pageSource.Substring(start, end - start);
                 //Console.WriteLine(svg);
