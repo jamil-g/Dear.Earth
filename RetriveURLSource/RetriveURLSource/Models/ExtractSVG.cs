@@ -22,7 +22,7 @@ namespace RetriveURLSource.Models
                 //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
                 //Thread.Sleep(new TimeSpan(0, 0, 3));
                 Stopwatch sw = Stopwatch.StartNew();
-                while (sw.ElapsedMilliseconds < 10000) ;
+                while (sw.ElapsedMilliseconds < 15000) ;
                 //{
                 // Console.WriteLine("Waiting for page to load");
                 //}

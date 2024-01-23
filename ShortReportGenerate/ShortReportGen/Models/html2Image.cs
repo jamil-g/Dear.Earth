@@ -358,7 +358,7 @@ namespace ShortReportGen
                 //source = source.Replace("[EstateGraph]", "'file:///" + mapfile.Replace(@"\", "/") +"'");
                 //let's get the SVG Lanuse Chart of the selected area using the OSM Landuse site
                 ExtractSVG extractsvg = new ExtractSVG();
-                string downloadfolder = c_mapdownloadfolder + Path.PathSeparator + refno;
+                string downloadfolder = c_mapdownloadfolder + Path.DirectorySeparatorChar + refno;
                 string svgChart = extractsvg.ExtractSVGAsStr(LandUseURL, downloadfolder);
                 //source = source.Replace("[LanduseTitle]", svgChart);
                 if (!string.IsNullOrEmpty(svgChart))
