@@ -387,7 +387,7 @@ namespace ShortReportGen
         private string getLanUseMapUrl (string downloadedPNGMap, string ext)
         {
             string[] files = Directory.GetFiles(downloadedPNGMap, ext, SearchOption.AllDirectories);
-            if (files.Length > -1)
+            if (files.Length > 0)
             {
                 return files[0];
             }
