@@ -267,7 +267,7 @@ namespace ExtractOSMMapProd.Controllers
                 double[] arr = new double[6] { lstResults[0].indexvalue, lstResults[1].indexvalue, lstResults[2].indexvalue, lstResults[3].indexvalue, lstResults[4].indexvalue, lstResults[5].indexvalue };
                 // let's create OSM Landuse URL to get the landuse pie in the ROI
                 // 15 is a static zoom level and /0 is a static Z Value
-                string LULCURL = OSMLandUseBaseURL + $"15/{coor.lon}/{coor.lat}/0/";
+                string LULCURL = OSMLandUseBaseURL + $"17/{coor.lon}/{coor.lat}/0/";
                 string report = html2Image.CustomizeReport(coor, customer, project, address, arr, mapLayoutFile, m_refno, Lang, LULCURL);
                 EmailInfo EmailInfo = new EmailInfo();
                 EmailInfo.Sender = EmailSender;
